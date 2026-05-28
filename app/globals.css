@@ -35,9 +35,9 @@
   --color-white: #f8f8fc;
 
   /* Fonts */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Nunito', system-ui, sans-serif;
-  --font-viet: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-display: 'Carlito', Calibri, 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-body: 'Carlito', Calibri, 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-viet: 'Be Vietnam Pro', 'Carlito', Calibri, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Font Sizes - Increased */
@@ -117,7 +117,7 @@ html {
 body {
   background-color: #0d0d12;
   color: #f8f8fc;
-  font-family: 'Nunito', system-ui, sans-serif;
+  font-family: 'Carlito', Calibri, 'Be Vietnam Pro', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
