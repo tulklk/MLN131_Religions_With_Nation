@@ -28,7 +28,7 @@ export default function QuizLobby() {
         {/* Info cards */}
         <div className="grid grid-cols-3 gap-3 mb-8">
           {[
-            { icon: '📝', value: '20', label: 'câu hỏi' },
+            { icon: '📝', value: '60', label: 'câu hỏi' },
             { icon: '⏱️', value: '15s', label: 'mỗi câu' },
             { icon: '🔥', value: 'Streak', label: 'bonus xu' },
           ].map((item) => (
@@ -58,8 +58,15 @@ export default function QuizLobby() {
           className="w-full py-4 rounded-2xl font-viet font-bold text-lg text-ink transition-all duration-200 shadow-[0_0_40px_rgba(244,224,77,0.3)] hover:shadow-[0_0_60px_rgba(244,224,77,0.5)]"
           style={{ background: 'linear-gradient(135deg, #f4e04d, #d4a017)' }}
         >
-          Bắt đầu chơi
+          Chơi đơn
         </motion.button>
+
+        <a
+          href="/room"
+          className="block w-full py-3 rounded-2xl font-viet font-semibold text-base text-white border border-white/20 bg-surface/30 hover:bg-surface/50 transition-colors text-center mt-3"
+        >
+          🏠 Tạo / Tham gia phòng thi
+        </a>
 
         <p className="text-center text-muted text-xs font-viet mt-4">
           Ôn bài Chương 6 MLN131 · Phật giáo & Công giáo

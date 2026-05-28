@@ -34,7 +34,7 @@ export default function QuizQuestion() {
             )}
             <span className="text-ghost text-sm font-mono">
               {currentIndex + 1}
-              <span className="text-muted">/20</span>
+              <span className="text-muted">/{questions.length}</span>
             </span>
           </div>
         </div>

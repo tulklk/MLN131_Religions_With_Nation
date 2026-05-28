@@ -1,17 +1,11 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Nunito, Be_Vietnam_Pro } from 'next/font/google'
+import { Carlito, Be_Vietnam_Pro } from 'next/font/google'
 import './globals.css'
 
-const playfair = Playfair_Display({
-  subsets: ['latin', 'vietnamese'],
+const carlito = Carlito({
+  subsets: ['latin'],
   variable: '--font-display',
-  weight: ['400', '600', '700', '900'],
-})
-
-const nunito = Nunito({
-  subsets: ['latin', 'vietnamese'],
-  variable: '--font-body',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '700'],
 })
 
 const beVietnam = Be_Vietnam_Pro({
@@ -30,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="vi"
       data-scroll-behavior="smooth"
-      className={`${playfair.variable} ${nunito.variable} ${beVietnam.variable}`}
+      className={`${carlito.variable} ${beVietnam.variable}`}
     >
       <body className="min-h-screen antialiased">{children}</body>
     </html>
