@@ -159,29 +159,60 @@ export const CONG_GIAO_CONTRIBUTIONS: ContributionItem[] = [
 export const CONG_GIAO_CURRENT_CONTRIBUTIONS: ContributionItem[] = [
   {
     icon: '💝',
-    title: 'Giáo dục đạo đức xã hội',
+    title: 'Giáo dục đạo đức',
     description:
-      'Các chương trình giáo dục đức tin, rèn luyện phẩm chất đạo đức, kỹ năng sống dựa trên giá trị từ Phúc Âm: yêu thương, tha thứ, phục vụ. Các trường học và trung tâm hướng dẫn viên từ thể hiện sứ vụ giáo dục toàn diện.',
+      'Bồi dưỡng nhân cách, xây dựng lối sống trách nhiệm dựa trên giáo lý Kitô giáo về yêu thương, công bằng và tôn trọng nhân phẩm.',
+  },
+  {
+    icon: '🏥',
+    title: 'Chăm sóc sức khỏe cộng đồng',
+    description:
+      'Hệ thống bệnh viện, hỗ trợ y tế, chăm sóc người yếu thế, chị em phụ nữ và trẻ em.',
   },
   {
     icon: '🤝',
     title: 'Hoạt động an sinh xã hội',
     description:
-      'Cứu trợ thiên tai, hỗ trợ người nghèo, chương trình ăn cơm từ thiện, chăm sóc cộng đồng. Giáo Hội Công giáo Việt Nam thường xuyên thực hiện các công tác xã hội, hỗ trợ người yếu thế, góp phần xây dựng an sinh xã hội bền vững.',
-  },
-  {
-    icon: '🏛️',
-    title: 'Bảo tồn văn hóa dân tộc',
-    description:
-      'Di sản Công giáo tại Việt Nam bao gồm kiến trúc nhà thờ cầu kỳ, âm nhạc thánh ca tiếng Việt, lễ hội tôn giáo gắn với đặc thù văn hóa địa phương. Công giáo góp phần phong phú hóa đời sống văn hóa tinh thần.',
+      'Hỗ trợ người nghèo, cứu trợ thiên tai, dịch bệnh. Tinh thần bác ái Kitô giáo thể hiện qua phục vụ cộng đồng.',
   },
   {
     icon: '🌱',
     title: 'Phát triển cộng đồng bền vững',
     description:
-      'Các dự án hỗ trợ phát triển nông thôn, tăng cường kỹ năng làm ăn, bảo vệ môi trường. Công giáo nhấn mạnh trách nhiệm người xin (stewardship) — chăm sóc cho tạo vật, phục vụ cộng đồng.',
+      'Thực hành stewardship (trách nhiệm người xin), bảo vệ môi trường, phát triển nông thôn, tăng cường kỹ năng làm ăn.',
   },
 ]
+
+export const CONG_GIAO_TRADITION: ContributionItem[] = [
+  {
+    icon: '📖',
+    title: 'Sống Phúc âm giữa lòng dân tộc',
+    description:
+      'Công giáo Việt Nam luôn gắn bó với lợi ích dân tộc, đồng hành cùng công cuộc xây dựng đất nước. Tinh thần xuyên suốt là yêu nước, trách nhiệm công dân và phục vụ hạnh phúc của đồng bào.',
+  },
+  {
+    icon: '❤️',
+    title: 'Bác ái – Yêu thương – Phục vụ',
+    description:
+      'Ba trụ cột của hoạt động xã hội Công giáo, phản ánh điều răn "Yêu Chúa và yêu người như chính mình" từ Phúc âm.',
+  },
+  {
+    icon: '🎯',
+    title: 'Kỷ nguyên vươn mình của dân tộc',
+    description:
+      'Báo cáo tổng kết 40 năm đổi mới nhấn mạnh "kỷ nguyên vươn mình của dân tộc". Cộng đồng Công giáo góp phần:  Củng cố khối đại đoàn kết toàn dân tộc, lan tỏa giá trị đạo đức xã hội, chung tay phát triển đất nước.',
+  },
+]
+
+export interface QuoteItem {
+  text: string
+  source: string
+}
+
+export const CONG_GIAO_HIGHLIGHT_QUOTE: QuoteItem = {
+  text: '"Người Công giáo tốt cũng là người công dân tốt; sống đạo gắn liền với yêu nước, trách nhiệm xã hội và khát vọng xây dựng đất nước phát triển."',
+  source: 'Tinh thần Công giáo Việt Nam',
+}
 
 export const CONG_GIAO_PARTY_PERSPECTIVE: ContributionItem[] = [
   {
@@ -204,6 +235,11 @@ export const CONG_GIAO_PARTY_PERSPECTIVE: ContributionItem[] = [
   },
 ]
 
+export const CONG_GIAO_PARTY_PERSPECTIVE_CITATION: Citation = {
+  source: 'Văn kiện Đại hội XIV, Tập 1',
+  detail: 'Phát huy sức mạnh đại đoàn kết toàn dân tộc',
+}
+
 export const CONG_GIAO_DAI_HOI_XIV: ContributionItem[] = [
   {
     icon: '👤',
@@ -225,9 +261,19 @@ export const CONG_GIAO_DAI_HOI_XIV: ContributionItem[] = [
   },
 ]
 
+export const CONG_GIAO_DAI_HOI_XIV_CITATION: Citation = {
+  source: 'Văn kiện Đại hội XIV, Tập 2',
+  detail: 'Phát triển văn hóa, quản lý phát triển xã hội và xây dựng con người',
+}
+
 export interface ConclusionItem {
   heading: string
   description: string
+}
+
+export interface Citation {
+  source: string
+  detail: string
 }
 
 export const CONG_GIAO_CONCLUSION: ConclusionItem[] = [
@@ -244,7 +290,7 @@ export const CONG_GIAO_CONCLUSION: ConclusionItem[] = [
 ]
 
 export const CONG_GIAO_MARX = {
-  sectionTitle: 'V. Nhìn từ Quan điểm Mác-Lênin',
+  sectionTitle: 'VI. Nhìn từ Quan điểm Mác-Lênin',
   origins: [
     {
       icon: '🌍',

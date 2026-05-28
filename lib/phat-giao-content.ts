@@ -45,6 +45,11 @@ export interface PolicyItem {
   text: string
 }
 
+export interface Citation {
+  source: string
+  detail: string
+}
+
 export const PHAT_GIAO_HERO = {
   badge: 'CHƯƠNG 6 · MLN131',
   title: 'Phật giáo Việt Nam',
@@ -59,7 +64,7 @@ export const PHAT_GIAO_HERO = {
 }
 
 export const PHAT_GIAO_ORIGIN = {
-  sectionTitle: 'I. Du nhập vào Việt Nam',
+  sectionTitle: 'II. Du nhập vào Việt Nam',
   paragraphs: [
     {
       title: 'Con đường thứ nhất — Từ Ấn Độ',
@@ -152,6 +157,11 @@ export const PHAT_GIAO_DAI_HOI_XIV: ContributionItem[] = [
   },
 ]
 
+export const PHAT_GIAO_DAI_HOI_XIV_CITATION: Citation = {
+  source: 'Văn kiện Đại hội XIV, Tập 2',
+  detail: 'Phát triển văn hóa, quản lý phát triển xã hội và xây dựng con người',
+}
+
 export const PHAT_GIAO_PARTY_PERSPECTIVE: ContributionItem[] = [
   {
     icon: '💭',
@@ -173,6 +183,11 @@ export const PHAT_GIAO_PARTY_PERSPECTIVE: ContributionItem[] = [
   },
 ]
 
+export const PHAT_GIAO_PARTY_PERSPECTIVE_CITATION: Citation = {
+  source: 'Văn kiện Đại hội XIV, Tập 1',
+  detail: 'Phát huy sức mạnh đại đoàn kết toàn dân tộc',
+}
+
 export interface ConclusionItem {
   heading: string
   description: string
@@ -192,7 +207,7 @@ export const PHAT_GIAO_CONCLUSION: ConclusionItem[] = [
 ]
 
 export const PHAT_GIAO_MARX = {
-  sectionTitle: 'IV. Nhìn từ Quan điểm Mác-Lênin',
+  sectionTitle: 'VI. Nhìn từ Quan điểm Mác-Lênin',
   origins: [
     {
       icon: '🌍',

@@ -8,6 +8,7 @@ import TimelineMilestoneSection from '@/components/content/TimelineMilestone'
 import ContributionGrid from '@/components/content/ContributionGrid'
 import ConclusionSection from '@/components/content/ConclusionSection'
 import MarxLeninBlock from '@/components/content/MarxLeninBlock'
+import CitationText from '@/components/content/CitationText'
 import LotusDecor from '@/components/ui/LotusDecor'
 import {
   PHAT_GIAO_HERO,
@@ -15,7 +16,9 @@ import {
   PHAT_GIAO_CONTRIBUTIONS,
   PHAT_GIAO_CURRENT_CONTRIBUTIONS,
   PHAT_GIAO_DAI_HOI_XIV,
+  PHAT_GIAO_DAI_HOI_XIV_CITATION,
   PHAT_GIAO_PARTY_PERSPECTIVE,
+  PHAT_GIAO_PARTY_PERSPECTIVE_CITATION,
   PHAT_GIAO_CONCLUSION,
   PHAT_GIAO_MARX,
 } from '@/lib/phat-giao-content'
@@ -49,6 +52,12 @@ export default function PhatGiaoPage() {
           accent="gold"
           columns={3}
         />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <CitationText
+            source={PHAT_GIAO_PARTY_PERSPECTIVE_CITATION.source}
+            detail={PHAT_GIAO_PARTY_PERSPECTIVE_CITATION.detail}
+          />
+        </div>
 
         <ImageGallery
           title="Di sản kiến trúc & văn hóa Phật giáo"
@@ -64,31 +73,37 @@ export default function PhatGiaoPage() {
         />
 
         <TimelineMilestoneSection
-          sectionTitle="II. Phật giáo qua các thời kỳ lịch sử"
+          sectionTitle="III. Phật giáo qua các thời kỳ lịch sử"
           milestones={PHAT_GIAO_MILESTONES}
           accent="gold"
         />
 
         <ContributionGrid
-          sectionTitle="III. Đóng góp của Phật giáo với Dân tộc"
+          sectionTitle="IV. Đóng góp của Phật giáo với Dân tộc"
           items={PHAT_GIAO_CONTRIBUTIONS}
           accent="gold"
           columns={2}
         />
 
         <ContributionGrid
-          sectionTitle="III.1. Đóng góp của Phật giáo hiện nay"
+          sectionTitle="IV.1. Đóng góp của Phật giáo hiện nay"
           items={PHAT_GIAO_CURRENT_CONTRIBUTIONS}
           accent="gold"
           columns={2}
         />
 
         <ContributionGrid
-          sectionTitle="IV. Vai trò của Phật giáo liên hệ Đại hội XIV"
+          sectionTitle="V. Vai trò của Phật giáo liên hệ Đại hội XIV"
           items={PHAT_GIAO_DAI_HOI_XIV}
           accent="gold"
           columns={3}
         />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <CitationText
+            source={PHAT_GIAO_DAI_HOI_XIV_CITATION.source}
+            detail={PHAT_GIAO_DAI_HOI_XIV_CITATION.detail}
+          />
+        </div>
 
         <MarxLeninBlock
           sectionTitle={PHAT_GIAO_MARX.sectionTitle}
@@ -99,7 +114,7 @@ export default function PhatGiaoPage() {
         />
 
         <ConclusionSection
-          title="V. Kết luận"
+          title="VII. Kết luận"
           items={PHAT_GIAO_CONCLUSION}
           accent="gold"
         />
