@@ -29,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="vi"
+      data-scroll-behavior="smooth"
       className={`${playfair.variable} ${nunito.variable} ${beVietnam.variable}`}
     >
       <body className="min-h-screen antialiased">{children}</body>
