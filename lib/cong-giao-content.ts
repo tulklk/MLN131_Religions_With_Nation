@@ -155,3 +155,142 @@ export const CONG_GIAO_CONTRIBUTIONS: ContributionItem[] = [
       'Kiến trúc nhà thờ Gothic-Việt kết hợp độc đáo giữa phong cách phương Tây và yếu tố bản địa. Âm nhạc thánh ca tiếng Việt là dòng âm nhạc phong phú trong kho tàng âm nhạc dân tộc.',
   },
 ]
+
+export const CONG_GIAO_CURRENT_CONTRIBUTIONS: ContributionItem[] = [
+  {
+    icon: '💝',
+    title: 'Giáo dục đạo đức xã hội',
+    description:
+      'Các chương trình giáo dục đức tin, rèn luyện phẩm chất đạo đức, kỹ năng sống dựa trên giá trị từ Phúc Âm: yêu thương, tha thứ, phục vụ. Các trường học và trung tâm hướng dẫn viên từ thể hiện sứ vụ giáo dục toàn diện.',
+  },
+  {
+    icon: '🤝',
+    title: 'Hoạt động an sinh xã hội',
+    description:
+      'Cứu trợ thiên tai, hỗ trợ người nghèo, chương trình ăn cơm từ thiện, chăm sóc cộng đồng. Giáo Hội Công giáo Việt Nam thường xuyên thực hiện các công tác xã hội, hỗ trợ người yếu thế, góp phần xây dựng an sinh xã hội bền vững.',
+  },
+  {
+    icon: '🏛️',
+    title: 'Bảo tồn văn hóa dân tộc',
+    description:
+      'Di sản Công giáo tại Việt Nam bao gồm kiến trúc nhà thờ cầu kỳ, âm nhạc thánh ca tiếng Việt, lễ hội tôn giáo gắn với đặc thù văn hóa địa phương. Công giáo góp phần phong phú hóa đời sống văn hóa tinh thần.',
+  },
+  {
+    icon: '🌱',
+    title: 'Phát triển cộng đồng bền vững',
+    description:
+      'Các dự án hỗ trợ phát triển nông thôn, tăng cường kỹ năng làm ăn, bảo vệ môi trường. Công giáo nhấn mạnh trách nhiệm người xin (stewardship) — chăm sóc cho tạo vật, phục vụ cộng đồng.',
+  },
+]
+
+export const CONG_GIAO_PARTY_PERSPECTIVE: ContributionItem[] = [
+  {
+    icon: '💭',
+    title: 'Tôn giáo là nhu cầu tinh thần chính đáng',
+    description:
+      'Con người có nhu cầu tìm kiếm nghĩa lý sâu xa, tinh thần nương tựa. Tôn giáo không phải sản phẩm lừa dối, mà là biểu hiện chính đáng của nhu cầu tinh thần. Công giáo với thông điệp yêu thương, cứu rỗi tinh thần có ý nghĩa sâu sắc với tín đồ.',
+  },
+  {
+    icon: '⚡',
+    title: 'Tôn giáo là nguồn lực xã hội',
+    description:
+      'Công giáo có 6.5 triệu tín đồ tại Việt Nam, sở hữu lực lượng xã hội đáng kể, khả năng tổ chức mạnh. Những giá trị như yêu thương vô điều kiện, sự hy sinh, vị tha trong Phúc âm có thể huyên động tín đồ vì mục tiêu chung của dân tộc.',
+  },
+  {
+    icon: '📈',
+    title: 'Tôn giáo góp phần ổn định và phát triển',
+    description:
+      'Khi quyền tự do tín ngưỡng được bảo đảm, tín đồ sẽ yên tâm, tin tưởng vào nhà nước, góp phần tích cực vào phát triển xã hội. Công giáo Việt Nam đã chứng minh khả năng đồng hành với đất nước trong các thời kỳ khác nhau.',
+  },
+]
+
+export const CONG_GIAO_DAI_HOI_XIV: ContributionItem[] = [
+  {
+    icon: '👤',
+    title: 'Xây dựng con người Việt Nam',
+    description:
+      'Đại hội XIV khẳng định xây dựng con người có lý tưởng chính trị vững vàng, phẩm chất đạo đức cao. Công giáo qua giáo lý và hoạt động xã hội đóng góp vào hình thành nhân cách tốt đẹp, con người có lương tâm cao, hiến thân cho cộng đồng.',
+  },
+  {
+    icon: '🎭',
+    title: 'Phát triển văn hóa',
+    description:
+      'Văn hóa Công giáo là một phần của đa sắc văn hóa Việt Nam. Kiến trúc nhà thờ, âm nhạc thánh ca, lễ hội tôn giáo kết hợp với yếu tố bản địa tạo nên sự độc đáo, góp phần phong phú hóa đời sống văn hóa tinh thần.',
+  },
+  {
+    icon: '🌍',
+    title: 'Củng cố nền tảng tinh thần xã hội',
+    description:
+      'Trong thời kỳ hiện đại, nền tảng tinh thần là yếu tố quan trọng. Công giáo với thông điệp yêu thương, công bằng, tôn trọng nhân phẩm có thể góp phần xây dựng đại đoàn kết toàn dân tộc trên nền tảng tinh thần chung.',
+  },
+]
+
+export interface ConclusionItem {
+  heading: string
+  description: string
+}
+
+export const CONG_GIAO_CONCLUSION: ConclusionItem[] = [
+  {
+    heading: 'Sống Phúc âm giữa lòng dân tộc',
+    description:
+      'Từ năm 1533 đến nay, Công giáo Việt Nam luôn thực hành mục lệnh của mình: "Sống Phúc âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào". Từ những đóng góp về Quốc ngữ, giáo dục, y tế, từ thiện đến những công tác xã hội hiện nay, Công giáo luôn chứng tỏ lòng yêu nước sâu sắc.',
+  },
+  {
+    heading: 'Đồng hành vì Việt Nam phồn vinh',
+    description:
+      'Đại hội XIV của Đảng nêu rõ tôn trọng và bảo đảm quyền tự do tín ngưỡng, tôn giáo. Công giáo sẵn sàng tiếp tục là bộ phận của khối đại đoàn kết toàn dân tộc, góp phần xây dựng một Việt Nam hòa bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh và hạnh phúc.',
+  },
+]
+
+export const CONG_GIAO_MARX = {
+  sectionTitle: 'V. Nhìn từ Quan điểm Mác-Lênin',
+  origins: [
+    {
+      icon: '🌍',
+      title: 'Nguồn gốc xã hội',
+      description:
+        'Công giáo ra đời từ nhu cầu giải phóng tinh thần, từ xã hội Phong Kiến Hy Lạp - La Mã. Các tầng lớp áp bức, nô lệ tìm đến Phúc âm tìm hy vọng và giải phóng.',
+    },
+    {
+      icon: '🧠',
+      title: 'Nguồn gốc nhận thức',
+      description:
+        'Sự tuyệt đối hóa một mặt của quá trình nhận thức: thần thánh hóa những điều con người chưa giải thích được. Thần thánh hóa nhân tính Chúa Giê-su là một biểu hiện của quá trình tâm lý xã hội.',
+    },
+    {
+      icon: '💭',
+      title: 'Nguồn gốc tâm lý',
+      description:
+        'Nhu cầu cầu an, sợ hãi trước cái chết, khủng hoảng tâm lý xã hội khiến con người tìm đến Công giáo như nơi nương tựa hy vọng và cứu rỗi.',
+    },
+  ] as ContributionItem[],
+  traits: [
+    {
+      icon: '🔵',
+      title: 'Tính quần chúng',
+      description:
+        'Công giáo có 6.5 triệu tín đồ tại Việt Nam, lực lượng xã hội đáng kể, khả năng tổ chức cao.',
+    },
+    {
+      icon: '🔵',
+      title: 'Tính chính trị',
+      description:
+        'Trong xã hội có giai cấp, Công giáo phản ánh đấu tranh giai cấp và có thể bị lợi dụng cho mục đích chính trị.',
+    },
+    {
+      icon: '🔵',
+      title: 'Tính đạo đức',
+      description:
+        'Công giáo chứa đựng giá trị đạo đức yêu thương, tha thứ, công bằng xã hội, cần kế thừa có chọn lọc.',
+    },
+  ] as ContributionItem[],
+  policies: [
+    'Tôn trọng và đảm bảo quyền tự do tín ngưỡng (Điều 24 HP 2013)',
+    'Bình đẳng giữa các tôn giáo trước pháp luật',
+    'Phân biệt sinh hoạt tôn giáo chính đáng với lợi dụng tôn giáo',
+    'Luật Tín ngưỡng, tôn giáo 2016 — khung pháp lý toàn diện',
+  ] as string[],
+  intro:
+    'Theo Mác-Lênin, Công giáo là một hình thái ý thức xã hội, phản ánh hoàn cảnh xã hội sinh ra nó. Công giáo ra đời từ 3 nguồn gốc:',
+}

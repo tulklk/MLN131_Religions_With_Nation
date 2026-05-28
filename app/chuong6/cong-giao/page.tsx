@@ -7,11 +7,20 @@ import HorizontalTimeline from '@/components/content/HorizontalTimeline'
 import FeaturedProfile from '@/components/content/FeaturedProfile'
 import TimelineMilestoneSection from '@/components/content/TimelineMilestone'
 import CatholicQuocNguFeatured from '@/components/content/CatholicQuocNguFeatured'
+import ContributionGrid from '@/components/content/ContributionGrid'
+import ConclusionSection from '@/components/content/ConclusionSection'
+import MarxLeninBlock from '@/components/content/MarxLeninBlock'
 import CrossDecor from '@/components/ui/CrossDecor'
 import {
   CONG_GIAO_HERO,
   CONG_GIAO_HORIZONTAL,
   DE_RHODES_PROFILE,
+  CONG_GIAO_CONTRIBUTIONS,
+  CONG_GIAO_CURRENT_CONTRIBUTIONS,
+  CONG_GIAO_PARTY_PERSPECTIVE,
+  CONG_GIAO_DAI_HOI_XIV,
+  CONG_GIAO_CONCLUSION,
+  CONG_GIAO_MARX,
 } from '@/lib/cong-giao-content'
 import { CATHOLIC_MILESTONES } from '@/lib/timeline-data'
 import { CATHOLIC_IMAGES, CATHOLIC_HERO_IMAGE } from '@/lib/religion-images'
@@ -37,6 +46,13 @@ export default function CongGiaoPage() {
           backgroundImage={CATHOLIC_HERO_IMAGE}
         />
 
+        <ContributionGrid
+          sectionTitle="I. Quan điểm của Đảng về tôn giáo trong giai đoạn mới"
+          items={CONG_GIAO_PARTY_PERSPECTIVE}
+          accent="blue"
+          columns={3}
+        />
+
         <ImageGallery
           title="Nhà thờ & kiến trúc Công giáo Việt Nam"
           subtitle="Các công trình tôn giáo tiêu biểu — nơi gắn kết đức tin với bản sắc văn hóa địa phương."
@@ -45,19 +61,54 @@ export default function CongGiaoPage() {
         />
 
         <HorizontalTimeline
-          sectionTitle="I. Con đường du nhập vào Việt Nam"
+          sectionTitle="II. Con đường du nhập vào Việt Nam"
           milestones={CONG_GIAO_HORIZONTAL}
         />
 
         <FeaturedProfile {...DE_RHODES_PROFILE} />
 
         <TimelineMilestoneSection
-          sectionTitle="II. Người Công giáo & Lịch sử Dân tộc"
+          sectionTitle="III. Người Công giáo & Lịch sử Dân tộc"
           milestones={CATHOLIC_MILESTONES}
           accent="blue"
         />
 
         <CatholicQuocNguFeatured />
+
+        <ContributionGrid
+          sectionTitle="IV. Đóng góp của Công giáo với Dân tộc"
+          items={CONG_GIAO_CONTRIBUTIONS}
+          accent="blue"
+          columns={3}
+        />
+
+        <ContributionGrid
+          sectionTitle="IV.1. Đóng góp của Công giáo hiện nay"
+          items={CONG_GIAO_CURRENT_CONTRIBUTIONS}
+          accent="blue"
+          columns={2}
+        />
+
+        <ContributionGrid
+          sectionTitle="V. Vai trò của Công giáo liên hệ Đại hội XIV"
+          items={CONG_GIAO_DAI_HOI_XIV}
+          accent="blue"
+          columns={3}
+        />
+
+        <MarxLeninBlock
+          sectionTitle={CONG_GIAO_MARX.sectionTitle}
+          intro={CONG_GIAO_MARX.intro}
+          origins={CONG_GIAO_MARX.origins}
+          traits={CONG_GIAO_MARX.traits}
+          policies={CONG_GIAO_MARX.policies}
+        />
+
+        <ConclusionSection
+          title="VI. Kết luận"
+          items={CONG_GIAO_CONCLUSION}
+          accent="blue"
+        />
       </main>
       <Footer />
     </>

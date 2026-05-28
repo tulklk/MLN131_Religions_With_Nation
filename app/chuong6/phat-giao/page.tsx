@@ -6,12 +6,17 @@ import ImageGallery from '@/components/content/ImageGallery'
 import OriginTwoColumn from '@/components/content/OriginTwoColumn'
 import TimelineMilestoneSection from '@/components/content/TimelineMilestone'
 import ContributionGrid from '@/components/content/ContributionGrid'
+import ConclusionSection from '@/components/content/ConclusionSection'
 import MarxLeninBlock from '@/components/content/MarxLeninBlock'
 import LotusDecor from '@/components/ui/LotusDecor'
 import {
   PHAT_GIAO_HERO,
   PHAT_GIAO_ORIGIN,
   PHAT_GIAO_CONTRIBUTIONS,
+  PHAT_GIAO_CURRENT_CONTRIBUTIONS,
+  PHAT_GIAO_DAI_HOI_XIV,
+  PHAT_GIAO_PARTY_PERSPECTIVE,
+  PHAT_GIAO_CONCLUSION,
   PHAT_GIAO_MARX,
 } from '@/lib/phat-giao-content'
 import { PHAT_GIAO_MILESTONES } from '@/lib/timeline-data'
@@ -36,6 +41,13 @@ export default function PhatGiaoPage() {
           stats={PHAT_GIAO_HERO.stats}
           DecorComponent={LotusDecor}
           backgroundImage={BUDDHIST_HERO_IMAGE}
+        />
+
+        <ContributionGrid
+          sectionTitle="I. Quan điểm của Đảng về tôn giáo trong giai đoạn mới"
+          items={PHAT_GIAO_PARTY_PERSPECTIVE}
+          accent="gold"
+          columns={3}
         />
 
         <ImageGallery
@@ -64,12 +76,32 @@ export default function PhatGiaoPage() {
           columns={2}
         />
 
+        <ContributionGrid
+          sectionTitle="III.1. Đóng góp của Phật giáo hiện nay"
+          items={PHAT_GIAO_CURRENT_CONTRIBUTIONS}
+          accent="gold"
+          columns={2}
+        />
+
+        <ContributionGrid
+          sectionTitle="IV. Vai trò của Phật giáo liên hệ Đại hội XIV"
+          items={PHAT_GIAO_DAI_HOI_XIV}
+          accent="gold"
+          columns={3}
+        />
+
         <MarxLeninBlock
           sectionTitle={PHAT_GIAO_MARX.sectionTitle}
           intro={PHAT_GIAO_MARX.intro}
           origins={PHAT_GIAO_MARX.origins}
           traits={PHAT_GIAO_MARX.traits}
           policies={PHAT_GIAO_MARX.policies}
+        />
+
+        <ConclusionSection
+          title="V. Kết luận"
+          items={PHAT_GIAO_CONCLUSION}
+          accent="gold"
         />
       </main>
       <Footer />

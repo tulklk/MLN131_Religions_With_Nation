@@ -104,6 +104,93 @@ export const PHAT_GIAO_CONTRIBUTIONS: ContributionItem[] = [
   },
 ]
 
+export const PHAT_GIAO_CURRENT_CONTRIBUTIONS: ContributionItem[] = [
+  {
+    icon: '💝',
+    title: 'Giáo dục đạo đức xã hội',
+    description:
+      'Từ bi, trí tuệ, vị tha — những giá trị cốt lõi của Phật giáo tiếp tục nuôi dưỡng tâm hồn, lương tâm và giác ngộ của người học. Các trường Phật giáo, lớp dạy kỹ năng sống giúp xây dựng nhân cách toàn diện cho thế hệ trẻ.',
+  },
+  {
+    icon: '🤝',
+    title: 'Hoạt động an sinh xã hội',
+    description:
+      'Cứu trợ thiên tai, hỗ trợ người nghèo, bếp ăn từ thiện, chăm sóc cộng đồng. Giáo hội Phật giáo Việt Nam thường xuyên triển khai các chương trình từ thiện, bữa cơm công cộng, hỗ trợ người yếu thế, góp phần xây dựng an sinh xã hội bền vững.',
+  },
+  {
+    icon: '🏛️',
+    title: 'Bảo tồn văn hóa dân tộc',
+    description:
+      'Lễ hội truyền thống (Tết Nguyên Đán, Rằm tháng Bảy, Tết Trung Thu), di sản Phật giáo, giá trị văn hóa Việt được bảo tồn và phát huy. Các chùa chiền là nơi giữ gìn di sản, không gian để cộng đồng gắn bó với bản sắc văn hóa.',
+  },
+  {
+    icon: '🌱',
+    title: 'Phát triển cộng đồng bền vững',
+    description:
+      'Bảo vệ môi trường, phát triển nông thôn, tăng cường kỹ năng làm ăn cho người dân. Phật giáo nhấn mạnh tính liên kết giữa con người và thiên nhiên, góp phần vào phát triển xã hội bền vững.',
+  },
+]
+
+export const PHAT_GIAO_DAI_HOI_XIV: ContributionItem[] = [
+  {
+    icon: '👤',
+    title: 'Xây dựng con người Việt Nam',
+    description:
+      'Đại hội XIV khẳng định mục tiêu xây dựng con người Việt Nam có lý tưởng chính trị vững vàng, phẩm chất đạo đức cao, trí tuệ phong phú, thể chất khoẻ mạnh. Phật giáo đóng góp vào hình thành nhân cách tốt đẹp này thông qua giáo dục đạo đức, rèn luyện tâm tính.',
+  },
+  {
+    icon: '🎭',
+    title: 'Phát triển văn hóa',
+    description:
+      'Văn hóa Phật giáo là một phần không thể tách rời của văn hóa truyền thống Việt Nam. Bảo tồn và phát huy di sản Phật giáo góp phần phong phú hóa đời sống văn hóa tinh thần của Nhân dân.',
+  },
+  {
+    icon: '🌍',
+    title: 'Củng cố nền tảng tinh thần xã hội',
+    description:
+      'Trong bối cảnh toàn cầu hóa, làn sóng pháp luật hóa tinh thần có nguy cơ làm mất gốc. Phật giáo với những giá trị từ bi, nhân ái, từ lâu đã trở thành nền tảng tinh thần, góp phần xây dựng đại đoàn kết toàn dân tộc.',
+  },
+]
+
+export const PHAT_GIAO_PARTY_PERSPECTIVE: ContributionItem[] = [
+  {
+    icon: '💭',
+    title: 'Tôn giáo là nhu cầu tinh thần chính đáng',
+    description:
+      'Từ ngàn xưa, con người luôn có nhu cầu tìm kiếm nghĩa lý sâu xa của cuộc sống, tinh thần nương tựa. Tôn giáo không phải sản phẩm của sự lừa dối hay cải chính ngu dân, mà là biểu hiện chính đáng của nhu cầu tinh thần.',
+  },
+  {
+    icon: '⚡',
+    title: 'Tôn giáo là nguồn lực xã hội',
+    description:
+      'Các tôn giáo sở hữu hàng triệu tín đồ, lực lượng xã hội to lớn, khả năng tổ chức mạnh. Những giá trị như từ bi, công bằng, vị tha trong tôn giáo có thể huyên động những nguồn lực xã hội to lớn vì mục tiêu chung của toàn dân tộc.',
+  },
+  {
+    icon: '📈',
+    title: 'Tôn giáo góp phần ổn định và phát triển',
+    description:
+      'Khi tôn giáo được tôn trọng, quyền tự do tín ngưỡng được bảo đảm, tín đồ sẽ yên tâm hơn, tin tưởng vào nhà nước hơn. Điều này tạo môi trường ổn định, là điều kiện quan trọng cho phát triển kinh tế-xã hội của đất nước.',
+  },
+]
+
+export interface ConclusionItem {
+  heading: string
+  description: string
+}
+
+export const PHAT_GIAO_CONCLUSION: ConclusionItem[] = [
+  {
+    heading: 'Độc lập, tự do, hạnh phúc',
+    description:
+      'Trong hành trình 2000 năm, Phật giáo Việt Nam luôn gắn liền với lịch sử dựng nước, giữ nước. Từ Lý đến Trần, từ Trần đến Nguyễn, từ thời thuộc địa đến kháng chiến chống Pháp, đấu tranh chống Mỹ, và đặc biệt là công cuộc đổi mới hiện nay, Phật giáo Việt Nam vẫn luôn hướng về tổ quốc.',
+  },
+  {
+    heading: 'Đoàn kết vì phát triển',
+    description:
+      'Đại hội XIV của Đảng nêu rõ: "Tôn trọng và bảo đảm quyền tự do tín ngưỡng, tôn giáo của Nhân dân". Phật giáo sẵn sàng góp phần vào đại đoàn kết toàn dân tộc, để cùng nhau xây dựng đất nước giàu mạnh, dân chủ, công bằng, văn minh.',
+  },
+]
+
 export const PHAT_GIAO_MARX = {
   sectionTitle: 'IV. Nhìn từ Quan điểm Mác-Lênin',
   origins: [
