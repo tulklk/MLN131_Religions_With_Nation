@@ -1,6 +1,6 @@
 import { RoomState, Player, PowerUpType, LeaderboardEntry } from '../room-types'
 import { QUIZ_QUESTIONS } from '../quiz-data'
-import { supabaseAdmin } from './supabase-admin'
+import { getSupabaseAdmin } from './supabase-admin'
 
 function genCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -20,7 +20,7 @@ function randPowerUp(): PowerUpType {
 
 async function getRoomRaw(code: string): Promise<RoomState | null> {
   const roomCode = code.toUpperCase()
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from('quiz_rooms')
     .select('state')
     .eq('code', roomCode)
@@ -34,7 +34,7 @@ async function getRoomRaw(code: string): Promise<RoomState | null> {
 
 async function saveRoom(room: RoomState): Promise<void> {
   const code = room.code.toUpperCase()
-  const { error } = await supabaseAdmin
+  const { error } = await getSupabaseAdmin()
     .from('quiz_rooms')
     .upsert(
       {
@@ -50,7 +50,7 @@ async function saveRoom(room: RoomState): Promise<void> {
 
 async function deleteRoom(code: string): Promise<void> {
   const roomCode = code.toUpperCase()
-  const { error } = await supabaseAdmin.from('quiz_rooms').delete().eq('code', roomCode)
+  const { error } = await getSupabaseAdmin().from('quiz_rooms').delete().eq('code', roomCode)
   if (error) {
     throw new Error(`Failed to delete room ${roomCode}: ${error.message}`)
   }
@@ -265,7 +265,7 @@ export async function touchPlayer(code: string, playerId: string): Promise<void>
 
 export async function cleanupInactiveRooms(): Promise<void> {
   const cutoff = Date.now() - 3 * 60 * 60 * 1000
-  const { data, error } = await supabaseAdmin.from('quiz_rooms').select('code, state')
+  const { data, error } = await getSupabaseAdmin().from('quiz_rooms').select('code, state')
   if (error) {
     throw new Error(`Failed to list rooms for cleanup: ${error.message}`)
   }
