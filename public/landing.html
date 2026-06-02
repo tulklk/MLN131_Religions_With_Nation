@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Phật giáo & Công giáo — Đồng hành cùng Dân tộc | MLN131</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0D0D0D;--bg-alt:#1A1209;--gold:#C9A84C;--gold-dim:rgba(201,168,76,0.06);
+  --gold-bdr:rgba(201,168,76,0.22);--parchment:#F5EDD6;--crimson:#8B1A1A;
+  --sidebar-bg:#111111;--muted:rgba(245,237,214,0.55);
+  --navbar-h:60px;--sidebar-w:280px;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px;font-size:115%}
+body{background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04' transform='rotate(45 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04' transform='rotate(90 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04' transform='rotate(135 50 50)'/%3E%3Crect x='47' y='62' width='6' height='30' fill='white' opacity='.025'/%3E%3Crect x='35' y='74' width='30' height='6' fill='white' opacity='.025'/%3E%3C/svg%3E");background-size:100px 100px;background-repeat:repeat;color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:1rem;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:#0d0d0d}
+::-webkit-scrollbar-thumb{background:#3a3020;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* ── NAVBAR ── */
+#navbar{
+  position:fixed;top:0;left:0;right:0;height:var(--navbar-h);
+  background:rgba(13,13,13,0.96);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,0.1);
+  display:flex;align-items:center;justify-content:flex-end;
+  padding:0 1.5rem;z-index:100;gap:1rem
+}
+.quiz-btn{
+  font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);
+  border:1.5px solid var(--gold);background:transparent;
+  padding:0.45rem 1.3rem;border-radius:4px;cursor:pointer;
+  transition:background 0.2s,color 0.2s
+}
+.quiz-btn:hover{background:var(--gold);color:#0D0D0D}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  position:fixed;top:var(--navbar-h);left:0;bottom:0;width:var(--sidebar-w);
+  background:var(--sidebar-bg);border-right:1px solid rgba(201,168,76,0.12);
+  overflow-y:auto;z-index:90;padding:1.75rem 0;
+  transition:transform 0.35s var(--ease)
+}
+.toc-label{
+  font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.25em;
+  text-transform:uppercase;color:var(--gold);opacity:0.6;
+  padding:0 1.25rem;margin-bottom:1rem;display:block
+}
+.toc-item{
+  display:flex;align-items:baseline;gap:0.45rem;
+  padding:0.6rem 1.25rem;font-family:'Lora',serif;font-size:0.92rem;
+  color:var(--muted);border-left:2px solid transparent;
+  transition:color 0.2s,border-color 0.2s,background 0.2s;cursor:pointer
+}
+.toc-item:hover{color:var(--parchment);background:rgba(201,168,76,0.04)}
+.toc-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,0.07);font-weight:600}
+.toc-num{font-family:'Cormorant Garamond',serif;font-size:0.82rem;opacity:0.5;flex-shrink:0}
+.toc-sep{width:calc(100% - 2.5rem);margin:0.75rem 1.25rem;border:none;border-top:1px solid rgba(201,168,76,0.1)}
+
+/* ── HAMBURGER ── */
+#ham-btn{
+  display:none;position:fixed;top:calc((var(--navbar-h) - 36px)/2);left:1rem;z-index:150;
+  background:rgba(201,168,76,0.1);border:1px solid var(--gold-bdr);color:var(--gold);
+  width:36px;height:36px;border-radius:6px;font-size:1.1rem;cursor:pointer;
+  align-items:center;justify-content:center;transition:background 0.2s
+}
+#ham-btn:hover{background:rgba(201,168,76,0.2)}
+#sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:80;
+  backdrop-filter:blur(2px)
+}
+#sidebar-overlay.active{display:block}
+
+@media(max-width:900px){
+  #ham-btn{display:flex}
+  #sidebar{z-index:200;top:0;padding-top:calc(var(--navbar-h) + 1.25rem);box-shadow:4px 0 32px rgba(0,0,0,0.7);transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #main-content{margin-left:0}
+}
+
+/* ── MAIN ── */
+#main-content{margin-left:var(--sidebar-w);margin-top:var(--navbar-h)}
+.section-wrap{padding:5rem 2.5rem;max-width:920px;margin:0 auto}
+.section-border{border-top:1px solid rgba(201,168,76,0.1)}
+
+/* ── TYPOGRAPHY HELPERS ── */
+.s-label{display:block;font-family:'Cormorant Garamond',serif;font-size:0.75rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.75;margin-bottom:0.4rem}
+.s-title{font-size:clamp(2.2rem,4.5vw,3rem);font-weight:700;color:var(--parchment);margin-bottom:0.9rem}
+.s-divider{width:44px;height:2px;background:var(--gold);margin-bottom:2.5rem;opacity:0.55;border:none}
+.subsection-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--parchment);margin:2rem 0 1rem}
+
+/* ── CARDS ── */
+.card{background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.4rem;transition:border-color 0.2s,transform 0.25s}
+.card:hover{border-color:rgba(201,168,76,0.5);transform:translateY(-2px)}
+.card-icon{font-size:1.5rem;margin-bottom:0.55rem;display:block}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold);margin-bottom:0.35rem}
+.card-body{font-size:0.95rem;color:var(--muted);line-height:1.72}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem}
+@media(max-width:700px){.grid-3,.grid-2{grid-template-columns:1fr}}
+
+/* ── PILLS ── */
+.pill{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.85rem;font-family:'Lora',serif;letter-spacing:0.04em;color:var(--gold);border:1px solid var(--gold-bdr);background:var(--gold-dim);padding:0.25rem 0.85rem;border-radius:20px;margin:0.2rem}
+
+/* ── QUOTE BLOCK ── */
+.quote-block{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,168,76,0.08) 0%,transparent 100%);padding:1.25rem 1.5rem;border-radius:0 6px 6px 0;margin:2rem 0;position:relative;overflow:hidden}
+.quote-block::before{content:'\201C';position:absolute;top:-0.5rem;left:0.6rem;font-family:'Cormorant Garamond',serif;font-size:5rem;line-height:1;color:var(--gold);opacity:0.1;pointer-events:none}
+.quote-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;color:var(--parchment);position:relative}
+.quote-author{font-size:0.9rem;color:var(--muted);margin-top:0.5rem}
+
+/* ── TIMELINE (vertical) ── */
+.v-timeline{position:relative;padding-left:2rem}
+.v-timeline::before{content:'';position:absolute;left:0.45rem;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,0.08))}
+.v-item{position:relative;margin-bottom:2rem}
+.v-item::before{content:'';position:absolute;left:-1.65rem;top:0.35rem;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(201,168,76,0.45)}
+.v-item-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold);margin-bottom:0.3rem}
+.v-item-body{font-size:0.95rem;color:var(--muted);line-height:1.7}
+
+/* ── MINI TIMELINE (horizontal) ── */
+.h-timeline{display:flex;gap:0;overflow-x:auto;padding-bottom:0.5rem;margin:1.5rem 0 2rem;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold-bdr) transparent}
+.h-item{flex:0 0 auto;width:160px;padding:1rem 0.85rem;background:var(--gold-dim);border:1px solid var(--gold-bdr);border-right:none;position:relative}
+.h-item:last-child{border-right:1px solid var(--gold-bdr)}
+.h-item:first-child{border-radius:6px 0 0 6px}
+.h-item:last-child{border-radius:0 6px 6px 0}
+.h-year{display:block;font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:700;color:var(--gold);margin-bottom:0.3rem}
+.h-text{font-size:0.88rem;color:var(--muted);line-height:1.55}
+
+/* ── SPLIT LAYOUT ── */
+.split-layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:2.5rem;align-items:start}
+@media(max-width:700px){.split-layout{grid-template-columns:1fr}}
+.split-layout>div:last-child{min-width:0;overflow:hidden}
+.impact-body,.v-item-body,.card-body,.num-card-body,.concl-body{overflow-wrap:break-word;word-break:break-word}
+.accent-panel{border-radius:8px;padding:1.75rem 1.25rem;text-align:center}
+.accent-panel--buddhist{background:linear-gradient(160deg,#1a1000,#2a1800);border:1px solid rgba(201,168,76,0.28)}
+.accent-panel--catholic{background:linear-gradient(160deg,#130008,#1e0210);border:1px solid rgba(139,26,26,0.35)}
+.panel-icon{font-size:2.5rem;display:block;margin-bottom:0.75rem}
+.panel-stat-n{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:var(--gold);display:block;line-height:1.1}
+.panel-stat-l{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:1rem}
+.panel-sep{width:60%;border:none;border-top:1px solid rgba(201,168,76,0.15);margin:0.5rem auto 0.75rem}
+@media(max-width:700px){.accent-panel{display:flex;flex-wrap:wrap;gap:1rem;text-align:left;align-items:center}}
+
+/* ── POSITIVE IMPACT CARDS ── */
+.impact-card{display:flex;gap:0.75rem;align-items:flex-start;background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1rem 1.1rem}
+.impact-check{color:var(--gold);font-size:1rem;flex-shrink:0;margin-top:0.15rem}
+.impact-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--parchment);margin-bottom:0.15rem}
+.impact-body{font-size:0.93rem;color:var(--muted);line-height:1.65}
+
+/* ── COLLAPSIBLE ── */
+.coll-wrap{margin:0.4rem 0}
+.coll-btn{width:100%;text-align:left;background:rgba(139,26,26,0.07);border:1px solid rgba(139,26,26,0.28);border-radius:6px;padding:0.7rem 1rem;color:#e09090;font-family:'Lora',serif;font-size:0.97rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s}
+.coll-btn:hover{background:rgba(139,26,26,0.13)}
+.coll-chevron{display:inline-block;transition:transform 0.25s;font-size:0.7rem}
+.coll-btn[aria-expanded="true"] .coll-chevron{transform:rotate(180deg)}
+.coll-body{max-height:0;overflow:hidden;transition:max-height 0.38s var(--ease),padding 0.25s;padding:0 1rem;font-size:0.95rem;color:var(--muted);line-height:1.7}
+.coll-body.open{max-height:500px;padding:0.75rem 1rem}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight-box{background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.03));border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.highlight-box.crimson{background:linear-gradient(135deg,rgba(139,26,26,0.1),rgba(139,26,26,0.03));border-color:rgba(139,26,26,0.3)}
+.highlight-box-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold);margin-bottom:0.35rem}
+
+/* ── STAT BAR ── */
+.stat-bar{background:rgba(201,168,76,0.06);border:1px solid var(--gold-bdr);border-radius:6px;padding:0.85rem 1.25rem;margin:2rem 0;font-size:0.93rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center}
+.stat-bar strong{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1.1rem}
+
+/* ── STATS DASHBOARD ── */
+.stats-dash{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+@media(max-width:700px){.stats-dash{grid-template-columns:repeat(2,1fr)}}
+.dash-card{text-align:center;background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.25rem 0.75rem}
+.dash-n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:700;color:var(--gold);display:block;line-height:1.1}
+.dash-l{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.08em;display:block}
+
+/* ── NUMBER CARDS (Section V) ── */
+.num-card{background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.4rem}
+.num-card-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);opacity:0.35;line-height:1;display:block;margin-bottom:0.5rem}
+.num-card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--parchment);margin-bottom:0.3rem}
+.num-card-body{font-size:0.95rem;color:var(--muted);line-height:1.68}
+
+/* ── CONCLUSION CARDS ── */
+.concl-card{background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.5rem;position:relative;overflow:hidden}
+.concl-card::before{content:attr(data-n);position:absolute;bottom:-0.5rem;right:0.75rem;font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:700;color:var(--gold);opacity:0.07;line-height:1;pointer-events:none}
+.concl-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--gold);margin-bottom:0.4rem}
+.concl-body{font-size:0.97rem;color:var(--muted);line-height:1.7}
+
+/* ── STUDENT LIST ── */
+.student-list{list-style:none;margin:1rem 0 2rem}
+.student-list li{display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.75rem;font-size:1rem;color:var(--muted)}
+.student-list li::before{content:'◆';color:var(--gold);flex-shrink:0;margin-top:0.1rem;font-size:0.65rem}
+
+/* ── FOOTER ── */
+.ref-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.12)}
+.ref-footer ul{list-style:none}
+.ref-footer li{font-size:0.95rem;color:var(--muted);line-height:2;display:flex;gap:0.5rem}
+.ref-footer li::before{content:'■';color:var(--gold);opacity:0.5;font-size:0.5rem;margin-top:0.45rem;flex-shrink:0}
+.copy-line{margin-top:2rem;font-size:0.75rem;color:rgba(245,237,214,0.25);text-align:center}
+
+/* ── HERO ── */
+#hero{
+  min-height:calc(100vh - var(--navbar-h));display:flex;align-items:center;justify-content:center;
+  text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 40%,#1e1508 0%,#0D0D0D 70%);
+  padding:3rem 2rem
+}
+#hero-pat{position:absolute;inset:0;opacity:0.045;pointer-events:none;background-repeat:repeat;background-size:100px 100px}
+.hero-inner{position:relative;z-index:1;max-width:min(92vw,980px)}
+.hero-decor{position:absolute;opacity:0.05;pointer-events:none}
+.hero-decor--l{top:10%;left:5%;width:180px;height:180px}
+.hero-decor--r{bottom:10%;right:5%;width:160px;height:160px}
+@media(max-width:600px){
+  .spin-cw{width:220px!important;height:220px!important}
+  .spin-ccw{width:200px!important;height:200px!important}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-block;font-family:'Lora',serif;font-size:0.82rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-bdr);padding:0.35rem 1.1rem;border-radius:20px;margin-bottom:1.5rem;animation:fadeUp 0.8s var(--ease) 0.1s both}
+.hero-title{font-size:clamp(2rem,4vw,3.4rem);font-weight:700;color:var(--parchment);letter-spacing:-0.01em;white-space:nowrap;animation:fadeUp 0.9s var(--ease) 0.25s both}
+@media(max-width:700px){.hero-title{white-space:normal;font-size:clamp(2.2rem,7vw,3rem)}}
+.hero-slash{color:rgba(201,168,76,0.4);margin:0 0.15em}
+.hero-sub{font-size:clamp(1.1rem,2.8vw,1.65rem);color:var(--gold);font-weight:600;margin-top:0.75rem;font-family:'Cormorant Garamond',serif;animation:fadeUp 0.9s var(--ease) 0.4s both}
+.hero-tagline{font-size:1rem;color:var(--muted);margin-top:0.6rem;font-style:italic;animation:fadeUp 0.8s var(--ease) 0.52s both}
+.hero-src{margin-top:1.5rem;animation:fadeUp 0.8s var(--ease) 0.65s both}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s var(--ease),transform 0.65s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.rv1{transition-delay:0.1s}.rv2{transition-delay:0.2s}.rv3{transition-delay:0.3s}
+
+/* ── SPINNING DECORATORS ── */
+@keyframes slow-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes slow-spin-r{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+.spin-cw{animation:slow-spin 60s linear infinite;transform-origin:center;pointer-events:none}
+.spin-ccw{animation:slow-spin-r 80s linear infinite;transform-origin:center;pointer-events:none}
+
+/* ── IMAGE STRIP ── */
+.img-strip{display:flex;gap:0.75rem;overflow-x:auto;padding:0.5rem 0 1rem;margin:1.5rem 0 0;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold-bdr) transparent}
+.img-strip::-webkit-scrollbar{height:3px}
+.img-strip::-webkit-scrollbar-thumb{background:var(--gold-bdr);border-radius:3px}
+.img-strip figure{flex:0 0 210px;border-radius:6px;overflow:hidden;border:1px solid var(--gold-bdr)}
+.img-strip img{width:100%;height:140px;object-fit:cover;display:block;
+  filter:brightness(0.8) sepia(0.2);transition:filter 0.35s}
+.img-strip img:hover{filter:brightness(1) sepia(0)}
+.img-strip figcaption{font-size:0.7rem;color:var(--muted);padding:0.45rem 0.65rem;
+  background:rgba(13,13,13,0.92);line-height:1.4}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="/quiz" class="quiz-btn">&#9654;&nbsp;Quiz</a>
+</nav>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" role="navigation" aria-label="Mục lục">
+  <span class="toc-label">Mục lục</span>
+  <a class="toc-item" href="#hero" data-s="hero"><span class="toc-num">&#9670;</span>Tổng quan</a>
+  <hr class="toc-sep"/>
+  <a class="toc-item" href="#section-1" data-s="section-1"><span class="toc-num">I.</span>Quan điểm Mác-Lênin</a>
+  <a class="toc-item" href="#section-2" data-s="section-2"><span class="toc-num">II.</span>Chính sách tôn giáo</a>
+  <a class="toc-item" href="#section-3" data-s="section-3"><span class="toc-num">III.</span>Phật giáo</a>
+  <a class="toc-item" href="#section-4" data-s="section-4"><span class="toc-num">IV.</span>Công giáo</a>
+  <a class="toc-item" href="#section-5" data-s="section-5"><span class="toc-num">V.</span>Quan hệ Dân tộc–Tôn giáo</a>
+  <a class="toc-item" href="#section-6" data-s="section-6"><span class="toc-num">VI.</span>Thực tiễn &amp; Kết luận</a>
+</aside>
+
+<button id="ham-btn" aria-label="Mở mục lục" aria-expanded="false">&#9776;</button>
+<div id="sidebar-overlay"></div>
+
+<!-- MAIN -->
+<main id="main-content">
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div id="hero-pat" aria-hidden="true" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6' transform='rotate(45 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6' transform='rotate(90 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6' transform='rotate(135 50 50)'/%3E%3Crect x='47' y='62' width='6' height='30' fill='white' opacity='.35'/%3E%3Crect x='35' y='74' width='30' height='6' fill='white' opacity='.35'/%3E%3C/svg%3E&quot;)"></div>
+
+  <!-- Full spinning LotusDecor — top-left -->
+  <svg class="spin-cw" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+    style="position:absolute;top:-70px;left:-70px;width:340px;height:340px;opacity:0.1;color:#C9A84C">
+    <!-- 8 outer petals -->
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(45 100 100)"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(90 100 100)"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(135 100 100)"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(180 100 100)"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(225 100 100)"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(270 100 100)"/>
+    <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(315 100 100)"/>
+    <!-- 8 inner petals -->
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(22.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(67.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(112.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(157.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(202.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(247.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(292.5 100 100)"/>
+    <ellipse cx="100" cy="62" rx="8" ry="30" fill="currentColor" opacity=".5" transform="rotate(337.5 100 100)"/>
+    <!-- Center -->
+    <circle cx="100" cy="100" r="14" fill="currentColor" opacity=".9"/>
+    <circle cx="100" cy="100" r="8" fill="currentColor" opacity="1"/>
+  </svg>
+
+  <!-- Full spinning CrossDecor — bottom-right -->
+  <svg class="spin-ccw" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+    style="position:absolute;bottom:-70px;right:-70px;width:300px;height:300px;opacity:0.07;color:#8B1A1A">
+    <!-- Outer rings -->
+    <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+    <circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="1" opacity=".2"/>
+    <!-- Cross beams -->
+    <rect x="88" y="20" width="24" height="160" rx="4" fill="currentColor" opacity=".85"/>
+    <rect x="30" y="88" width="140" height="24" rx="4" fill="currentColor" opacity=".85"/>
+    <!-- Corner circles -->
+    <circle cx="100" cy="24" r="5" fill="currentColor" opacity=".6"/>
+    <circle cx="100" cy="176" r="5" fill="currentColor" opacity=".6"/>
+    <circle cx="24" cy="100" r="5" fill="currentColor" opacity=".6"/>
+    <circle cx="176" cy="100" r="5" fill="currentColor" opacity=".6"/>
+    <!-- Center -->
+    <circle cx="100" cy="100" r="12" fill="currentColor" opacity=".7"/>
+    <circle cx="100" cy="100" r="6" fill="currentColor" opacity=".9"/>
+    <!-- Ring dots (12 positions) -->
+    <circle cx="100" cy="10" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="145" cy="23" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="177" cy="55" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="190" cy="100" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="177" cy="145" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="145" cy="177" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="100" cy="190" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="55" cy="177" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="23" cy="145" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="10" cy="100" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="23" cy="55" r="2.5" fill="currentColor" opacity=".4"/>
+    <circle cx="55" cy="23" r="2.5" fill="currentColor" opacity=".4"/>
+  </svg>
+
+  <div class="hero-inner">
+    <span class="hero-badge">Chương 6 &middot; MLN131 &middot; Chủ nghĩa Xã hội Khoa học</span>
+    <h1 class="hero-title">PHẬT GIÁO<span class="hero-slash">/</span>CÔNG GIÁO</h1>
+    <p class="hero-sub">ĐỒNG HÀNH CÙNG DÂN TỘC</p>
+    <p class="hero-tagline">Tôn giáo &ndash; Dân tộc &ndash; Tổ quốc Việt Nam Xã hội chủ nghĩa</p>
+    <div class="hero-src">
+      <span class="pill">MLN131</span>
+      <span class="pill">Giáo trình CNXHKH 2021</span>
+      <span class="pill">Văn kiện ĐH XIV</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION I ══ -->
+<section id="section-1" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần I</span>
+  <h2 class="s-title">Quan điểm Mác-Lênin về Tôn giáo</h2>
+  <hr class="s-divider"/>
+
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:1.75rem;max-width:680px">Theo quan điểm Mác-Lênin, tôn giáo là một hình thái ý thức xã hội, phản ánh một cách hoang đường, hư ảo hiện thực khách quan vào đầu óc con người. Tôn giáo là sản phẩm của lịch sử xã hội, không phải hiện tượng siêu nhiên.</p>
+
+  <!-- 3 khái niệm -->
+  <div class="grid-3 reveal">
+    <div class="card">
+      <span class="card-icon">&#9654;</span>
+      <h3 class="card-title">Tôn giáo</h3>
+      <p class="card-body">Hình thái ý thức xã hội phản ánh hiện thực khách quan theo cách hư ảo, thần thánh hóa. Là sản phẩm của lịch sử, xuất hiện khi xã hội còn ở trình độ thấp.</p>
+    </div>
+    <div class="card rv1 reveal">
+      <span class="card-icon">&#9632;</span>
+      <h3 class="card-title">Tín ngưỡng</h3>
+      <p class="card-body">Nhu cầu tinh thần chính đáng của con người — niềm tin vào điều thiêng liêng, hướng thiện. Khác tôn giáo ở chỗ không có hệ thống giáo lý, tổ chức chặt chẽ.</p>
+    </div>
+    <div class="card rv2 reveal">
+      <span class="card-icon">&#9888;</span>
+      <h3 class="card-title">Mê tín dị đoan</h3>
+      <p class="card-body">Tin tưởng mù quáng, lệch lạc vào những điều hư ảo gây hại cho sức khỏe, kinh tế, đạo đức xã hội. Cần phân biệt rõ với tín ngưỡng chính đáng.</p>
+    </div>
+  </div>
+
+  <!-- Nguồn gốc -->
+  <h3 class="subsection-title">Nguồn gốc của Tôn giáo</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem">
+    <span class="pill">&#127758; Nguồn gốc Tự nhiên – KT-XH</span>
+    <span class="pill">&#129504; Nguồn gốc Nhận thức</span>
+    <span class="pill">&#128149; Nguồn gốc Tâm lý</span>
+  </div>
+
+  <div class="grid-3 reveal">
+    <div class="card">
+      <span class="card-icon">&#127758;</span>
+      <h3 class="card-title">Nguồn gốc Xã hội</h3>
+      <p class="card-body">Sự bất lực và sợ hãi của con người trước tự nhiên và các lực lượng xã hội xa lạ, áp bức trong xã hội có giai cấp.</p>
+    </div>
+    <div class="card rv1 reveal">
+      <span class="card-icon">&#129504;</span>
+      <h3 class="card-title">Nguồn gốc Nhận thức</h3>
+      <p class="card-body">Sự tuyệt đối hóa, thần thánh hóa một mặt nào đó của nhận thức khi giới hạn nhận thức chưa vượt qua được thực tại.</p>
+    </div>
+    <div class="card rv2 reveal">
+      <span class="card-icon">&#128149;</span>
+      <h3 class="card-title">Nguồn gốc Tâm lý</h3>
+      <p class="card-body">Nhu cầu cầu an, sợ hãi trước cái chết, đau khổ và bế tắc khiến con người tìm đến tôn giáo như nơi nương tựa tinh thần.</p>
+    </div>
+  </div>
+
+  <!-- Marx quote -->
+  <div class="quote-block reveal" style="margin-top:2.25rem">
+    <p class="quote-text">"Tôn giáo là thuốc phiện của nhân dân" — không phải theo nghĩa tiêu cực, mà là tôn giáo có tác dụng giảm đau tinh thần trong hoàn cảnh khó khăn, nhưng không giải quyết được nguyên nhân gốc rễ của đau khổ xã hội.</p>
+    <p class="quote-author">— Karl Marx &middot; <em>Góp phần phê phán triết học pháp quyền của Hegel</em></p>
+  </div>
+
+  <!-- 3 Tính chất -->
+  <h3 class="subsection-title">Tính chất của Tôn giáo</h3>
+  <div class="grid-3 reveal">
+    <div class="card">
+      <span class="card-icon">&#128202;</span>
+      <h3 class="card-title">Tính quần chúng</h3>
+      <p class="card-body">~85% dân số thế giới có tín ngưỡng tôn giáo. Tôn giáo đáp ứng nhu cầu tinh thần chính đáng của quần chúng, không thể xóa bỏ bằng mệnh lệnh hành chính.</p>
+    </div>
+    <div class="card rv1 reveal">
+      <span class="card-icon">&#9876;</span>
+      <h3 class="card-title">Tính chính trị</h3>
+      <p class="card-body">Trong xã hội có giai cấp, tôn giáo luôn mang màu sắc chính trị. Giai cấp thống trị có thể lợi dụng tôn giáo để củng cố quyền lực.</p>
+    </div>
+    <div class="card rv2 reveal">
+      <span class="card-icon">&#9878;</span>
+      <h3 class="card-title">Tính đạo đức</h3>
+      <p class="card-body">Mọi tôn giáo đều có hệ thống giá trị đạo đức: yêu thương, công bằng, trung thực, vị tha... Cần kế thừa có chọn lọc trong xây dựng đạo đức XHCN.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ SECTION II ══ -->
+<section id="section-2" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần II</span>
+  <h2 class="s-title">Chính sách Tôn giáo của Đảng và Nhà nước</h2>
+  <hr class="s-divider"/>
+
+  <div class="v-timeline">
+    <div class="v-item reveal">
+      <h3 class="v-item-title">&#128214; Tín ngưỡng là nhu cầu tinh thần lâu dài</h3>
+      <p class="v-item-body">Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng dân tộc. Nhà nước tôn trọng và tạo điều kiện để đồng bào các tôn giáo thực hành tín ngưỡng lành mạnh.</p>
+    </div>
+    <div class="v-item rv1 reveal">
+      <h3 class="v-item-title">&#9878; Hiến pháp 2013 — Điều 24: Quyền tự do tín ngưỡng</h3>
+      <p class="v-item-body">Mọi người có quyền tự do tín ngưỡng, tôn giáo, theo hoặc không theo một tôn giáo nào. Các tôn giáo bình đẳng trước pháp luật. Không ai được xâm phạm tự do tín ngưỡng hoặc lợi dụng tín ngưỡng để vi phạm pháp luật.</p>
+    </div>
+    <div class="v-item rv2 reveal">
+      <h3 class="v-item-title">&#129309; Đoàn kết đồng bào tôn giáo</h3>
+      <p class="v-item-body">Tăng cường đoàn kết đồng bào theo các tôn giáo khác nhau, giữa đồng bào theo tôn giáo và không theo tôn giáo. Phát huy những giá trị văn hóa, đạo đức tốt đẹp của tôn giáo.</p>
+    </div>
+    <div class="v-item reveal">
+      <h3 class="v-item-title">&#127775; Phát huy giá trị văn hóa, đạo đức tôn giáo</h3>
+      <p class="v-item-body">Động viên chức sắc, tín đồ các tôn giáo sống "tốt đời, đẹp đạo", đóng góp tích cực cho công cuộc xây dựng và bảo vệ Tổ quốc.</p>
+    </div>
+    <div class="v-item rv1 reveal">
+      <h3 class="v-item-title">&#128736; Luật Tín ngưỡng, Tôn giáo 2016</h3>
+      <p class="v-item-body">Thông qua ngày 18/11/2016 (hiệu lực 01/01/2018) — khung pháp lý toàn diện đầu tiên về tín ngưỡng, tôn giáo. Bảo đảm quyền tự do tín ngưỡng; các tôn giáo bình đẳng trước pháp luật; phân biệt nhu cầu tín ngưỡng chính đáng với lợi dụng tôn giáo.</p>
+    </div>
+    <div class="v-item rv2 reveal">
+      <h3 class="v-item-title">&#128683; Vấn đề theo đạo và truyền đạo</h3>
+      <p class="v-item-body">Đấu tranh chống mê tín dị đoan, chống lợi dụng tôn giáo để vi phạm pháp luật hoặc can thiệp vào công việc nội bộ của Nhà nước. Nghiêm cấm việc ép buộc người dân theo đạo.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem">
+    <span class="pill">Hiến pháp 2013 Điều 24</span>
+    <span class="pill">Luật Tín ngưỡng, Tôn giáo 2016</span>
+    <span class="pill">Văn kiện ĐH XIV Tập 2, tr.33, 65–66</span>
+  </div>
+</div>
+</section>
+
+<!-- ══ SECTION III ══ -->
+<section id="section-3" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần III</span>
+  <h2 class="s-title">Phật giáo Việt Nam</h2>
+  <hr class="s-divider"/>
+
+  <div class="split-layout">
+    <!-- Accent panel -->
+    <div class="accent-panel accent-panel--buddhist reveal">
+      <span class="panel-icon">&#9753;</span>
+      <span class="panel-stat-n">TK II SCN</span>
+      <span class="panel-stat-l">Du nhập Việt Nam</span>
+      <hr class="panel-sep"/>
+      <span class="panel-stat-n">18.544</span>
+      <span class="panel-stat-l">Cơ sở thờ tự</span>
+      <hr class="panel-sep"/>
+      <span class="panel-stat-n">~80%</span>
+      <span class="panel-stat-l">Dân số ảnh hưởng</span>
+      <hr class="panel-sep"/>
+      <span style="font-size:.72rem;color:var(--muted);line-height:1.55;display:block;margin-top:.25rem">Phương châm:<br/><strong style="color:var(--gold)">Đạo pháp – Dân tộc – CNXH</strong></span>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <!-- Lịch sử -->
+      <h3 class="subsection-title" style="margin-top:0">Lịch sử đồng hành với Dân tộc</h3>
+      <div class="h-timeline">
+        <div class="h-item">
+          <span class="h-year">TK I–II SCN</span>
+          <p class="h-text">Phật giáo xuất hiện tại Giao Chỉ. Luy Lâu là trung tâm lớn nhất</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">TK III–V SCN</span>
+          <p class="h-text">Lan rộng toàn miền Bắc, gắn với tinh thần chống Bắc thuộc</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">TK X–XIV (Lý–Trần)</span>
+          <p class="h-text">Hoàng kim — Quốc giáo, thiền phái Trúc Lâm Yên Tử ra đời</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">TK XIX–XX</span>
+          <p class="h-text">Phật giáo đồng hành kháng chiến chống Pháp, chống Mỹ</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">1981 – nay</span>
+          <p class="h-text">GHPGVN thành lập, thống nhất các hệ phái trong cả nước</p>
+        </div>
+      </div>
+
+      <!-- Đóng góp tích cực -->
+      <h3 class="subsection-title">&#10003; Đóng góp tích cực</h3>
+      <div style="display:flex;flex-direction:column;gap:0.65rem">
+        <div class="impact-card reveal">
+          <span class="impact-check">&#10003;</span>
+          <div><p class="impact-title">Văn hóa &amp; Nghệ thuật</p><p class="impact-body">Kiến trúc chùa tháp (Chùa Một Cột, Tháp Báo Thiên, Chùa Hương, Yên Tử), điêu khắc tượng Phật, âm nhạc kệ kinh — di sản văn hóa vô giá.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check">&#10003;</span>
+          <div><p class="impact-title">Đạo đức &amp; Nhân sinh quan</p><p class="impact-body">Tư tưởng từ bi, hỷ xả, vô ngã, nhân quả thấm sâu vào đạo đức người Việt. "Lá lành đùm lá rách", "thương người như thể thương thân" có gốc rễ từ đạo lý từ bi.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check">&#10003;</span>
+          <div><p class="impact-title">Chính trị &amp; Đoàn kết dân tộc</p><p class="impact-body">Phật giáo là cầu nối các giai tầng xã hội. Thiền sư từng là cố vấn vua chúa, trung gian hòa giải và tiếng nói bảo vệ tầng lớp dân nghèo.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check">&#10003;</span>
+          <div><p class="impact-title">Giáo dục &amp; Truyền bá tri thức</p><p class="impact-body">Hệ thống chùa chiền là trung tâm giáo dục sớm nhất. Nhà sư là thầy dạy chữ, dạy đạo lý suốt hàng nghìn năm.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check">&#10003;</span>
+          <div><p class="impact-title">Hoạt động từ thiện &amp; An sinh xã hội</p><p class="impact-body">Cứu trợ thiên tai, bếp ăn từ thiện, chăm sóc người nghèo, người yếu thế. GHPGVN triển khai nhiều chương trình xã hội thiết thực.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check">&#10003;</span>
+          <div><p class="impact-title">Bảo tồn văn hóa &amp; Du lịch tâm linh</p><p class="impact-body">Lễ hội truyền thống, di sản Phật giáo được bảo tồn. Các điểm tâm linh (Yên Tử, Chùa Hương, Bái Đính) thu hút hàng triệu lượt khách mỗi năm.</p></div>
+        </div>
+      </div>
+
+      <!-- Hình ảnh Phật giáo -->
+      <div class="img-strip reveal">
+        <figure>
+          <img src="images/phat-giao/chua-mot-cot.jpg" alt="Chùa Một Cột" loading="lazy"/>
+          <figcaption>Chùa Một Cột — Hà Nội</figcaption>
+        </figure>
+        <figure>
+          <img src="images/timeline/truc-lam-yen-tu.jpg" alt="Trúc Lâm Yên Tử" loading="lazy"/>
+          <figcaption>Thiền viện Trúc Lâm Yên Tử</figcaption>
+        </figure>
+        <figure>
+          <img src="images/phat-giao/chua-huong.jpg" alt="Chùa Hương" loading="lazy"/>
+          <figcaption>Chùa Hương — Hà Nội</figcaption>
+        </figure>
+        <figure>
+          <img src="images/timeline/ghpgvn-1981.jpg" alt="GHPGVN 1981" loading="lazy"/>
+          <figcaption>Đại hội GHPGVN 1981</figcaption>
+        </figure>
+        <figure>
+          <img src="images/phat-giao/tuong-phat.jpg" alt="Tượng Phật" loading="lazy"/>
+          <figcaption>Tượng Phật Việt Nam</figcaption>
+        </figure>
+        <figure>
+          <img src="images/timeline/phat-giao-du-nhap.jpg" alt="Phật giáo du nhập" loading="lazy"/>
+          <figcaption>Con đường du nhập Phật giáo</figcaption>
+        </figure>
+      </div>
+
+      <!-- Thách thức -->
+      <h3 class="subsection-title" style="color:#e09090">&#10007; Thách thức &amp; Hạn chế</h3>
+      <div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Mê tín dị đoan lẫn vào tín ngưỡng <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Một bộ phận người dân lợi dụng không gian tôn giáo để truyền bá mê tín, cúng bái tốn kém, gây hệ lụy về kinh tế và tinh thần cho gia đình.</div>
+        </div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Thương mại hóa hoạt động tôn giáo <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Xu hướng thương mại hóa lễ hội, dịch vụ tâm linh tại một số cơ sở Phật giáo làm giảm tính trang nghiêm và bản sắc truyền thống.</div>
+        </div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Vấn đề đất đai và cơ sở vật chất <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Một số tranh chấp đất đai liên quan đến cơ sở Phật giáo, đặt ra yêu cầu hoàn thiện khung pháp lý và minh bạch trong quản lý tài sản tôn giáo.</div>
+        </div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Thiếu nhân sự trẻ kế thừa <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Sự suy giảm số lượng tăng ni trẻ tài năng và sự chú ý của giới trẻ với các ứng dụng mạng xã hội đặt ra thách thức trong việc truyền thừa giáo pháp.</div>
+        </div>
+      </div>
+
+      <div class="stat-bar" style="margin-top:1.75rem">
+        <strong>GHPGVN thành lập:</strong> <span>7/11/1981</span>
+        <strong>Phương châm:</strong> <span>Đạo pháp – Dân tộc – CNXH</span>
+        <strong>Tín đồ:</strong> <span>14–15 triệu người</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ SECTION IV ══ -->
+<section id="section-4" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần IV</span>
+  <h2 class="s-title">Công giáo Việt Nam</h2>
+  <hr class="s-divider"/>
+
+  <div class="split-layout">
+    <!-- Accent panel -->
+    <div class="accent-panel accent-panel--catholic reveal">
+      <span class="panel-icon" style="color:#c88">&#10013;</span>
+      <span class="panel-stat-n">1533</span>
+      <span class="panel-stat-l">Du nhập Việt Nam</span>
+      <hr class="panel-sep"/>
+      <span class="panel-stat-n">~6,5tr</span>
+      <span class="panel-stat-l">Tín đồ Công giáo</span>
+      <hr class="panel-sep"/>
+      <span class="panel-stat-n">27</span>
+      <span class="panel-stat-l">Giáo phận</span>
+      <hr class="panel-sep"/>
+      <span style="font-size:.72rem;color:var(--muted);line-height:1.55;display:block;margin-top:.25rem">Đường hướng:<br/><strong style="color:#c88">"Sống Phúc Âm giữa lòng Dân tộc"</strong></span>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <h3 class="subsection-title" style="margin-top:0">Các mốc lịch sử quan trọng</h3>
+      <div class="h-timeline">
+        <div class="h-item">
+          <span class="h-year">1533</span>
+          <p class="h-text">Giáo sĩ I-nê-khu bí mật vào Ninh Cường, Nam Định truyền đạo</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">1615</span>
+          <p class="h-text">Dòng Tên thiết lập cơ sở truyền giáo tại Hội An — Đàng Trong</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">1627</span>
+          <p class="h-text">Alexandre de Rhodes (Đắc Lộ) đến Đàng Ngoài, học tiếng Việt</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">1651</span>
+          <p class="h-text">Từ điển Việt-Bồ-La xuất bản tại Rome — nền móng chữ Quốc ngữ</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">1980</span>
+          <p class="h-text">Thư chung HĐGM VN: "Sống Phúc Âm giữa lòng Dân tộc"</p>
+        </div>
+      </div>
+
+      <!-- Đóng góp -->
+      <h3 class="subsection-title">&#10003; Đóng góp tích cực</h3>
+      <div style="display:flex;flex-direction:column;gap:0.65rem">
+        <div class="impact-card reveal">
+          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <div><p class="impact-title">Chữ Quốc ngữ — Di sản vô giá</p><p class="impact-body">Hệ thống ký âm tiếng Việt bằng chữ cái La-tinh do các giáo sĩ Dòng Tên sáng tạo, Alexandre de Rhodes hệ thống hóa (1651) — nền tảng của chữ viết Việt Nam ngày nay, giúp xóa mù chữ và phổ cập giáo dục.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <div><p class="impact-title">Giáo dục</p><p class="impact-body">Các trường học Công giáo từ tiểu học đến đại học đào tạo nhiều thế hệ trí thức Việt Nam. Đại học Đà Lạt (1957) từng là cơ sở giáo dục uy tín hàng đầu.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <div><p class="impact-title">Y tế &amp; Từ thiện</p><p class="impact-body">Hệ thống bệnh viện, cô nhi viện, nhà dưỡng lão do Công giáo lập nên — những cơ sở từ thiện tiên phong phục vụ mọi tầng lớp nhân dân không phân biệt tôn giáo.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <div><p class="impact-title">Yêu nước &amp; Kháng chiến</p><p class="impact-body">Nhiều linh mục, giáo dân tham gia kháng chiến chống Pháp, chống Mỹ. Tinh thần "Tốt đời, đẹp đạo" — người Công giáo tốt cũng là công dân tốt.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <div><p class="impact-title">Kiến trúc &amp; Nghệ thuật</p><p class="impact-body">Kiến trúc nhà thờ Gothic-Việt kết hợp phong cách phương Tây và yếu tố bản địa độc đáo. Âm nhạc thánh ca tiếng Việt phong phú trong kho tàng âm nhạc dân tộc.</p></div>
+        </div>
+        <div class="impact-card reveal">
+          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <div><p class="impact-title">Đạo đức &amp; Lối sống</p><p class="impact-body">Giáo lý Kitô giáo về yêu thương, công bằng, tôn trọng nhân phẩm góp phần bồi dưỡng nhân cách, xây dựng lối sống trách nhiệm cho người Công giáo Việt Nam.</p></div>
+        </div>
+      </div>
+
+      <!-- Hình ảnh Công giáo -->
+      <div class="img-strip reveal" style="margin-top:1.5rem">
+        <figure>
+          <img src="images/cong-giao/nha-tho-duc-ba-sai-gon.jpg" alt="Nhà thờ Đức Bà Sài Gòn" loading="lazy"/>
+          <figcaption>Nhà thờ Đức Bà — TP. Hồ Chí Minh</figcaption>
+        </figure>
+        <figure>
+          <img src="images/timeline/alexandre-de-rhodes.jpg" alt="Alexandre de Rhodes" loading="lazy"/>
+          <figcaption>Alexandre de Rhodes (Đắc Lộ, 1593–1660)</figcaption>
+        </figure>
+        <figure>
+          <img src="images/cong-giao/nha-tho-ha-noi.jpg" alt="Nhà thờ Lớn Hà Nội" loading="lazy"/>
+          <figcaption>Nhà thờ Lớn — Hà Nội</figcaption>
+        </figure>
+        <figure>
+          <img src="images/timeline/phat-diem-nam-dinh.jpg" alt="Phát Diệm" loading="lazy"/>
+          <figcaption>Nhà thờ Phát Diệm — Nam Định</figcaption>
+        </figure>
+        <figure>
+          <img src="images/cong-giao/nha-tho-phat-diem.jpg" alt="Kiến trúc Gothic-Việt" loading="lazy"/>
+          <figcaption>Kiến trúc Gothic-Việt độc đáo</figcaption>
+        </figure>
+        <figure>
+          <img src="images/timeline/chua-mot-cot-ly.jpg" alt="Di sản văn hóa" loading="lazy"/>
+          <figcaption>Giao thoa văn hóa Đông–Tây</figcaption>
+        </figure>
+      </div>
+
+      <!-- Highlight boxes -->
+      <div class="highlight-box" style="margin-top:1.75rem">
+        <h4 class="highlight-box-title">&#128218; Thư chung HĐGM Việt Nam 1980</h4>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--parchment)">"Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào."</p>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:.5rem">Đường hướng mục vụ xuyên suốt của Giáo hội Công giáo Việt Nam từ 1980 đến nay</p>
+      </div>
+
+      <div class="highlight-box crimson">
+        <h4 class="highlight-box-title" style="color:#e09090">"Tốt đời, đẹp đạo"</h4>
+        <p style="font-size:.85rem;color:var(--muted)">"Người Công giáo tốt cũng là người công dân tốt; sống đạo gắn liền với yêu nước, trách nhiệm xã hội và khát vọng xây dựng đất nước phát triển."</p>
+      </div>
+
+      <div class="stat-bar">
+        <strong>Tín đồ:</strong> <span>7–8 triệu</span>
+        <strong>Giáo phận:</strong> <span>27</span>
+        <strong>VN–Vatican:</strong> <span>Đại diện Thường trú từ 12/2023</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ SECTION V ══ -->
+<section id="section-5" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần V</span>
+  <h2 class="s-title">Quan hệ Dân tộc và Tôn giáo</h2>
+  <hr class="s-divider"/>
+
+  <div class="grid-auto reveal" style="margin-bottom:2.5rem">
+    <div class="num-card">
+      <span class="num-card-n">01</span>
+      <h3 class="num-card-title">Quốc gia đa dân tộc, đa tôn giáo</h3>
+      <p class="num-card-body">Việt Nam là quốc gia có 54 dân tộc anh em và nhiều tôn giáo cùng tồn tại. Sự đa dạng này là tài sản văn hóa, cần được trân trọng và phát huy.</p>
+    </div>
+    <div class="num-card rv1 reveal">
+      <span class="num-card-n">02</span>
+      <h3 class="num-card-title">Tôn giáo gắn bó với dân tộc</h3>
+      <p class="num-card-body">Phật giáo và Công giáo đã trở thành một phần không thể tách rời của lịch sử, văn hóa và tinh thần dân tộc Việt Nam qua hàng trăm năm.</p>
+    </div>
+    <div class="num-card rv2 reveal">
+      <span class="num-card-n">03</span>
+      <h3 class="num-card-title">Tín đồ là nhân dân lao động yêu nước</h3>
+      <p class="num-card-body">Tuyệt đại đa số tín đồ các tôn giáo là nhân dân lao động, có tinh thần yêu nước, gắn bó với sự nghiệp xây dựng và bảo vệ Tổ quốc.</p>
+    </div>
+    <div class="num-card reveal">
+      <span class="num-card-n">04</span>
+      <h3 class="num-card-title">Vai trò của chức sắc tôn giáo</h3>
+      <p class="num-card-body">Chức sắc tôn giáo có uy tín, ảnh hưởng lớn trong cộng đồng tín đồ. Đảng, Nhà nước coi trọng phát huy vai trò của họ trong công tác vận động quần chúng.</p>
+    </div>
+    <div class="num-card rv1 reveal">
+      <span class="num-card-n">05</span>
+      <h3 class="num-card-title">Quan hệ quốc tế của tôn giáo</h3>
+      <p class="num-card-body">Một số tôn giáo có quan hệ với tổ chức quốc tế (Vatican, Phật giáo thế giới). Cần phân biệt hoạt động tôn giáo chính đáng với âm mưu lợi dụng tôn giáo can thiệp nội bộ.</p>
+    </div>
+  </div>
+
+  <!-- Pull quote -->
+  <div class="quote-block reveal" style="font-size:1.05rem">
+    <p class="quote-text">"Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng với dân tộc trong quá trình xây dựng chủ nghĩa xã hội ở nước ta."</p>
+    <p class="quote-author">— Văn kiện Đại hội Đảng XIV &middot; Tập 2, tr.33</p>
+  </div>
+
+  <div class="quote-block reveal" style="margin-top:1.25rem">
+    <p class="quote-text">"Là Hội Thánh trong lòng dân tộc Việt Nam, chúng ta quyết tâm gắn bó với vận mệnh quê hương, noi gương tiền nhân, ra sức phục vụ Tổ quốc và đồng bào."</p>
+    <p class="quote-author">— Thư chung HĐGM Việt Nam (1980)</p>
+  </div>
+</div>
+</section>
+
+<!-- ══ SECTION VI ══ -->
+<section id="section-6" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần VI</span>
+  <h2 class="s-title">Thực tiễn &amp; Kết luận</h2>
+  <hr class="s-divider"/>
+
+  <!-- Stats dashboard -->
+  <div class="stats-dash reveal">
+    <div class="dash-card">
+      <span class="dash-n">~80%</span>
+      <span class="dash-l">Dân số chịu ảnh hưởng Phật giáo</span>
+    </div>
+    <div class="dash-card rv1 reveal">
+      <span class="dash-n">7–8tr</span>
+      <span class="dash-l">Tín đồ Công giáo Việt Nam</span>
+    </div>
+    <div class="dash-card rv2 reveal">
+      <span class="dash-n">27</span>
+      <span class="dash-l">Giáo phận Công giáo</span>
+    </div>
+    <div class="dash-card rv3 reveal">
+      <span class="dash-n">18.544</span>
+      <span class="dash-l">Cơ sở thờ tự Phật giáo</span>
+    </div>
+  </div>
+
+  <!-- Trách nhiệm sinh viên -->
+  <h3 class="subsection-title">Liên hệ bản thân — Sinh viên MLN131</h3>
+  <ul class="student-list">
+    <li>Chủ động tìm hiểu lịch sử và đóng góp của các tôn giáo lớn đối với dân tộc Việt Nam, nhìn nhận khách quan, khoa học trên nền tảng lý luận Mác-Lênin.</li>
+    <li>Tôn trọng quyền tự do tín ngưỡng, tôn giáo của mọi người; không kỳ thị, phân biệt đối xử trên cơ sở tôn giáo.</li>
+    <li>Phân biệt rõ hoạt động tín ngưỡng lành mạnh với mê tín dị đoan, không tham gia và tuyên truyền chống mê tín dị đoan.</li>
+    <li>Phát huy giá trị văn hóa, đạo đức tốt đẹp của các tôn giáo trong xây dựng lối sống văn minh, nhân ái.</li>
+    <li>Cảnh giác với các âm mưu lợi dụng tôn giáo để chống phá Đảng, Nhà nước và phá vỡ khối đại đoàn kết dân tộc.</li>
+  </ul>
+
+  <!-- 3 kết luận -->
+  <h3 class="subsection-title">Kết luận</h3>
+  <div class="grid-3 reveal">
+    <div class="concl-card" data-n="1">
+      <h3 class="concl-title">Phật giáo — Hành trình 2000 năm</h3>
+      <p class="concl-body">Từ Lý đến Trần, từ kháng chiến đến đổi mới, Phật giáo Việt Nam luôn hướng về Tổ quốc, phương châm "Đạo pháp – Dân tộc – CNXH" là kim chỉ nam xuyên suốt.</p>
+    </div>
+    <div class="concl-card rv1 reveal" data-n="2">
+      <h3 class="concl-title">Công giáo — Sống Phúc Âm giữa lòng Dân tộc</h3>
+      <p class="concl-body">Từ 1533 đến nay, Công giáo Việt Nam đóng góp chữ Quốc ngữ, giáo dục, y tế, và tinh thần yêu nước, sẵn sàng đồng hành cùng đất nước trong kỷ nguyên mới.</p>
+    </div>
+    <div class="concl-card rv2 reveal" data-n="3">
+      <h3 class="concl-title">Đại đoàn kết &amp; Đại hội XIV</h3>
+      <p class="concl-body">Đại hội XIV khẳng định tôn trọng tự do tín ngưỡng và phát huy sức mạnh đại đoàn kết toàn dân tộc — tôn giáo là một phần không thể thiếu trong sức mạnh đó.</p>
+    </div>
+  </div>
+
+  <!-- References footer -->
+  <div class="ref-footer">
+    <span class="s-label" style="display:block;margin-bottom:.75rem">Tài liệu tham khảo</span>
+    <ul>
+      <li>Văn kiện Đại hội XIV — Tập 1: Phát huy sức mạnh đại đoàn kết toàn dân tộc</li>
+      <li>Văn kiện Đại hội XIV — Tập 2: Phát triển văn hóa, quản lý phát triển xã hội và xây dựng con người (tr.33, 65–66)</li>
+      <li>Hiến pháp nước CHXHCN Việt Nam 2013 — Điều 24 (Quyền tự do tín ngưỡng)</li>
+      <li>Luật Tín ngưỡng, Tôn giáo 2016 — hiệu lực 01/01/2018</li>
+      <li>Giáo trình Chủ nghĩa Xã hội Khoa học — Bộ GD&amp;ĐT 2021</li>
+      <li>Thư chung Hội đồng Giám mục Việt Nam 1980</li>
+    </ul>
+    <p class="copy-line">
+      &copy; 2025 &middot; MLN131 &middot; FPT University &nbsp;&nbsp;&#9753;&nbsp; Phật giáo &nbsp;&nbsp;&#10013;&nbsp; Công giáo &nbsp;&nbsp;&#9670;&nbsp; Đồng hành cùng Dân tộc
+    </p>
+  </div>
+</div>
+</section>
+
+</main><!-- /main-content -->
+
+<script>
+(function(){
+  /* ── Sidebar toggle ── */
+  var btn=document.getElementById('ham-btn'),
+      sb=document.getElementById('sidebar'),
+      ov=document.getElementById('sidebar-overlay');
+
+  function open(){sb.classList.add('open');ov.classList.add('active');btn.setAttribute('aria-expanded','true');btn.innerHTML='&#10005;';document.body.style.overflow='hidden'}
+  function close(){sb.classList.remove('open');ov.classList.remove('active');btn.setAttribute('aria-expanded','false');btn.innerHTML='&#9776;';document.body.style.overflow=''}
+
+  btn.addEventListener('click',function(){sb.classList.contains('open')?close():open()});
+  ov.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  /* Close sidebar on toc click (mobile) */
+  document.querySelectorAll('.toc-item').forEach(function(a){a.addEventListener('click',close)});
+
+  /* ── Active TOC via IntersectionObserver ── */
+  var sections=document.querySelectorAll('section[id]');
+  var tocLinks=document.querySelectorAll('.toc-item[data-s]');
+
+  var navObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id=entry.target.id;
+        tocLinks.forEach(function(l){l.classList.toggle('active',l.dataset.s===id)});
+      }
+    });
+  },{rootMargin:'-76px 0px -55% 0px',threshold:0});
+
+  sections.forEach(function(s){navObs.observe(s)});
+
+  /* ── Scroll reveal ── */
+  var revObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){entry.target.classList.add('visible');revObs.unobserve(entry.target)}
+    });
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+
+  document.querySelectorAll('.reveal').forEach(function(el){revObs.observe(el)});
+
+  /* ── Collapsible ── */
+  document.querySelectorAll('.coll-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var expanded=btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded',String(!expanded));
+      btn.nextElementSibling.classList.toggle('open',!expanded);
+    });
+  });
+})();
+</script>
+</body>
+</html>
