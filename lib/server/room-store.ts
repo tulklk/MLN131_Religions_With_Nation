@@ -1,12 +1,6 @@
-import { RoomState, Player, PlayerAnswer, PowerUpType, LeaderboardEntry } from '../room-types'
+import { RoomState, Player, PowerUpType, LeaderboardEntry } from '../room-types'
 import { QUIZ_QUESTIONS } from '../quiz-data'
-
-// Persist across hot-reloads in Next.js dev
-declare global {
-  // eslint-disable-next-line no-var
-  var __roomStore: Map<string, RoomState> | undefined
-}
-const rooms: Map<string, RoomState> = global.__roomStore ?? (global.__roomStore = new Map())
+import { supabaseAdmin } from './supabase-admin'
 
 function genCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -22,6 +16,44 @@ function genId(): string {
 const ALL_POWER_UPS: PowerUpType[] = ['double_points', 'shield', 'precision', 'lucky']
 function randPowerUp(): PowerUpType {
   return ALL_POWER_UPS[Math.floor(Math.random() * ALL_POWER_UPS.length)]
+}
+
+async function getRoomRaw(code: string): Promise<RoomState | null> {
+  const roomCode = code.toUpperCase()
+  const { data, error } = await supabaseAdmin
+    .from('quiz_rooms')
+    .select('state')
+    .eq('code', roomCode)
+    .maybeSingle()
+
+  if (error) {
+    throw new Error(`Failed to get room ${roomCode}: ${error.message}`)
+  }
+  return (data?.state as RoomState | null) ?? null
+}
+
+async function saveRoom(room: RoomState): Promise<void> {
+  const code = room.code.toUpperCase()
+  const { error } = await supabaseAdmin
+    .from('quiz_rooms')
+    .upsert(
+      {
+        code,
+        state: room,
+      },
+      { onConflict: 'code' },
+    )
+  if (error) {
+    throw new Error(`Failed to save room ${code}: ${error.message}`)
+  }
+}
+
+async function deleteRoom(code: string): Promise<void> {
+  const roomCode = code.toUpperCase()
+  const { error } = await supabaseAdmin.from('quiz_rooms').delete().eq('code', roomCode)
+  if (error) {
+    throw new Error(`Failed to delete room ${roomCode}: ${error.message}`)
+  }
 }
 
 function buildLeaderboard(room: RoomState): LeaderboardEntry[] {
@@ -41,9 +73,13 @@ function buildLeaderboard(room: RoomState): LeaderboardEntry[] {
 }
 
 // ── Create ──────────────────────────────────────────────────────────────────
-export function createRoom(hostName: string): { room: RoomState; playerId: string } {
+export async function createRoom(hostName: string): Promise<{ room: RoomState; playerId: string }> {
   let code = genCode()
-  while (rooms.has(code)) code = genCode()
+  for (let attempts = 0; attempts < 10; attempts++) {
+    const existing = await getRoomRaw(code)
+    if (!existing) break
+    code = genCode()
+  }
 
   const playerId = genId()
   const host: Player = {
@@ -62,16 +98,16 @@ export function createRoom(hostName: string): { room: RoomState; playerId: strin
     leaderboard: [],
     createdAt: Date.now(), lastActivity: Date.now(),
   }
-  rooms.set(code, room)
+  await saveRoom(room)
   return { room, playerId }
 }
 
 // ── Join ─────────────────────────────────────────────────────────────────────
-export function joinRoom(code: string, name: string): { room: RoomState; playerId: string } | { error: string } {
-  const room = rooms.get(code.toUpperCase())
+export async function joinRoom(code: string, name: string): Promise<{ room: RoomState; playerId: string } | { error: string }> {
+  const room = await getRoomRaw(code)
   if (!room) return { error: 'Không tìm thấy phòng' }
   if (room.status !== 'waiting') return { error: 'Phòng đã bắt đầu hoặc kết thúc' }
-  if (Object.keys(room.players).length >= 30) return { error: 'Phòng đã đầy (tối đa 30 người)' }
+  if (Object.keys(room.players).length >= 40) return { error: 'Phòng đã đầy (tối đa 40 người)' }
 
   const playerId = genId()
   room.players[playerId] = {
@@ -80,29 +116,31 @@ export function joinRoom(code: string, name: string): { room: RoomState; playerI
     powerUps: [], lastSeen: Date.now(),
   }
   room.lastActivity = Date.now()
+  await saveRoom(room)
   return { room, playerId }
 }
 
 // ── Start ────────────────────────────────────────────────────────────────────
-export function startGame(code: string, hostId: string): RoomState | null {
-  const room = rooms.get(code)
+export async function startGame(code: string, hostId: string): Promise<RoomState | null> {
+  const room = await getRoomRaw(code)
   if (!room || room.hostId !== hostId || room.status !== 'waiting') return null
   room.status = 'playing'
   room.currentQ = 0
   room.questionStartedAt = Date.now()
   room.currentAnswers = {}
   room.lastActivity = Date.now()
+  await saveRoom(room)
   return room
 }
 
 // ── Answer ───────────────────────────────────────────────────────────────────
-export function submitAnswer(
+export async function submitAnswer(
   code: string,
   playerId: string,
   answerIndex: number,
   powerUpUsed: PowerUpType | null,
-): { success: boolean; room?: RoomState; error?: string } {
-  const room = rooms.get(code)
+): Promise<{ success: boolean; room?: RoomState; error?: string }> {
+  const room = await getRoomRaw(code)
   if (!room || room.status !== 'playing') return { success: false, error: 'Không hợp lệ' }
   if (room.currentAnswers[playerId]) return { success: false, error: 'Đã trả lời' }
 
@@ -127,7 +165,7 @@ export function submitAnswer(
     const timeBonus = Math.max(0, 1 - timeTakenMs / 15000)
     const newStreak = player.streak + 1
     const streakBonus = newStreak >= 3 ? (newStreak - 2) * 50 : 0
-    let base = Math.round(100 + timeBonus * 100) + streakBonus
+    const base = Math.round(100 + timeBonus * 100) + streakBonus
 
     let multiplier = 1
     if (powerUpUsed === 'double_points') multiplier = 2
@@ -168,22 +206,24 @@ export function submitAnswer(
   }
   room.leaderboard = buildLeaderboard(room)
   room.lastActivity = Date.now()
+  await saveRoom(room)
   return { success: true, room }
 }
 
 // ── Show post-question leaderboard ───────────────────────────────────────────
-export function showResults(code: string, hostId: string): RoomState | null {
-  const room = rooms.get(code)
+export async function showResults(code: string, hostId: string): Promise<RoomState | null> {
+  const room = await getRoomRaw(code)
   if (!room || room.hostId !== hostId) return null
   room.status = 'post_question'
   room.leaderboard = buildLeaderboard(room)
   room.lastActivity = Date.now()
+  await saveRoom(room)
   return room
 }
 
 // ── Next question ────────────────────────────────────────────────────────────
-export function nextQuestion(code: string, hostId: string): RoomState | null {
-  const room = rooms.get(code)
+export async function nextQuestion(code: string, hostId: string): Promise<RoomState | null> {
+  const room = await getRoomRaw(code)
   if (!room || room.hostId !== hostId) return null
   if (room.currentQ + 1 >= QUIZ_QUESTIONS.length) {
     room.status = 'finished'
@@ -195,36 +235,44 @@ export function nextQuestion(code: string, hostId: string): RoomState | null {
     room.currentAnswers = {}
   }
   room.lastActivity = Date.now()
+  await saveRoom(room)
   return room
 }
 
 // ── End game ─────────────────────────────────────────────────────────────────
-export function endGame(code: string, hostId: string): RoomState | null {
-  const room = rooms.get(code)
+export async function endGame(code: string, hostId: string): Promise<RoomState | null> {
+  const room = await getRoomRaw(code)
   if (!room || room.hostId !== hostId) return null
   room.status = 'finished'
   room.leaderboard = buildLeaderboard(room)
   room.lastActivity = Date.now()
+  await saveRoom(room)
   return room
 }
 
 // ── Read ──────────────────────────────────────────────────────────────────────
-export function getRoom(code: string): RoomState | null {
-  return rooms.get(code.toUpperCase()) ?? null
+export async function getRoom(code: string): Promise<RoomState | null> {
+  return await getRoomRaw(code)
 }
 
-export function touchPlayer(code: string, playerId: string): void {
-  const room = rooms.get(code)
-  if (room?.players[playerId]) room.players[playerId].lastSeen = Date.now()
+export async function touchPlayer(code: string, playerId: string): Promise<void> {
+  const room = await getRoomRaw(code)
+  if (!room?.players[playerId]) return
+  room.players[playerId].lastSeen = Date.now()
+  room.lastActivity = Date.now()
+  await saveRoom(room)
 }
 
-// Cleanup rooms inactive for 3 hours
-if (typeof global.__cleanupRoomInterval === 'undefined') {
-  global.__cleanupRoomInterval = setInterval(() => {
-    const cutoff = Date.now() - 3 * 60 * 60 * 1000
-    for (const [code, room] of rooms) {
-      if (room.lastActivity < cutoff) rooms.delete(code)
+export async function cleanupInactiveRooms(): Promise<void> {
+  const cutoff = Date.now() - 3 * 60 * 60 * 1000
+  const { data, error } = await supabaseAdmin.from('quiz_rooms').select('code, state')
+  if (error) {
+    throw new Error(`Failed to list rooms for cleanup: ${error.message}`)
+  }
+  for (const row of data ?? []) {
+    const state = row.state as RoomState
+    if (state.lastActivity < cutoff) {
+      await deleteRoom(row.code)
     }
-  }, 30 * 60 * 1000) as unknown as number
+  }
 }
-declare global { var __cleanupRoomInterval: number | undefined }

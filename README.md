@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## MLN131 Quiz Room (Supabase Realtime)
 
-## Getting Started
+Project Next.js App Router cho quiz game + room multiplayer.
 
-First, run the development server:
+### 1) Cài dependency
+
+```bash
+npm install
+```
+
+### 2) Cấu hình môi trường
+
+Tạo file `.env.local` (không commit) và thêm:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
+
+- `NEXT_PUBLIC_*`: dùng cho client subscribe realtime.
+- `SUPABASE_SERVICE_ROLE_KEY`: khuyen nghi cho production.
+- Neu chua co service role key, server se tam fallback sang `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` de ban test nhanh.
+
+### 3) Tạo bảng Supabase cho room state
+
+Mở **Supabase SQL Editor**, chạy file `supabase/quiz_rooms.sql`.
+
+File này tạo:
+- Bảng `quiz_rooms` (`code`, `state`, `created_at`, `updated_at`)
+- Trigger tự cập nhật `updated_at`
+- Bật Realtime cho bảng `quiz_rooms`
+
+### 4) Chạy local
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mở `http://localhost:3000/room`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5) Luồng realtime đã tích hợp
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Server API đọc/ghi room state trực tiếp vào Supabase (`lib/server/room-store.ts`)
+- Client room subscribe `postgres_changes` để cập nhật gần realtime (`components/room/useRoomPoll.ts`)
+- Vẫn có polling 3s làm fallback khi mạng không ổn định

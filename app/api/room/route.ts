@@ -6,6 +6,6 @@ export async function POST(req: NextRequest) {
   const hostName = String(body.hostName ?? '').trim().slice(0, 20)
   if (!hostName) return NextResponse.json({ error: 'Cần nhập tên' }, { status: 400 })
 
-  const { room, playerId } = createRoom(hostName)
+  const { room, playerId } = await createRoom(hostName)
   return NextResponse.json({ code: room.code, playerId, hostName })
 }

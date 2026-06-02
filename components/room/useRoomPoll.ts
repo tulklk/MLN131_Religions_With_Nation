@@ -2,18 +2,22 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { RoomState, RoomSession } from '@/lib/room-types'
+import { supabaseClient } from '@/lib/supabase-client'
 
 export function useRoomPoll(code: string) {
   const [room, setRoom] = useState<RoomState | null>(null)
-  const [session, setSession] = useState<RoomSession | null>(null)
-  const [error, setError] = useState('')
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  useEffect(() => {
+  const [session] = useState<RoomSession | null>(() => {
+    if (typeof window === 'undefined') return null
     const raw = localStorage.getItem('roomSession')
-    if (!raw) { setError('Phiên không hợp lệ'); return }
-    try { setSession(JSON.parse(raw)) } catch { setError('Phiên không hợp lệ') }
-  }, [])
+    if (!raw) return null
+    try {
+      return JSON.parse(raw) as RoomSession
+    } catch {
+      return null
+    }
+  })
+  const [error, setError] = useState(() => (session ? '' : 'Phiên không hợp lệ'))
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const fetchRoom = useCallback(async (pid: string) => {
     try {
@@ -28,10 +32,41 @@ export function useRoomPoll(code: string) {
 
   useEffect(() => {
     if (!session) return
-    fetchRoom(session.playerId)
-    intervalRef.current = setInterval(() => fetchRoom(session.playerId), 1500)
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-  }, [session, fetchRoom])
+    const bootstrapTimer = setTimeout(() => {
+      void fetchRoom(session.playerId)
+    }, 0)
+    intervalRef.current = setInterval(() => fetchRoom(session.playerId), 3000)
+
+    const channel = supabaseClient
+      ?.channel(`quiz-room-${code}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'quiz_rooms',
+          filter: `code=eq.${code.toUpperCase()}`,
+        },
+        () => fetchRoom(session.playerId),
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'quiz_rooms',
+          filter: `code=eq.${code.toUpperCase()}`,
+        },
+        () => fetchRoom(session.playerId),
+      )
+
+    channel?.subscribe()
+    return () => {
+      clearTimeout(bootstrapTimer)
+      if (intervalRef.current) clearInterval(intervalRef.current)
+      if (channel && supabaseClient) supabaseClient.removeChannel(channel)
+    }
+  }, [session, fetchRoom, code])
 
   return { room, session, error, refetch: () => session && fetchRoom(session.playerId) }
 }

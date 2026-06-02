@@ -11,7 +11,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ cod
     return NextResponse.json({ error: 'Thiếu dữ liệu' }, { status: 400 })
   }
 
-  const result = submitAnswer(code, playerId, answerIndex, powerUpUsed as PowerUpType | null)
+  const result = await submitAnswer(code, playerId, answerIndex, powerUpUsed as PowerUpType | null)
   if (!result.success) return NextResponse.json({ error: result.error }, { status: 400 })
   return NextResponse.json({ ok: true, answer: result.room?.currentAnswers[playerId] })
 }
