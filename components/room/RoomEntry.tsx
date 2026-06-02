@@ -15,33 +15,71 @@ export default function RoomEntry() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  async function parseJsonResponse(res: Response): Promise<{ error?: string; [key: string]: unknown }> {
+    try {
+      return await res.json()
+    } catch {
+      return { error: 'Phản hồi server không hợp lệ' }
+    }
+  }
+
   async function handleCreate() {
     if (!name.trim()) { setError('Nhập tên của bạn'); return }
-    setLoading(true); setError('')
-    const res = await fetch('/api/room', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ hostName: name.trim() }),
-    })
-    const data = await res.json()
-    if (!res.ok) { setError(data.error); setLoading(false); return }
-    localStorage.setItem('roomSession', JSON.stringify({ code: data.code, playerId: data.playerId, isHost: true, name: data.hostName }))
-    router.push(`/room/${data.code}/host`)
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/room', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hostName: name.trim() }),
+      })
+      const data = await parseJsonResponse(res)
+      if (!res.ok) {
+        setError(String(data.error ?? 'Không tạo được phòng'))
+        return
+      }
+      localStorage.setItem('roomSession', JSON.stringify({
+        code: data.code,
+        playerId: data.playerId,
+        isHost: true,
+        name: data.hostName,
+      }))
+      router.push(`/room/${data.code}/host`)
+    } catch {
+      setError('Mất kết nối server. Kiểm tra mạng hoặc cấu hình Supabase trên Vercel.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleJoin() {
     if (!name.trim()) { setError('Nhập tên của bạn'); return }
     if (!code.trim()) { setError('Nhập mã phòng'); return }
-    setLoading(true); setError('')
-    const res = await fetch(`/api/room/${code.toUpperCase()}/join`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name.trim() }),
-    })
-    const data = await res.json()
-    if (!res.ok) { setError(data.error); setLoading(false); return }
-    localStorage.setItem('roomSession', JSON.stringify({ code: data.code, playerId: data.playerId, isHost: false, name: data.name }))
-    router.push(`/room/${data.code}`)
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch(`/api/room/${code.toUpperCase()}/join`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim() }),
+      })
+      const data = await parseJsonResponse(res)
+      if (!res.ok) {
+        setError(String(data.error ?? 'Không vào được phòng'))
+        return
+      }
+      localStorage.setItem('roomSession', JSON.stringify({
+        code: data.code,
+        playerId: data.playerId,
+        isHost: false,
+        name: data.name,
+      }))
+      router.push(`/room/${data.code}`)
+    } catch {
+      setError('Mất kết nối server. Thử lại sau.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

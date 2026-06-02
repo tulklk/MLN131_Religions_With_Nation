@@ -23,5 +23,17 @@ execute function public.set_quiz_rooms_updated_at();
 
 alter table public.quiz_rooms replica identity full;
 
-alter publication supabase_realtime add table public.quiz_rooms;
+-- Bat Realtime (an toan neu da bat truoc do)
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'quiz_rooms'
+  ) then
+    alter publication supabase_realtime add table public.quiz_rooms;
+  end if;
+end $$;
+
+-- Cho phep API ghi bang publishable/anon key (neu khong dung service_role)
+alter table public.quiz_rooms disable row level security;
 
