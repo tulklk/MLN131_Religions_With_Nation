@@ -380,6 +380,19 @@ a{color:inherit;text-decoration:none}
 .img-duo figcaption{padding:0.5rem 0.75rem;font-family:'Lora',serif;font-size:0.72rem;color:var(--muted);background:rgba(13,13,13,0.92);line-height:1.45;border-top:1px solid var(--gold-bdr)}
 @media(max-width:700px){.img-duo{grid-template-columns:1fr}}
 
+/* ── CITATION STYLES ── */
+.cite{display:inline;font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;color:var(--gold);vertical-align:super;line-height:0;cursor:help;position:relative;padding:0 0.1rem;border-bottom:1px dotted rgba(201,168,76,0.5)}
+.cite::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(26,18,9,0.97);border:1px solid rgba(201,168,76,0.3);color:var(--parchment);font-family:'Lora',serif;font-size:0.72rem;font-weight:400;font-style:normal;line-height:1.55;padding:0.5rem 0.75rem;border-radius:6px;width:260px;white-space:normal;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.6)}
+.cite:hover::after{opacity:1}
+.source-bar{margin-top:2rem;padding:0.65rem 1rem;background:rgba(201,168,76,0.04);border-top:1px solid rgba(201,168,76,0.15);border-bottom:1px solid rgba(201,168,76,0.15);display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.75rem}
+.source-bar-label{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.7;flex-shrink:0}
+.source-bar-text{font-family:'Lora',serif;font-size:0.75rem;color:var(--muted);line-height:1.5}
+.source-bar-sep{color:rgba(201,168,76,0.3);font-size:0.8rem}
+.ref-numbered{list-style:none;counter-reset:ref-counter;margin:0}
+.ref-numbered li{counter-increment:ref-counter;display:flex;gap:0.75rem;margin-bottom:0.65rem;font-size:0.85rem;color:var(--muted);line-height:1.7}
+.ref-numbered li::before{content:counter(ref-counter)".";font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);flex-shrink:0;min-width:1.2rem}
+.ref-section-title{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(201,168,76,0.2);display:block}
+
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s var(--ease),transform 0.65s var(--ease)}
 .reveal.visible{opacity:1;transform:none}
@@ -510,24 +523,24 @@ a{color:inherit;text-decoration:none}
   <h2 class="s-title">Quan điểm Mác-Lênin về Tôn giáo</h2>
   <hr class="s-divider"/>
 
-  <p style="font-size:.9rem;color:var(--muted);margin-bottom:1.75rem;max-width:680px">Theo quan điểm Mác-Lênin, tôn giáo là một hình thái ý thức xã hội, phản ánh một cách hoang đường, hư ảo hiện thực khách quan vào đầu óc con người. Tôn giáo là sản phẩm của lịch sử xã hội, không phải hiện tượng siêu nhiên.</p>
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:1.75rem;max-width:680px">Theo quan điểm Mác-Lênin, tôn giáo là một hình thái ý thức xã hội, phản ánh hư ảo hiện thực khách quan vào đầu óc con người. Tôn giáo là sản phẩm của lịch sử xã hội, không phải hiện tượng siêu nhiên. Trong thời kỳ quá độ lên CNXH, tôn giáo còn tồn tại lâu dài và cần được tôn trọng, quản lý đúng đắn.</p>
 
   <!-- 3 khái niệm -->
   <div class="grid-3 reveal">
     <div class="card">
       <span class="card-icon">&#9654;</span>
       <h3 class="card-title">Tôn giáo</h3>
-      <p class="card-body">Hình thái ý thức xã hội phản ánh hiện thực khách quan theo cách hư ảo, thần thánh hóa. Là sản phẩm của lịch sử, xuất hiện khi xã hội còn ở trình độ thấp.</p>
+      <p class="card-body">Hình thái ý thức xã hội, phản ánh hư ảo hiện thực khách quan, có giáo lý, tổ chức chặt chẽ và tín đồ. Là sản phẩm của lịch sử xã hội, xuất hiện khi con người chưa giải thích được tự nhiên và xã hội.</p>
     </div>
     <div class="card rv1 reveal">
       <span class="card-icon">&#9632;</span>
       <h3 class="card-title">Tín ngưỡng</h3>
-      <p class="card-body">Nhu cầu tinh thần chính đáng của con người — niềm tin vào điều thiêng liêng, hướng thiện. Khác tôn giáo ở chỗ không có hệ thống giáo lý, tổ chức chặt chẽ.</p>
+      <p class="card-body">Niềm tin vào thần thánh, lực lượng siêu nhiên, không cần tổ chức chặt chẽ. Ví dụ: thờ cúng tổ tiên, thờ Mẫu, thờ Thành Hoàng — bắt nguồn từ phong tục, truyền thống dân tộc.</p>
     </div>
     <div class="card rv2 reveal">
       <span class="card-icon">&#9888;</span>
       <h3 class="card-title">Mê tín dị đoan</h3>
-      <p class="card-body">Tin tưởng mù quáng, lệch lạc vào những điều hư ảo gây hại cho sức khỏe, kinh tế, đạo đức xã hội. Cần phân biệt rõ với tín ngưỡng chính đáng.</p>
+      <p class="card-body">Tin tưởng mù quáng, không có cơ sở khoa học, gây hại cho cá nhân và xã hội: xem bói, cúng tà, tin vào ma thuật, lừa đảo dưới danh nghĩa tâm linh.</p>
     </div>
   </div>
 
@@ -542,25 +555,25 @@ a{color:inherit;text-decoration:none}
   <div class="grid-3 reveal">
     <div class="card">
       <span class="card-icon">&#127758;</span>
-      <h3 class="card-title">Nguồn gốc Xã hội</h3>
-      <p class="card-body">Sự bất lực và sợ hãi của con người trước tự nhiên và các lực lượng xã hội xa lạ, áp bức trong xã hội có giai cấp.</p>
+      <h3 class="card-title">Nguồn gốc Tự nhiên &amp; KT-XH</h3>
+      <p class="card-body">Con người bất lực trước thiên nhiên (lũ lụt, hạn hán, dịch bệnh) và áp bức bóc lột trong xã hội có giai cấp đã tạo ra tôn giáo như nơi nương tựa tinh thần.</p>
     </div>
     <div class="card rv1 reveal">
       <span class="card-icon">&#129504;</span>
       <h3 class="card-title">Nguồn gốc Nhận thức</h3>
-      <p class="card-body">Sự tuyệt đối hóa, thần thánh hóa một mặt nào đó của nhận thức khi giới hạn nhận thức chưa vượt qua được thực tại.</p>
+      <p class="card-body">Giới hạn hiểu biết của con người khiến nhiều hiện tượng tự nhiên và xã hội bị huyền bí hóa, thần thánh hóa. Khi khoa học chưa giải thích được, con người tìm đến tôn giáo.</p>
     </div>
     <div class="card rv2 reveal">
       <span class="card-icon">&#128149;</span>
       <h3 class="card-title">Nguồn gốc Tâm lý</h3>
-      <p class="card-body">Nhu cầu cầu an, sợ hãi trước cái chết, đau khổ và bế tắc khiến con người tìm đến tôn giáo như nơi nương tựa tinh thần.</p>
+      <p class="card-body">Sợ hãi, lo âu, cần được an ủi; tình cảm biết ơn, kính trọng tổ tiên và các lực lượng tự nhiên đã nuôi dưỡng nhu cầu tín ngưỡng tôn giáo trong con người.</p>
     </div>
   </div>
 
   <!-- Marx quote -->
   <div class="quote-block reveal" style="margin-top:2.25rem">
-    <p class="quote-text">"Tôn giáo là thuốc phiện của nhân dân" — không phải theo nghĩa tiêu cực, mà là tôn giáo có tác dụng giảm đau tinh thần trong hoàn cảnh khó khăn, nhưng không giải quyết được nguyên nhân gốc rễ của đau khổ xã hội.</p>
-    <p class="quote-author">— Karl Marx &middot; <em>Góp phần phê phán triết học pháp quyền của Hegel</em></p>
+    <p class="quote-text">"Tôn giáo là thuốc phiện của nhân dân"<span class="cite" data-tip="C. Mác, Góp phần phê phán triết học pháp quyền của Hegel (1844) — chỉ ra chức năng xã hội, không phủ nhận tôn giáo"></span> — không phải theo nghĩa tiêu cực, mà là tôn giáo có tác dụng giảm đau tinh thần trong hoàn cảnh khó khăn, nhưng không giải quyết được nguyên nhân gốc rễ của đau khổ xã hội.</p>
+    <p class="quote-author">— C. Mác &middot; <em>Góp phần phê phán triết học pháp quyền của Hegel</em> (chỉ ra chức năng xã hội của tôn giáo trong bối cảnh lịch sử, không phủ nhận tôn giáo)</p>
   </div>
 
   <!-- 3 Tính chất -->
@@ -569,17 +582,17 @@ a{color:inherit;text-decoration:none}
     <div class="card">
       <span class="card-icon">&#128202;</span>
       <h3 class="card-title">Tính quần chúng</h3>
-      <p class="card-body">~85% dân số thế giới có tín ngưỡng tôn giáo. Tôn giáo đáp ứng nhu cầu tinh thần chính đáng của quần chúng, không thể xóa bỏ bằng mệnh lệnh hành chính.</p>
+      <p class="card-body">Gần 3/4 dân số thế giới có tín ngưỡng, tôn giáo. Tôn giáo đáp ứng nhu cầu tinh thần chính đáng của quần chúng nhân dân, không thể xóa bỏ bằng mệnh lệnh hành chính.</p>
     </div>
     <div class="card rv1 reveal">
       <span class="card-icon">&#9876;</span>
       <h3 class="card-title">Tính chính trị</h3>
-      <p class="card-body">Trong xã hội có giai cấp, tôn giáo luôn mang màu sắc chính trị. Giai cấp thống trị có thể lợi dụng tôn giáo để củng cố quyền lực.</p>
+      <p class="card-body">Trong xã hội có giai cấp, tôn giáo bị lợi dụng phục vụ lợi ích giai cấp thống trị; đồng thời quần chúng bị áp bức cũng dùng ngôn ngữ tôn giáo để phản kháng.</p>
     </div>
     <div class="card rv2 reveal">
       <span class="card-icon">&#9878;</span>
-      <h3 class="card-title">Tính đạo đức</h3>
-      <p class="card-body">Mọi tôn giáo đều có hệ thống giá trị đạo đức: yêu thương, công bằng, trung thực, vị tha... Cần kế thừa có chọn lọc trong xây dựng đạo đức XHCN.</p>
+      <h3 class="card-title">Tính lịch sử</h3>
+      <p class="card-body">Tôn giáo xuất hiện, tồn tại và biến đổi gắn liền với từng giai đoạn lịch sử. Khi điều kiện kinh tế-xã hội thay đổi, hình thức và nội dung tôn giáo cũng biến đổi theo.</p>
     </div>
   </div>
 
@@ -594,6 +607,14 @@ a{color:inherit;text-decoration:none}
       <figcaption>Nhà thờ Đức Bà Sài Gòn — Tôn giáo hiện diện trong đời sống xã hội như một "hình thái ý thức xã hội" theo phân tích của Mác</figcaption>
     </figure>
   </div>
+
+  <!-- Source bar Phần I -->
+  <div class="source-bar">
+    <span class="source-bar-label">Nguồn</span>
+    <span class="source-bar-text">Giáo trình CNXHKH – Bộ GD&amp;ĐT, 2021, Chương 6, tr.213–218</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">C. Mác. <em>Góp phần phê phán triết học pháp quyền của Hegel</em>, 1844</span>
+  </div>
 </div>
 </section>
 
@@ -606,28 +627,28 @@ a{color:inherit;text-decoration:none}
 
   <div class="v-timeline">
     <div class="v-item reveal">
-      <h3 class="v-item-title">Tín ngưỡng là nhu cầu tinh thần lâu dài</h3>
-      <p class="v-item-body">Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng dân tộc. Nhà nước tôn trọng và tạo điều kiện để đồng bào các tôn giáo thực hành tín ngưỡng lành mạnh.</p>
+      <h3 class="v-item-title">Tín ngưỡng là nhu cầu tinh thần lâu dài<span class="cite" data-tip="Văn kiện ĐH XIV Tập 2, tr.33: Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng với dân tộc"></span></h3>
+      <p class="v-item-body">Tín ngưỡng, tôn giáo là nhu cầu tinh thần lâu dài của nhân dân, đang và sẽ tồn tại cùng dân tộc trong suốt thời kỳ quá độ lên CNXH. Không trấn áp nhu cầu tín ngưỡng chính đáng.</p>
     </div>
     <div class="v-item rv1 reveal">
-      <h3 class="v-item-title">Hiến pháp 2013 — Điều 24: Quyền tự do tín ngưỡng</h3>
-      <p class="v-item-body">Mọi người có quyền tự do tín ngưỡng, tôn giáo, theo hoặc không theo một tôn giáo nào. Các tôn giáo bình đẳng trước pháp luật. Không ai được xâm phạm tự do tín ngưỡng hoặc lợi dụng tín ngưỡng để vi phạm pháp luật.</p>
+      <h3 class="v-item-title">Tự do tín ngưỡng — Các tôn giáo bình đẳng</h3>
+      <p class="v-item-body">Thực hiện nhất quán quyền tự do tín ngưỡng, tôn giáo (Hiến pháp 2013 Điều 24). Các tôn giáo bình đẳng trước pháp luật; không phân biệt đối xử trên cơ sở tín ngưỡng, tôn giáo.</p>
     </div>
     <div class="v-item rv2 reveal">
-      <h3 class="v-item-title">Đoàn kết đồng bào tôn giáo</h3>
-      <p class="v-item-body">Tăng cường đoàn kết đồng bào theo các tôn giáo khác nhau, giữa đồng bào theo tôn giáo và không theo tôn giáo. Phát huy những giá trị văn hóa, đạo đức tốt đẹp của tôn giáo.</p>
+      <h3 class="v-item-title">Đoàn kết đồng bào tôn giáo trong khối đại đoàn kết dân tộc</h3>
+      <p class="v-item-body">Đồng bào có tín ngưỡng và không có tín ngưỡng đều là bộ phận không thể tách rời của khối đại đoàn kết toàn dân tộc; cùng xây dựng và bảo vệ Tổ quốc Việt Nam.</p>
     </div>
     <div class="v-item reveal">
-      <h3 class="v-item-title">Phát huy giá trị văn hóa, đạo đức tôn giáo</h3>
-      <p class="v-item-body">Động viên chức sắc, tín đồ các tôn giáo sống "tốt đời, đẹp đạo", đóng góp tích cực cho công cuộc xây dựng và bảo vệ Tổ quốc.</p>
+      <h3 class="v-item-title">Phát huy giá trị văn hóa, đạo đức và nguồn lực tôn giáo<span class="cite" data-tip="Văn kiện ĐH XIV Tập 2, tr.65–66: Phát huy giá trị văn hóa, đạo đức tốt đẹp và nguồn lực của các tôn giáo cho sự nghiệp xây dựng đất nước"></span></h3>
+      <p class="v-item-body">Phát huy giá trị văn hóa, đạo đức tốt đẹp và nguồn lực vật chất, nhân lực của các tôn giáo đóng góp cho công cuộc xây dựng đất nước. Động viên chức sắc, tín đồ sống "tốt đời, đẹp đạo".</p>
     </div>
     <div class="v-item rv1 reveal">
-      <h3 class="v-item-title">Luật Tín ngưỡng, Tôn giáo 2016</h3>
-      <p class="v-item-body">Thông qua ngày 18/11/2016 (hiệu lực 01/01/2018) — khung pháp lý toàn diện đầu tiên về tín ngưỡng, tôn giáo. Bảo đảm quyền tự do tín ngưỡng; các tôn giáo bình đẳng trước pháp luật; phân biệt nhu cầu tín ngưỡng chính đáng với lợi dụng tôn giáo.</p>
+      <h3 class="v-item-title">Tăng cường quản lý nhà nước về tôn giáo</h3>
+      <p class="v-item-body">Kiên quyết chống lợi dụng tôn giáo để chống phá Đảng, Nhà nước, chia rẽ khối đoàn kết dân tộc, gây hại đến an ninh quốc gia. Luật Tín ngưỡng, Tôn giáo 2016 là khung pháp lý toàn diện điều chỉnh hoạt động tôn giáo.</p>
     </div>
     <div class="v-item rv2 reveal">
-      <h3 class="v-item-title">Vấn đề theo đạo và truyền đạo</h3>
-      <p class="v-item-body">Đấu tranh chống mê tín dị đoan, chống lợi dụng tôn giáo để vi phạm pháp luật hoặc can thiệp vào công việc nội bộ của Nhà nước. Nghiêm cấm việc ép buộc người dân theo đạo.</p>
+      <h3 class="v-item-title">Tự do hành đạo — Nghiêm cấm truyền đạo trái pháp luật</h3>
+      <p class="v-item-body">Mọi người được tự do hành đạo hợp pháp tại gia đình và cơ sở thờ tự. Nghiêm cấm truyền đạo trái pháp luật, ép buộc người theo đạo, lợi dụng tôn giáo can thiệp công việc nội bộ Nhà nước.</p>
     </div>
   </div>
 
@@ -635,6 +656,16 @@ a{color:inherit;text-decoration:none}
     <span class="pill">Hiến pháp 2013 Điều 24</span>
     <span class="pill">Luật Tín ngưỡng, Tôn giáo 2016</span>
     <span class="pill">Văn kiện ĐH XIV Tập 2, tr.33, 65–66</span>
+  </div>
+
+  <!-- Source bar Phần II -->
+  <div class="source-bar" style="margin-top:1rem">
+    <span class="source-bar-label">Nguồn</span>
+    <span class="source-bar-text">Giáo trình CNXHKH – Bộ GD&amp;ĐT, 2021, tr.222–228</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Văn kiện ĐH XIV Tập 2, tr.33, 62, 65–66</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Hiến pháp 2013 Điều 24; Luật TN-TG 2016</span>
   </div>
 
   <!-- Ảnh minh họa: Di sản tôn giáo được pháp luật bảo vệ và phát huy -->
@@ -687,23 +718,23 @@ a{color:inherit;text-decoration:none}
       <div class="h-timeline">
         <div class="h-item">
           <span class="h-year">TK I–II SCN</span>
-          <p class="h-text">Phật giáo xuất hiện tại Giao Chỉ. Luy Lâu là trung tâm lớn nhất</p>
+          <p class="h-text">Du nhập từ Ấn Độ (đường biển) và Trung Quốc (đường bộ); trung tâm Luy Lâu lớn hơn cả Lạc Dương và Bành Thành</p>
         </div>
         <div class="h-item">
-          <span class="h-year">TK III–V SCN</span>
-          <p class="h-text">Lan rộng toàn miền Bắc, gắn với tinh thần chống Bắc thuộc</p>
+          <span class="h-year">TK III–IX (Bắc thuộc)</span>
+          <p class="h-text">Chỗ dựa tinh thần; thiền sư Mâu Tử, Khương Tăng Hội củng cố văn hóa dân tộc thời Bắc thuộc</p>
         </div>
         <div class="h-item">
           <span class="h-year">TK X–XIV (Lý–Trần)</span>
-          <p class="h-text">Hoàng kim — Quốc giáo, thiền phái Trúc Lâm Yên Tử ra đời</p>
+          <p class="h-text">Quốc giáo; Thiền phái Trúc Lâm Yên Tử (vua Trần Nhân Tông); "Phật pháp bất ly thế gian giác"<span class="cite" data-tip="Thiền ngữ Trúc Lâm Yên Tử (TK XIII): Đạo Phật không tách rời cuộc đời thực tế — nền tảng tư tưởng Phật giáo nhập thế của Việt Nam"></span></p>
         </div>
         <div class="h-item">
-          <span class="h-year">TK XIX–XX</span>
-          <p class="h-text">Phật giáo đồng hành kháng chiến chống Pháp, chống Mỹ</p>
+          <span class="h-year">TK XIX–XX (Kháng chiến)</span>
+          <p class="h-text">Tăng ni phật tử tham gia kháng chiến; HT. Thích Quảng Đức tự thiêu vì đạo pháp (1963)</p>
         </div>
         <div class="h-item">
           <span class="h-year">1981 – nay</span>
-          <p class="h-text">GHPGVN thành lập, thống nhất các hệ phái trong cả nước</p>
+          <p class="h-text">GHPGVN thành lập; phương châm "Đạo pháp – Dân tộc – Chủ nghĩa xã hội"<span class="cite" data-tip="Hiến chương GHPGVN, 1981: Phương châm hành đạo của Giáo hội Phật giáo Việt Nam thống nhất"></span></p>
         </div>
       </div>
 
@@ -712,27 +743,27 @@ a{color:inherit;text-decoration:none}
       <div style="display:flex;flex-direction:column;gap:0.65rem">
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
-          <div><p class="impact-title">Văn hóa &amp; Nghệ thuật</p><p class="impact-body">Kiến trúc chùa tháp (Chùa Một Cột, Tháp Báo Thiên, Chùa Hương, Yên Tử), điêu khắc tượng Phật, âm nhạc kệ kinh — di sản văn hóa vô giá.</p></div>
+          <div><p class="impact-title">Cố kết tinh thần dân tộc</p><p class="impact-body">Phật giáo là sợi dây liên kết tinh thần bền vững qua hàng nghìn năm lịch sử, góp phần hình thành bản sắc văn hóa và ý thức dân tộc Việt Nam độc đáo.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
-          <div><p class="impact-title">Đạo đức &amp; Nhân sinh quan</p><p class="impact-body">Tư tưởng từ bi, hỷ xả, vô ngã, nhân quả thấm sâu vào đạo đức người Việt. "Lá lành đùm lá rách", "thương người như thể thương thân" có gốc rễ từ đạo lý từ bi.</p></div>
+          <div><p class="impact-title">Văn học, kiến trúc, điêu khắc</p><p class="impact-body">Chùa Một Cột, chùa Thiên Mụ, tháp Báo Nghiêm; thơ thiền thời Lý–Trần (Trần Nhân Tông, Tuệ Trung); điêu khắc tượng Phật đặc sắc — di sản văn hóa vô giá.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
-          <div><p class="impact-title">Chính trị &amp; Đoàn kết dân tộc</p><p class="impact-body">Phật giáo là cầu nối các giai tầng xã hội. Thiền sư từng là cố vấn vua chúa, trung gian hòa giải và tiếng nói bảo vệ tầng lớp dân nghèo.</p></div>
+          <div><p class="impact-title">Triết lý nhân văn</p><p class="impact-body">Từ bi, hỷ xả, trí tuệ, vô ngã — tư tưởng nhân văn sâu sắc, định hướng lối sống thiện lành, tương thân tương ái, thấm sâu vào đạo đức người Việt.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
-          <div><p class="impact-title">Giáo dục &amp; Truyền bá tri thức</p><p class="impact-body">Hệ thống chùa chiền là trung tâm giáo dục sớm nhất. Nhà sư là thầy dạy chữ, dạy đạo lý suốt hàng nghìn năm.</p></div>
+          <div><p class="impact-title">Từ thiện xã hội</p><p class="impact-body">Khám chữa bệnh miễn phí, nuôi trẻ mồ côi, cứu trợ thiên tai, hỗ trợ đồng bào nghèo — mạng lưới từ thiện Phật giáo rộng khắp cả nước.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
-          <div><p class="impact-title">Hoạt động từ thiện &amp; An sinh xã hội</p><p class="impact-body">Cứu trợ thiên tai, bếp ăn từ thiện, chăm sóc người nghèo, người yếu thế. GHPGVN triển khai nhiều chương trình xã hội thiết thực.</p></div>
+          <div><p class="impact-title">Giáo dục đạo đức, nhân cách</p><p class="impact-body">Chùa chiền là trung tâm giáo dục đầu tiên; góp phần xây dựng nhân cách, đạo đức, trách nhiệm cộng đồng cho người dân, đặc biệt thế hệ trẻ.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
-          <div><p class="impact-title">Bảo tồn văn hóa &amp; Du lịch tâm linh</p><p class="impact-body">Lễ hội truyền thống, di sản Phật giáo được bảo tồn. Các điểm tâm linh (Yên Tử, Chùa Hương, Bái Đính) thu hút hàng triệu lượt khách mỗi năm.</p></div>
+          <div><p class="impact-title">Du lịch tâm linh</p><p class="impact-body">Yên Tử, Chùa Hương, Bái Đính, Tam Chúc thu hút hàng triệu lượt khách mỗi năm, đóng góp đáng kể cho kinh tế địa phương và phát triển du lịch quốc gia.</p></div>
         </div>
       </div>
 
@@ -768,29 +799,40 @@ a{color:inherit;text-decoration:none}
       <h3 class="subsection-title" style="color:#e09090">Thách thức &amp; Hạn chế</h3>
       <div>
         <div class="coll-wrap">
-          <button class="coll-btn" aria-expanded="false">Mê tín dị đoan lẫn vào tín ngưỡng <span class="coll-chevron">&#9660;</span></button>
-          <div class="coll-body">Một bộ phận người dân lợi dụng không gian tôn giáo để truyền bá mê tín, cúng bái tốn kém, gây hệ lụy về kinh tế và tinh thần cho gia đình.</div>
+          <button class="coll-btn" aria-expanded="false">Mê tín dị đoan: cúng bái trục lợi, đốt vàng mã <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Một bộ phận lợi dụng không gian tôn giáo để xem bói, cầu cơ, cúng bái tốn kém, đốt vàng mã tràn lan — gây hệ lụy kinh tế và tinh thần, ô nhiễm môi trường.</div>
         </div>
         <div class="coll-wrap">
-          <button class="coll-btn" aria-expanded="false">Thương mại hóa hoạt động tôn giáo <span class="coll-chevron">&#9660;</span></button>
-          <div class="coll-body">Xu hướng thương mại hóa lễ hội, dịch vụ tâm linh tại một số cơ sở Phật giáo làm giảm tính trang nghiêm và bản sắc truyền thống.</div>
+          <button class="coll-btn" aria-expanded="false">Thương mại hóa không gian tâm linh <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Thu phí quá cao tại lễ hội, khai thác thiếu văn hóa, xây dựng ồ ạt thiếu quy hoạch khiến không gian thiêng liêng bị thế tục hóa và mất đi giá trị tâm linh.</div>
         </div>
         <div class="coll-wrap">
-          <button class="coll-btn" aria-expanded="false">Vấn đề đất đai và cơ sở vật chất <span class="coll-chevron">&#9660;</span></button>
-          <div class="coll-body">Một số tranh chấp đất đai liên quan đến cơ sở Phật giáo, đặt ra yêu cầu hoàn thiện khung pháp lý và minh bạch trong quản lý tài sản tôn giáo.</div>
+          <button class="coll-btn" aria-expanded="false">Lợi dụng danh nghĩa Phật giáo để trục lợi <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Một số cá nhân trục lợi, phát tán thông tin sai lệch, thu tiền "công đức" bất hợp pháp dưới danh nghĩa tôn giáo — làm tổn hại uy tín Giáo hội Phật giáo.</div>
         </div>
         <div class="coll-wrap">
-          <button class="coll-btn" aria-expanded="false">Thiếu nhân sự trẻ kế thừa <span class="coll-chevron">&#9660;</span></button>
-          <div class="coll-body">Sự suy giảm số lượng tăng ni trẻ tài năng và sự chú ý của giới trẻ với các ứng dụng mạng xã hội đặt ra thách thức trong việc truyền thừa giáo pháp.</div>
+          <button class="coll-btn" aria-expanded="false">Tôn giáo mới biến tướng <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Các tổ chức như Long Hoa Di Lặc, Thanh Hải vô thượng sư lợi dụng màu sắc Phật giáo để lôi kéo, lừa đảo, phá hoại đoàn kết dân tộc và an ninh trật tự xã hội.</div>
         </div>
       </div>
 
       <div class="stat-bar" style="margin-top:1.75rem">
-        <strong>GHPGVN thành lập:</strong> <span>7/11/1981</span>
-        <strong>Phương châm:</strong> <span>Đạo pháp – Dân tộc – CNXH</span>
-        <strong>Tín đồ:</strong> <span>14–15 triệu người</span>
+        <strong>Tín đồ:</strong> <span>~14–15 triệu người</span>
+        <strong>Tăng ni:</strong> <span>Hàng chục nghìn</span>
+        <strong>Cơ sở thờ tự:</strong> <span>Hàng vạn trên cả nước</span>
+        <strong>GHPGVN:</strong> <span>Thành lập 7/11/1981 — "Đạo pháp – Dân tộc – CNXH"</span>
       </div>
     </div>
+  </div>
+
+  <!-- Source bar Phần III -->
+  <div class="source-bar">
+    <span class="source-bar-label">Nguồn</span>
+    <span class="source-bar-text">Giáo trình CNXHKH – Bộ GD&amp;ĐT, 2021, tr.229–232</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Văn kiện ĐH XIV Tập 2, tr.62, 65</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Hiến chương GHPGVN, 1981</span>
   </div>
 </div>
 </section>
@@ -829,24 +871,24 @@ a{color:inherit;text-decoration:none}
       <h3 class="subsection-title" style="margin-top:0">Các mốc lịch sử quan trọng</h3>
       <div class="h-timeline">
         <div class="h-item">
-          <span class="h-year">1533</span>
-          <p class="h-text">Giáo sĩ I-nê-khu bí mật vào Ninh Cường, Nam Định truyền đạo</p>
+          <span class="h-year">TK XVI–XVII</span>
+          <p class="h-text">~1533: Giáo sĩ I-nê-khu vào Ninh Cường; Francisco de Pina, Alexandre de Rhodes truyền đạo và học tiếng Việt</p>
         </div>
         <div class="h-item">
-          <span class="h-year">1615</span>
-          <p class="h-text">Dòng Tên thiết lập cơ sở truyền giáo tại Hội An — Đàng Trong</p>
+          <span class="h-year">TK XVIII–XIX</span>
+          <p class="h-text">Bách đạo khốc liệt; 117 vị tử đạo được phong Hiển thánh năm 1988 bởi Đức Giáo hoàng Gioan Phaolô II</p>
         </div>
         <div class="h-item">
-          <span class="h-year">1627</span>
-          <p class="h-text">Alexandre de Rhodes (Đắc Lộ) đến Đàng Ngoài, học tiếng Việt</p>
-        </div>
-        <div class="h-item">
-          <span class="h-year">1651</span>
-          <p class="h-text">Từ điển Việt-Bồ-La xuất bản tại Rome — nền móng chữ Quốc ngữ</p>
+          <span class="h-year">TK XX</span>
+          <p class="h-text">Phong trào "Công giáo kháng chiến"; Ủy ban Liên lạc người CG Yêu nước thành lập 1955</p>
         </div>
         <div class="h-item">
           <span class="h-year">1980</span>
-          <p class="h-text">Thư chung HĐGM VN: "Sống Phúc Âm giữa lòng Dân tộc"</p>
+          <p class="h-text">Thư chung HĐGM VN: "Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào"</p>
+        </div>
+        <div class="h-item">
+          <span class="h-year">Hiện nay</span>
+          <p class="h-text">VN–Vatican: Đại diện Thường trú từ 2023; phương châm "Tốt đời, đẹp đạo"</p>
         </div>
       </div>
 
@@ -855,27 +897,27 @@ a{color:inherit;text-decoration:none}
       <div style="display:flex;flex-direction:column;gap:0.65rem">
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
-          <div><p class="impact-title">Chữ Quốc ngữ — Di sản vô giá</p><p class="impact-body">Hệ thống ký âm tiếng Việt bằng chữ cái La-tinh do các giáo sĩ Dòng Tên sáng tạo, Alexandre de Rhodes hệ thống hóa (1651) — nền tảng của chữ viết Việt Nam ngày nay, giúp xóa mù chữ và phổ cập giáo dục.</p></div>
+          <div><p class="impact-title">Chữ Quốc ngữ — Di sản vô giá</p><p class="impact-body">Francisco de Pina đặt nền móng, Alexandre de Rhodes hệ thống hóa (1651) — chữ cái La-tinh ký âm tiếng Việt, nền tảng ngôn ngữ dân tộc hiện đại, giúp xóa mù chữ và phổ cập giáo dục toàn quốc.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
-          <div><p class="impact-title">Giáo dục</p><p class="impact-body">Các trường học Công giáo từ tiểu học đến đại học đào tạo nhiều thế hệ trí thức Việt Nam. Đại học Đà Lạt (1957) từng là cơ sở giáo dục uy tín hàng đầu.</p></div>
+          <div><p class="impact-title">Giáo dục</p><p class="impact-body">Mạng lưới trường từ tiểu học đến đại học, đặc biệt vùng nông thôn và dân tộc thiểu số; Đại học Đà Lạt (1957) — đào tạo nhiều thế hệ trí thức Việt Nam.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
-          <div><p class="impact-title">Y tế &amp; Từ thiện</p><p class="impact-body">Hệ thống bệnh viện, cô nhi viện, nhà dưỡng lão do Công giáo lập nên — những cơ sở từ thiện tiên phong phục vụ mọi tầng lớp nhân dân không phân biệt tôn giáo.</p></div>
+          <div><p class="impact-title">Y tế &amp; Từ thiện</p><p class="impact-body">Hệ thống bệnh viện, phòng khám, cô nhi viện, nhà dưỡng lão; Dòng Nữ Tử Bác Ái, Dòng Mến Thánh Giá phục vụ cộng đồng không phân biệt tôn giáo, đặc biệt người nghèo.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
-          <div><p class="impact-title">Yêu nước &amp; Kháng chiến</p><p class="impact-body">Nhiều linh mục, giáo dân tham gia kháng chiến chống Pháp, chống Mỹ. Tinh thần "Tốt đời, đẹp đạo" — người Công giáo tốt cũng là công dân tốt.</p></div>
+          <div><p class="impact-title">Yêu nước &amp; Kháng chiến</p><p class="impact-body">Linh mục, tu sĩ, giáo dân tham gia kháng chiến chống Pháp và chống Mỹ. "Người Công giáo tốt cũng là người công dân tốt" — phương châm xuyên suốt lịch sử Công giáo Việt Nam.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
-          <div><p class="impact-title">Kiến trúc &amp; Nghệ thuật</p><p class="impact-body">Kiến trúc nhà thờ Gothic-Việt kết hợp phong cách phương Tây và yếu tố bản địa độc đáo. Âm nhạc thánh ca tiếng Việt phong phú trong kho tàng âm nhạc dân tộc.</p></div>
+          <div><p class="impact-title">Kiến trúc &amp; Nghệ thuật</p><p class="impact-body">Nhà thờ Đức Bà TP.HCM, Nhà thờ Lớn Hà Nội, Nhà thờ Phát Diệm — kiến trúc Gothic-Việt hòa quyện Đông-Tây độc đáo. Âm nhạc thánh ca tiếng Việt phong phú.</p></div>
         </div>
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
-          <div><p class="impact-title">Đạo đức &amp; Lối sống</p><p class="impact-body">Giáo lý Kitô giáo về yêu thương, công bằng, tôn trọng nhân phẩm góp phần bồi dưỡng nhân cách, xây dựng lối sống trách nhiệm cho người Công giáo Việt Nam.</p></div>
+          <div><p class="impact-title">Đạo đức &amp; Lối sống</p><p class="impact-body">Giáo lý Kitô giáo về bác ái, yêu thương, trung thực, công bằng, phục vụ người nghèo — góp phần bồi dưỡng nhân cách và xây dựng lối sống trách nhiệm, văn minh.</p></div>
         </div>
       </div>
 
@@ -907,24 +949,56 @@ a{color:inherit;text-decoration:none}
         </figure>
       </div>
 
+      <!-- Thách thức Công giáo -->
+      <h3 class="subsection-title" style="color:#e09090">Thách thức &amp; Hạn chế</h3>
+      <div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Lịch sử: lợi dụng Công giáo phục vụ mục đích chính trị <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Thế kỷ XIX, một số thế lực bên ngoài lợi dụng danh nghĩa Công giáo can thiệp nội bộ Việt Nam — hiện tượng lịch sử cụ thể, không đại diện cho bản chất Giáo hội Công giáo.</div>
+        </div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Tranh chấp đất đai cơ sở Giáo hội <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Còn một số vụ tranh chấp đất đai tại cơ sở Giáo hội nhạy cảm, cần giải quyết hài hòa theo pháp luật, bảo đảm quyền lợi hợp pháp của các bên, tránh bị kích động.</div>
+        </div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Mâu thuẫn tôn giáo cục bộ <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Tại một số địa phương, thiếu tôn trọng lẫn nhau giữa người theo và không theo tôn giáo tạo ra mâu thuẫn nhỏ — cần giáo dục và đối thoại để xây dựng cộng đồng hài hòa.</div>
+        </div>
+        <div class="coll-wrap">
+          <button class="coll-btn" aria-expanded="false">Tổ chức phản động lợi dụng danh nghĩa Công giáo <span class="coll-chevron">&#9660;</span></button>
+          <div class="coll-body">Các tổ chức phản động nước ngoài dùng danh nghĩa "tự do tôn giáo", "nhân quyền" để chống phá Nhà nước Việt Nam — cần cảnh giác, phân biệt rõ hoạt động tôn giáo chính đáng với hoạt động phá hoại.</div>
+        </div>
+      </div>
+
       <!-- Highlight boxes -->
       <div class="highlight-box" style="margin-top:1.75rem">
         <h4 class="highlight-box-title">Thư chung HĐGM Việt Nam 1980</h4>
-        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--parchment)">"Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào."</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--parchment)">"Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào."<span class="cite" data-tip="Thư chung HĐGM Việt Nam, 1980 — Đường hướng mục vụ xuyên suốt của Giáo hội Công giáo Việt Nam từ 1980 đến nay"></span></p>
         <p style="font-size:.8rem;color:var(--muted);margin-top:.5rem">Đường hướng mục vụ xuyên suốt của Giáo hội Công giáo Việt Nam từ 1980 đến nay</p>
       </div>
 
       <div class="highlight-box crimson">
-        <h4 class="highlight-box-title" style="color:#e09090">"Tốt đời, đẹp đạo"</h4>
+        <h4 class="highlight-box-title" style="color:#e09090">"Tốt đời, đẹp đạo"<span class="cite" data-tip="Phương châm thực tiễn cộng đồng Công giáo Việt Nam — Người Công giáo tốt cũng là công dân tốt; sống đạo gắn liền với yêu nước và trách nhiệm xã hội"></span></h4>
         <p style="font-size:.85rem;color:var(--muted)">"Người Công giáo tốt cũng là người công dân tốt; sống đạo gắn liền với yêu nước, trách nhiệm xã hội và khát vọng xây dựng đất nước phát triển."</p>
       </div>
 
       <div class="stat-bar">
-        <strong>Tín đồ:</strong> <span>7–8 triệu</span>
+        <strong>Tín đồ:</strong> <span>~7–8 triệu</span>
         <strong>Giáo phận:</strong> <span>27</span>
+        <strong>Giáo tỉnh:</strong> <span>3 (Hà Nội – Huế – TP.HCM)</span>
         <strong>VN–Vatican:</strong> <span>Đại diện Thường trú từ 12/2023</span>
       </div>
     </div>
+  </div>
+
+  <!-- Source bar Phần IV -->
+  <div class="source-bar">
+    <span class="source-bar-label">Nguồn</span>
+    <span class="source-bar-text">Giáo trình CNXHKH – Bộ GD&amp;ĐT, 2021, tr.214–232</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Văn kiện ĐH XIV Tập 2, tr.33, 65–66</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Thư chung HĐGM Việt Nam, 1980</span>
   </div>
 </div>
 </section>
@@ -940,12 +1014,12 @@ a{color:inherit;text-decoration:none}
     <div class="num-card">
       <span class="num-card-n">01</span>
       <h3 class="num-card-title">Quốc gia đa dân tộc, đa tôn giáo</h3>
-      <p class="num-card-body">Việt Nam là quốc gia có 54 dân tộc anh em và nhiều tôn giáo cùng tồn tại. Sự đa dạng này là tài sản văn hóa, cần được trân trọng và phát huy.</p>
+      <p class="num-card-body">54 dân tộc, 43 tổ chức tôn giáo của 16 tôn giáo cùng tồn tại; không có xung đột tôn giáo nghiêm trọng nhờ chính sách đoàn kết đúng đắn của Đảng và Nhà nước.</p>
     </div>
     <div class="num-card rv1 reveal">
       <span class="num-card-n">02</span>
       <h3 class="num-card-title">Tôn giáo gắn bó với dân tộc</h3>
-      <p class="num-card-body">Phật giáo và Công giáo đã trở thành một phần không thể tách rời của lịch sử, văn hóa và tinh thần dân tộc Việt Nam qua hàng trăm năm.</p>
+      <p class="num-card-body">Truyền thống đồng hành, gắn đạo với đời; ý thức cội nguồn dân tộc thống nhất trong đa dạng tôn giáo — "Đạo không xa Đời, Đạo cùng Đời phụng sự dân tộc".</p>
     </div>
     <div class="num-card rv2 reveal">
       <span class="num-card-n">03</span>
@@ -955,18 +1029,18 @@ a{color:inherit;text-decoration:none}
     <div class="num-card reveal">
       <span class="num-card-n">04</span>
       <h3 class="num-card-title">Vai trò của chức sắc tôn giáo</h3>
-      <p class="num-card-body">Chức sắc tôn giáo có uy tín, ảnh hưởng lớn trong cộng đồng tín đồ. Đảng, Nhà nước coi trọng phát huy vai trò của họ trong công tác vận động quần chúng.</p>
+      <p class="num-card-body">Chức sắc tôn giáo có uy tín và ảnh hưởng lớn; xu hướng tiến bộ, yêu nước ngày càng phát triển trong hàng ngũ chức sắc, tu sĩ các tôn giáo.</p>
     </div>
     <div class="num-card rv1 reveal">
       <span class="num-card-n">05</span>
       <h3 class="num-card-title">Quan hệ quốc tế của tôn giáo</h3>
-      <p class="num-card-body">Một số tôn giáo có quan hệ với tổ chức quốc tế (Vatican, Phật giáo thế giới). Cần phân biệt hoạt động tôn giáo chính đáng với âm mưu lợi dụng tôn giáo can thiệp nội bộ.</p>
+      <p class="num-card-body">Một số tôn giáo có quan hệ quốc tế (Vatican, Phật giáo thế giới); cần kết hợp giao lưu quốc tế với bảo đảm độc lập, chủ quyền quốc gia, không để bị lợi dụng can thiệp nội bộ.</p>
     </div>
   </div>
 
   <!-- Pull quote -->
   <div class="quote-block reveal" style="font-size:1.05rem">
-    <p class="quote-text">"Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng với dân tộc trong quá trình xây dựng chủ nghĩa xã hội ở nước ta."</p>
+    <p class="quote-text">"Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng với dân tộc trong quá trình xây dựng chủ nghĩa xã hội ở nước ta. Đoàn kết tôn giáo, hòa hợp dân tộc là yêu cầu quan trọng của quá trình xây dựng Nhà nước pháp quyền xã hội chủ nghĩa Việt Nam."</p>
     <p class="quote-author">— Văn kiện Đại hội Đảng XIV &middot; Tập 2, tr.33</p>
   </div>
 
@@ -986,6 +1060,16 @@ a{color:inherit;text-decoration:none}
     <p class="quote-text">"Là Hội Thánh trong lòng dân tộc Việt Nam, chúng ta quyết tâm gắn bó với vận mệnh quê hương, noi gương tiền nhân, ra sức phục vụ Tổ quốc và đồng bào."</p>
     <p class="quote-author">— Thư chung HĐGM Việt Nam (1980)</p>
   </div>
+
+  <!-- Source bar Phần V -->
+  <div class="source-bar">
+    <span class="source-bar-label">Nguồn</span>
+    <span class="source-bar-text">Giáo trình CNXHKH – Bộ GD&amp;ĐT, 2021, tr.219–228</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Văn kiện ĐH XIV Tập 2, tr.33, 62, 65–66</span>
+    <span class="source-bar-sep">|</span>
+    <span class="source-bar-text">Thư chung HĐGM Việt Nam, 1980</span>
+  </div>
 </div>
 </section>
 
@@ -999,20 +1083,20 @@ a{color:inherit;text-decoration:none}
   <!-- Stats dashboard -->
   <div class="stats-dash reveal">
     <div class="dash-card">
-      <span class="dash-n">~80%</span>
-      <span class="dash-l">Dân số chịu ảnh hưởng Phật giáo</span>
+      <span class="dash-n">~27 triệu</span>
+      <span class="dash-l">Tín đồ tôn giáo (~26,5% dân số)</span>
     </div>
     <div class="dash-card rv1 reveal">
-      <span class="dash-n">7–8tr</span>
-      <span class="dash-l">Tín đồ Công giáo Việt Nam</span>
+      <span class="dash-n">43 tổ chức</span>
+      <span class="dash-l">thuộc 16 tôn giáo được công nhận</span>
     </div>
     <div class="dash-card rv2 reveal">
-      <span class="dash-n">27</span>
-      <span class="dash-l">Giáo phận Công giáo</span>
+      <span class="dash-n">29.000+</span>
+      <span class="dash-l">Cơ sở thờ tự trên cả nước</span>
     </div>
     <div class="dash-card rv3 reveal">
-      <span class="dash-n">18.544</span>
-      <span class="dash-l">Cơ sở thờ tự Phật giáo</span>
+      <span class="dash-n">83.000+</span>
+      <span class="dash-l">Chức sắc, nhà tu hành</span>
     </div>
   </div>
 
@@ -1031,41 +1115,41 @@ a{color:inherit;text-decoration:none}
   <!-- Trách nhiệm sinh viên -->
   <h3 class="subsection-title">Liên hệ bản thân</h3>
   <ul class="student-list">
-    <li>Chủ động tìm hiểu lịch sử và đóng góp của các tôn giáo lớn đối với dân tộc Việt Nam, nhìn nhận khách quan, khoa học trên nền tảng lý luận Mác-Lênin.</li>
-    <li>Tôn trọng quyền tự do tín ngưỡng, tôn giáo của mọi người; không kỳ thị, phân biệt đối xử trên cơ sở tôn giáo.</li>
-    <li>Phân biệt rõ hoạt động tín ngưỡng lành mạnh với mê tín dị đoan, không tham gia và tuyên truyền chống mê tín dị đoan.</li>
-    <li>Phát huy giá trị văn hóa, đạo đức tốt đẹp của các tôn giáo trong xây dựng lối sống văn minh, nhân ái.</li>
-    <li>Cảnh giác với các âm mưu lợi dụng tôn giáo để chống phá Đảng, Nhà nước và phá vỡ khối đại đoàn kết dân tộc.</li>
+    <li>Nhận thức đúng chính sách tự do tín ngưỡng của Đảng và Nhà nước; phân biệt quyền tự do tín ngưỡng hợp pháp với hành vi vi phạm pháp luật dưới danh nghĩa tôn giáo.</li>
+    <li>Tôn trọng và đoàn kết với đồng bào các tôn giáo; không kỳ thị, phân biệt đối xử vì lý do tín ngưỡng, tôn giáo.</li>
+    <li>Cảnh giác với âm mưu "diễn biến hòa bình" lợi dụng tôn giáo nhằm chia rẽ khối đại đoàn kết toàn dân tộc, chống phá chế độ xã hội chủ nghĩa.</li>
+    <li>Phát huy giá trị nhân văn tốt đẹp của tôn giáo: từ bi, bác ái, trung thực, yêu thương vào cuộc sống học tập và lao động hàng ngày.</li>
+    <li>Phòng chống mê tín dị đoan và tà đạo: không tin, không lan truyền, không tham gia vào các tổ chức tôn giáo trái pháp luật.</li>
   </ul>
 
   <!-- 3 kết luận -->
   <h3 class="subsection-title">Kết luận</h3>
   <div class="grid-3 reveal">
     <div class="concl-card" data-n="1">
-      <h3 class="concl-title">Phật giáo — Hành trình 2000 năm</h3>
-      <p class="concl-body">Từ Lý đến Trần, từ kháng chiến đến đổi mới, Phật giáo Việt Nam luôn hướng về Tổ quốc, phương châm "Đạo pháp – Dân tộc – CNXH" là kim chỉ nam xuyên suốt.</p>
+      <h3 class="concl-title">Phật giáo &amp; Công giáo đồng hành cùng dân tộc</h3>
+      <p class="concl-body">Cả hai tôn giáo đều có truyền thống gắn bó lâu dài với dân tộc Việt Nam, đóng góp tích cực vào lịch sử dựng nước, giữ nước và xây dựng văn hóa dân tộc.</p>
     </div>
     <div class="concl-card rv1 reveal" data-n="2">
-      <h3 class="concl-title">Công giáo — Sống Phúc Âm giữa lòng Dân tộc</h3>
-      <p class="concl-body">Từ 1533 đến nay, Công giáo Việt Nam đóng góp chữ Quốc ngữ, giáo dục, y tế, và tinh thần yêu nước, sẵn sàng đồng hành cùng đất nước trong kỷ nguyên mới.</p>
+      <h3 class="concl-title">Quan hệ dân tộc–tôn giáo về cơ bản hài hòa</h3>
+      <p class="concl-body">Nhờ chính sách tôn giáo đúng đắn của Đảng và Nhà nước, quan hệ dân tộc–tôn giáo ở Việt Nam được duy trì hài hòa, thống nhất trong đa dạng, không có xung đột nghiêm trọng.</p>
     </div>
     <div class="concl-card rv2 reveal" data-n="3">
-      <h3 class="concl-title">Đại đoàn kết &amp; Đại hội XIV</h3>
-      <p class="concl-body">Đại hội XIV khẳng định tôn trọng tự do tín ngưỡng và phát huy sức mạnh đại đoàn kết toàn dân tộc — tôn giáo là một phần không thể thiếu trong sức mạnh đó.</p>
+      <h3 class="concl-title">Cảnh giác &amp; Phát huy</h3>
+      <p class="concl-body">Cần cảnh giác trước âm mưu lợi dụng tôn giáo gây chia rẽ dân tộc; đồng thời tích cực phát huy các giá trị đạo đức, nhân văn tốt đẹp của tôn giáo trong xây dựng xã hội.</p>
     </div>
   </div>
 
   <!-- References footer -->
   <div class="ref-footer">
-    <span class="s-label" style="display:block;margin-bottom:.75rem">Tài liệu tham khảo</span>
-    <ul>
-      <li>Văn kiện Đại hội XIV — Tập 1: Phát huy sức mạnh đại đoàn kết toàn dân tộc</li>
-      <li>Văn kiện Đại hội XIV — Tập 2: Phát triển văn hóa, quản lý phát triển xã hội và xây dựng con người (tr.33, 65–66)</li>
-      <li>Hiến pháp nước CHXHCN Việt Nam 2013 — Điều 24 (Quyền tự do tín ngưỡng)</li>
-      <li>Luật Tín ngưỡng, Tôn giáo 2016 — hiệu lực 01/01/2018</li>
-      <li>Giáo trình Chủ nghĩa Xã hội Khoa học — Bộ GD&amp;ĐT 2021</li>
-      <li>Thư chung Hội đồng Giám mục Việt Nam 1980</li>
-    </ul>
+    <span class="ref-section-title">Tài liệu tham khảo</span>
+    <ol class="ref-numbered">
+      <li>Bộ Giáo dục và Đào tạo. <em>Giáo trình Chủ nghĩa xã hội khoa học</em>. NXB Chính trị Quốc gia Sự thật, Hà Nội, 2021. Chương 6, tr.213–238</li>
+      <li>Đảng Cộng sản Việt Nam. <em>Văn kiện Đại hội đại biểu toàn quốc lần thứ XIV</em>, Tập 1 &amp; 2. NXB Chính trị Quốc gia Sự thật, Hà Nội, 2026</li>
+      <li>Hội đồng Giám mục Việt Nam. <em>Thư chung 1980</em>: "Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào"</li>
+      <li>Giáo hội Phật giáo Việt Nam. <em>Hiến chương GHPGVN</em>, 1981: "Đạo pháp – Dân tộc – Chủ nghĩa xã hội"</li>
+      <li>Hiến pháp nước Cộng hòa Xã hội Chủ nghĩa Việt Nam 2013 — Điều 24 (Quyền tự do tín ngưỡng, tôn giáo)</li>
+      <li>Luật Tín ngưỡng, Tôn giáo 2016 (hiệu lực 01/01/2018)</li>
+    </ol>
   </div>
 </div>
 </section>
