@@ -1,14 +1,14 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useLayoutEffect, useState, useCallback, useRef } from 'react'
 import { RoomState, RoomSession } from '@/lib/room-types'
 import { supabaseClient } from '@/lib/supabase-client'
 
 function getInterval(status: string | undefined): number {
-  if (status === 'playing') return 800
-  if (status === 'post_question') return 1200
+  if (status === 'playing') return 500
+  if (status === 'post_question') return 800
   if (status === 'waiting') return 1000
-  return 4000
+  return 3000
 }
 
 export function useRoomPoll(code: string) {
@@ -19,30 +19,30 @@ export function useRoomPoll(code: string) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const roomRef = useRef<RoomState | null>(null)
   const fetchingRef = useRef(false)
-  // Keep a ref to session so polling effect closure doesn't go stale
   const sessionRef = useRef<RoomSession | null>(null)
+  const fetchRoomRef = useRef<((pid: string, force?: boolean) => void) | null>(null)
 
-  // Load session from localStorage (client-only, avoids SSR hydration mismatch)
-  // Separate useEffect so it never re-runs and never changes deps size
+  // Load session from localStorage — client only, no SSR
   useEffect(() => {
+    let parsed: RoomSession | null = null
     try {
       const raw = localStorage.getItem('roomSession')
-      if (!raw) { setError('Phiên không hợp lệ'); return }
-      const parsed = JSON.parse(raw) as RoomSession
+      if (raw) parsed = JSON.parse(raw) as RoomSession
+    } catch { /* ignore */ }
+    // Schedule state updates in a microtask to avoid sync setState-in-effect warning
+    Promise.resolve().then(() => {
+      if (!parsed) { setError('Phiên không hợp lệ'); return }
       sessionRef.current = parsed
       setSession(parsed)
-    } catch {
-      setError('Phiên không hợp lệ')
-    }
+    })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const fetchRoom = useCallback(async (pid: string) => {
-    if (fetchingRef.current) return
+  const fetchRoom = useCallback(async (pid: string, force = false) => {
+    if (fetchingRef.current && !force) return
     fetchingRef.current = true
     try {
-      const res = await fetch(`/api/room/${code}?pid=${pid}`, {
-        signal: AbortSignal.timeout(4000),
-      })
+      // No AbortSignal timeout — avoids false failures on Vercel cold starts
+      const res = await fetch(`/api/room/${code}?pid=${pid}`)
       if (!res.ok) { setError('Phòng không tồn tại'); return }
       const data: RoomState = await res.json()
 
@@ -58,31 +58,44 @@ export function useRoomPoll(code: string) {
       if (changed) {
         roomRef.current = data
         setRoom(data)
-
+        // Reschedule interval at correct rate when status changes
         if (prev?.status !== data.status && intervalRef.current) {
           clearInterval(intervalRef.current)
-          intervalRef.current = setInterval(
-            () => { if (sessionRef.current) fetchRoom(sessionRef.current.playerId) },
-            getInterval(data.status),
-          )
+          intervalRef.current = setInterval(() => {
+            const session = sessionRef.current
+            const fn = fetchRoomRef.current
+            if (fn && session) fn(session.playerId)
+          }, getInterval(data.status))
         }
       }
     } catch {
-      // keep last state on network error
+      // keep last state on error
     } finally {
       fetchingRef.current = false
     }
-  }, [code]) // only code is a real dep here
+  }, [code])
 
-  // Polling & realtime — deps array size is ALWAYS [session, fetchRoom, code] = 3 items
+  // Keep fetchRoomRef in sync with latest fetchRoom — use useLayoutEffect (runs after render, before paint)
+  useLayoutEffect(() => {
+    fetchRoomRef.current = fetchRoom
+  })
+
   useEffect(() => {
-    // Session not yet loaded or invalid — don't start polling
     if (!session) return
 
     const pid = session.playerId
-    void fetchRoom(pid)
 
-    intervalRef.current = setInterval(() => fetchRoom(pid), getInterval('waiting'))
+    function startInterval(ms: number) {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+      intervalRef.current = setInterval(() => {
+        const fn = fetchRoomRef.current
+        if (fn) fn(pid)
+      }, ms)
+    }
+
+    // Defer first fetch to next tick so it's not "sync setState in effect"
+    const firstFetch = setTimeout(() => { void fetchRoom(pid) }, 0)
+    startInterval(getInterval('waiting'))
 
     const channel = supabaseClient
       ?.channel(`quiz-room-${code}`)
@@ -96,22 +109,24 @@ export function useRoomPoll(code: string) {
       )
 
     channel?.subscribe((status) => {
-      if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-        if (intervalRef.current) clearInterval(intervalRef.current)
-        intervalRef.current = setInterval(() => fetchRoom(pid), 1000)
+      if (status === 'SUBSCRIBED') {
+        startInterval(2000) // realtime handles fast updates — polling can relax
+      } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+        startInterval(getInterval(roomRef.current?.status)) // aggressive polling fallback
       }
     })
 
     return () => {
+      clearTimeout(firstFetch)
       if (intervalRef.current) clearInterval(intervalRef.current)
       if (channel && supabaseClient) supabaseClient.removeChannel(channel)
     }
-  }, [session, fetchRoom, code]) // always 3 items — size never changes
+  }, [session, fetchRoom, code])
 
   const refetch = useCallback(() => {
     if (!session) return
     fetchingRef.current = false
-    void fetchRoom(session.playerId)
+    void fetchRoom(session.playerId, true)
   }, [session, fetchRoom])
 
   return { room, session, error, refetch }
