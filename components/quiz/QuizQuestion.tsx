@@ -7,15 +7,15 @@ import CoinCounter from './CoinCounter'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const PARCHMENT = '#F5EDD6'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const PARCHMENT = '#0D0703'
+const MUTED = '#2A1C0C'
 const BG: React.CSSProperties = {
   minHeight: '100vh',
-  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #E8D9B8 0%, #FAF6EC 65%)',
   backgroundAttachment: 'fixed',
   backgroundSize: 'cover',
-  backgroundColor: '#0D0D0D',
+  backgroundColor: '#FAF6EC',
   color: PARCHMENT,
   fontFamily: B,
   display: 'flex',
@@ -24,10 +24,10 @@ const BG: React.CSSProperties = {
 }
 
 const ANSWER_STYLES = [
-  { bg: 'rgba(139,26,26,0.15)', border: 'rgba(139,26,26,0.45)', dot: '#c0504d', hoverBg: 'rgba(139,26,26,0.28)' },
-  { bg: 'rgba(40,80,160,0.15)', border: 'rgba(40,80,160,0.45)', dot: '#4a7cc7', hoverBg: 'rgba(40,80,160,0.28)' },
-  { bg: 'rgba(201,168,76,0.1)',  border: 'rgba(201,168,76,0.35)', dot: GOLD,    hoverBg: 'rgba(201,168,76,0.2)' },
-  { bg: 'rgba(40,120,80,0.15)', border: 'rgba(40,120,80,0.45)',  dot: '#5a9e72', hoverBg: 'rgba(40,120,80,0.28)' },
+  { bg: 'rgba(139,26,26,0.07)', border: 'rgba(139,26,26,0.3)', dot: '#9B1A1A', hoverBg: 'rgba(139,26,26,0.13)' },
+  { bg: 'rgba(40,80,160,0.07)', border: 'rgba(40,80,160,0.3)', dot: '#2E5A9E', hoverBg: 'rgba(40,80,160,0.13)' },
+  { bg: 'rgba(184,134,11,0.07)', border: 'rgba(184,134,11,0.3)', dot: '#B8860B', hoverBg: 'rgba(184,134,11,0.13)' },
+  { bg: 'rgba(85,107,47,0.07)', border: 'rgba(85,107,47,0.3)',  dot: '#556B2F', hoverBg: 'rgba(85,107,47,0.13)' },
 ]
 const LABELS = ['A', 'B', 'C', 'D']
 

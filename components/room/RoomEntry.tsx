@@ -7,25 +7,25 @@ import Link from 'next/link'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const PARCHMENT = '#F5EDD6'
-const MUTED = 'rgba(245,237,214,0.55)'
-const CARD: React.CSSProperties = { background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)', borderRadius: '8px' }
+const GOLD = '#6B4A00'
+const PARCHMENT = '#0D0703'
+const MUTED = '#2A1C0C'
+const CARD: React.CSSProperties = { background: 'rgba(184,134,11,0.07)', border: '1px solid rgba(184,134,11,0.28)', borderRadius: '8px' }
 const BG: React.CSSProperties = {
   minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem',
-  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
-  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#0D0D0D',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #E8D9B8 0%, #FAF6EC 65%)',
+  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#FAF6EC',
   color: PARCHMENT, fontFamily: B,
 }
 const INPUT: React.CSSProperties = {
   width: '100%', padding: '0.85rem 1rem', borderRadius: '6px',
-  background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.2)',
+  background: 'rgba(184,134,11,0.05)', border: '1px solid rgba(184,134,11,0.22)',
   color: PARCHMENT, fontFamily: B, fontSize: '1rem', outline: 'none',
 }
 const BTN_PRIMARY: React.CSSProperties = {
   width: '100%', padding: '1rem', borderRadius: '6px', cursor: 'pointer', border: 'none',
   fontFamily: D, fontSize: '1.1rem', fontWeight: 600, letterSpacing: '0.08em',
-  color: '#0D0D0D', background: `linear-gradient(135deg, ${GOLD}, #a07830)`,
+  color: '#FAF6EC', background: `linear-gradient(135deg, ${GOLD}, #8B6914)`,
 }
 const BTN_GHOST: React.CSSProperties = {
   width: '100%', padding: '0.85rem', borderRadius: '6px', cursor: 'pointer',

@@ -5,20 +5,20 @@ import { useQuizStore } from '@/lib/store/quiz-store'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const PARCHMENT = '#F5EDD6'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const PARCHMENT = '#0D0703'
+const MUTED = '#2A1C0C'
 const CARD: React.CSSProperties = {
-  background: 'rgba(201,168,76,0.06)',
-  border: '1px solid rgba(201,168,76,0.22)',
+  background: 'rgba(184,134,11,0.07)',
+  border: '1px solid rgba(184,134,11,0.28)',
   borderRadius: '8px',
 }
 const BG: React.CSSProperties = {
   minHeight: '100vh',
-  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #E8D9B8 0%, #FAF6EC 65%)',
   backgroundAttachment: 'fixed',
   backgroundSize: 'cover',
-  backgroundColor: '#0D0D0D',
+  backgroundColor: '#FAF6EC',
   color: PARCHMENT,
   fontFamily: B,
 }
@@ -86,8 +86,8 @@ export default function QuizLobby() {
           style={{
             width: '100%', padding: '1rem', borderRadius: '6px',
             fontFamily: D, fontSize: '1.1rem', fontWeight: 600, letterSpacing: '0.08em',
-            color: '#0D0D0D', cursor: 'pointer', border: 'none',
-            background: `linear-gradient(135deg, ${GOLD}, #a07830)`,
+            color: '#FAF6EC', cursor: 'pointer', border: 'none',
+            background: `linear-gradient(135deg, ${GOLD}, #8B6914)`,
             marginBottom: '0.75rem',
           }}
         >

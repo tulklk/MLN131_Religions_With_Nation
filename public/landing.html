@@ -6,103 +6,106 @@
 <title>Phật giáo & Công giáo — Đồng hành cùng Dân tộc | MLN131</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#0D0D0D;--bg-alt:#1A1209;--gold:#C9A84C;--gold-dim:rgba(201,168,76,0.06);
-  --gold-bdr:rgba(201,168,76,0.22);--parchment:#F5EDD6;--crimson:#8B1A1A;
-  --sidebar-bg:#111111;--muted:rgba(245,237,214,0.55);
-  --navbar-h:60px;--sidebar-w:280px;
+  --bg:#FAF6EC;--bg-alt:#EDE5D0;--gold:#6B4A00;--gold-dim:rgba(107,74,0,0.1);
+  --gold-bdr:rgba(107,74,0,0.42);--parchment:#0D0703;--crimson:#5C3A1E;
+  --olive:#2D4018;--muted:#2A1C0C;
+  --navbar-h:60px;
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:76px;font-size:130%}
-body{background-color:var(--bg);background-image:radial-gradient(ellipse at 50% 35%,#1e1508 0%,#0d0d0d 65%);background-attachment:fixed;background-size:cover;color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:1rem;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2}
+html{scroll-behavior:smooth;scroll-padding-top:76px;font-size:145%}
+body{background-color:var(--bg);background-image:radial-gradient(ellipse at 50% 35%,#E8D9B8 0%,#FAF6EC 65%);background-attachment:fixed;background-size:cover;color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:1rem;font-weight:500;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;line-height:1.2}
 a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:#0d0d0d}
-::-webkit-scrollbar-thumb{background:#3a3020;border-radius:3px}
+::-webkit-scrollbar-track{background:#FAF6EC}
+::-webkit-scrollbar-thumb{background:#C4A96A;border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
 /* ── NAVBAR ── */
+#nav-hover-zone{
+  position:fixed;top:0;left:0;right:0;height:var(--navbar-h);z-index:99;
+  background:transparent;pointer-events:none
+}
 #navbar{
   position:fixed;top:0;left:0;right:0;height:var(--navbar-h);
-  background:rgba(13,13,13,0.96);backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(201,168,76,0.1);
-  display:flex;align-items:center;justify-content:flex-end;
-  padding:0 1.5rem;z-index:100;gap:1rem
+  background:rgba(250,246,236,0.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(184,134,11,0.18);
+  display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;padding:0 1.5rem;z-index:100;gap:0.75rem 1.25rem;
+  transform:translateY(0);
+  transition:transform 0.4s var(--ease),opacity 0.35s var(--ease),box-shadow 0.35s var(--ease);
+  box-shadow:0 2px 16px rgba(43,36,24,0.06)
+}
+#navbar.is-hidden{
+  transform:translateY(-100%);opacity:0;pointer-events:none;
+  box-shadow:none
+}
+.nav-brand{
+  display:flex;align-items:baseline;gap:0.35rem;flex-wrap:wrap;
+  font-family:'Cormorant Garamond',serif;line-height:1.2
+}
+.nav-brand-title{font-size:1.1rem;font-weight:700;color:var(--parchment);letter-spacing:0.04em}
+.nav-brand-sep{color:rgba(107,74,0,0.45);font-weight:400}
+.nav-brand-sub{font-size:0.85rem;font-weight:500;color:var(--muted);letter-spacing:0.05em}
+.nav-links{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0.2rem 1rem}
+.nav-link{
+  font-family:'Lora',serif;font-size:0.88rem;font-weight:500;color:var(--muted);
+  padding:0.3rem 0;border-bottom:2px solid transparent;
+  transition:color 0.2s,border-color 0.2s;white-space:nowrap
+}
+.nav-link:hover,.nav-link.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+.nav-actions{display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+.nav-badge{
+  font-family:'Cormorant Garamond',serif;font-size:0.78rem;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);white-space:nowrap
 }
 .quiz-btn{
   font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-weight:600;
   letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);
   border:1.5px solid var(--gold);background:transparent;
   padding:0.45rem 1.3rem;border-radius:4px;cursor:pointer;
-  transition:background 0.2s,color 0.2s
+  transition:background 0.2s,color 0.2s;white-space:nowrap
 }
 .quiz-btn:hover{background:var(--gold);color:#0D0D0D}
 
-/* ── SIDEBAR ── */
-#sidebar{
-  position:fixed;top:var(--navbar-h);left:0;bottom:0;width:var(--sidebar-w);
-  background:var(--sidebar-bg);border-right:1px solid rgba(201,168,76,0.12);
-  overflow-y:auto;z-index:90;padding:1.75rem 0;
-  transition:transform 0.35s var(--ease)
+/* ── SCROLL TO TOP ── */
+#scroll-top-btn{
+  position:fixed;right:1.5rem;bottom:1.5rem;z-index:90;
+  width:44px;height:44px;border-radius:50%;
+  border:1.5px solid var(--gold);background:rgba(250,246,236,0.95);
+  color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1.35rem;
+  line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 18px rgba(43,36,24,0.12);
+  opacity:0;visibility:hidden;transform:translateY(12px);
+  transition:opacity 0.35s var(--ease),transform 0.35s var(--ease),visibility 0.35s,
+    background 0.2s,color 0.2s,border-color 0.2s
 }
-.toc-label{
-  font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.25em;
-  text-transform:uppercase;color:var(--gold);opacity:0.6;
-  padding:0 1.25rem;margin-bottom:1rem;display:block
-}
-.toc-item{
-  display:flex;align-items:baseline;gap:0.45rem;
-  padding:0.6rem 1.25rem;font-family:'Lora',serif;font-size:0.92rem;
-  color:var(--muted);border-left:2px solid transparent;
-  transition:color 0.2s,border-color 0.2s,background 0.2s;cursor:pointer
-}
-.toc-item:hover{color:var(--parchment);background:rgba(201,168,76,0.04)}
-.toc-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,0.07);font-weight:600}
-.toc-num{font-family:'Cormorant Garamond',serif;font-size:0.82rem;opacity:0.5;flex-shrink:0}
-.toc-sep{width:calc(100% - 2.5rem);margin:0.75rem 1.25rem;border:none;border-top:1px solid rgba(201,168,76,0.1)}
-
-/* ── HAMBURGER ── */
-#ham-btn{
-  display:none;position:fixed;top:calc((var(--navbar-h) - 36px)/2);left:1rem;z-index:150;
-  background:rgba(201,168,76,0.1);border:1px solid var(--gold-bdr);color:var(--gold);
-  width:36px;height:36px;border-radius:6px;font-size:1.1rem;cursor:pointer;
-  align-items:center;justify-content:center;transition:background 0.2s
-}
-#ham-btn:hover{background:rgba(201,168,76,0.2)}
-#sidebar-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:80;
-  backdrop-filter:blur(2px)
-}
-#sidebar-overlay.active{display:block}
-
-@media(max-width:900px){
-  #ham-btn{display:flex}
-  #sidebar{z-index:200;top:0;padding-top:calc(var(--navbar-h) + 1.25rem);box-shadow:4px 0 32px rgba(0,0,0,0.7);transform:translateX(-100%)}
-  #sidebar.open{transform:translateX(0)}
-  #main-content{margin-left:0}
-}
+#scroll-top-btn.is-visible{opacity:1;visibility:visible;transform:translateY(0)}
+#scroll-top-btn:hover{background:var(--gold);color:#FAF6EC;border-color:var(--gold)}
 
 /* ── MAIN ── */
-#main-content{margin-left:var(--sidebar-w);margin-top:var(--navbar-h)}
+#main-content{margin-top:var(--navbar-h)}
 .section-wrap{padding:4.5rem 2rem;max-width:1160px;margin:0 auto}
 .section-border{border-top:1px solid rgba(201,168,76,0.1)}
 
 /* ── TYPOGRAPHY HELPERS ── */
-.s-label{display:block;font-family:'Cormorant Garamond',serif;font-size:0.75rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.75;margin-bottom:0.4rem}
+.s-label{display:block;font-family:'Cormorant Garamond',serif;font-size:0.75rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem}
 .s-title{font-size:clamp(2.2rem,4.5vw,3rem);font-weight:700;color:var(--parchment);margin-bottom:0.9rem}
 .s-divider{width:44px;height:2px;background:var(--gold);margin-bottom:2.5rem;opacity:0.55;border:none}
-.subsection-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--parchment);margin:2rem 0 1rem}
+.subsection-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--parchment);margin:2rem 0 1rem}
+.section-note{font-size:0.92rem;font-weight:500;font-style:italic;color:var(--muted);margin:-0.5rem 0 1.25rem;line-height:1.6}
 
 /* ── CARDS ── */
 .card{background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.4rem;transition:border-color 0.2s,transform 0.25s}
 .card:hover{border-color:rgba(201,168,76,0.5);transform:translateY(-2px)}
 .card-icon{font-size:1.5rem;margin-bottom:0.55rem;display:block}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold);margin-bottom:0.35rem}
-.card-body{font-size:0.95rem;color:var(--muted);line-height:1.72}
+.card-body{font-size:1rem;font-weight:500;color:var(--muted);line-height:1.72}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
 .grid-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem}
@@ -134,14 +137,110 @@ a{color:inherit;text-decoration:none}
 .h-year{display:block;font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:700;color:var(--gold);margin-bottom:0.3rem}
 .h-text{font-size:0.88rem;color:var(--muted);line-height:1.55}
 
+/* ── RELIGION HISTORY (horizontal stats + timeline) ── */
+.religion-history{margin:2rem 0 2.5rem}
+.religion-stats-row{
+  display:flex;flex-wrap:nowrap;gap:0.75rem;overflow-x:auto;padding-bottom:0.35rem;margin-bottom:1.75rem;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold-bdr) transparent
+}
+.religion-stats-row::-webkit-scrollbar{height:4px}
+.religion-stats-row::-webkit-scrollbar-thumb{background:var(--gold-bdr);border-radius:3px}
+.religion-stat{
+  flex:1 1 0;min-width:150px;padding:1rem 0.85rem;border-radius:8px;text-align:center;
+  border:1px solid var(--gold-bdr)
+}
+.religion-history--buddhist .religion-stat{
+  background:linear-gradient(160deg,#E8D9B8,#F0E8D0);border-color:rgba(184,134,11,0.35)
+}
+.religion-history--catholic .religion-stat{
+  background:linear-gradient(160deg,#EDE0D0,#F5ECD8);border-color:rgba(139,94,60,0.35)
+}
+.religion-stat-n{
+  font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--gold);
+  display:block;line-height:1.15;margin-bottom:0.25rem
+}
+.religion-history--catholic .religion-stat-n{color:#8B5E3C}
+.religion-stat-l{
+  font-size:0.72rem;font-weight:500;color:var(--muted);text-transform:uppercase;
+  letter-spacing:0.08em;display:block;line-height:1.4
+}
+.religion-stat-motto{
+  font-size:0.72rem;font-weight:500;color:var(--muted);display:block;margin-top:0.35rem;line-height:1.45
+}
+.religion-stat-motto strong{color:var(--gold);font-weight:600}
+.religion-history--catholic .religion-stat-motto strong{color:#8B5E3C}
+.religion-overview-duo{
+  display:grid;grid-template-columns:minmax(240px,340px) minmax(0,1fr);
+  gap:2rem;align-items:start;margin:1.75rem 0 2rem
+}
+.religion-overview-duo--buddhist{grid-template-columns:minmax(280px,400px) minmax(0,1fr)}
+.religion-overview-duo--buddhist .religion-portrait-wrap img{object-position:center center}
+.religion-overview-duo--catholic .religion-portrait-wrap{border-color:rgba(139,94,60,0.35)}
+.religion-portrait-wrap{
+  margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--gold-bdr);
+  background:linear-gradient(160deg,#2A2218,#1A1510)
+}
+.religion-portrait-wrap img{
+  width:100%;height:auto;max-height:520px;object-fit:contain;object-position:center top;
+  display:block;filter:brightness(0.95) sepia(0.04);transition:filter 0.4s
+}
+.religion-portrait-wrap:hover img{filter:brightness(1) sepia(0)}
+.religion-portrait-cap{
+  padding:0.7rem 1rem;font-family:'Lora',serif;font-size:0.76rem;color:var(--muted);
+  line-height:1.55;letter-spacing:0.03em;background:rgba(237,229,208,0.95);border-top:1px solid var(--gold-bdr)
+}
+.religion-overview-duo .religion-stats-row{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.65rem;
+  overflow:visible;margin-bottom:0;flex-wrap:unset
+}
+.religion-overview-duo .religion-stat{min-width:0;flex:none}
+.religion-overview-duo .religion-stat:last-child{grid-column:1/-1}
+@media(max-width:900px){
+  .religion-overview-duo{grid-template-columns:1fr;gap:1.25rem}
+  .religion-overview-media{max-width:380px;margin:0 auto;width:100%}
+}
+.religion-timeline{margin-top:0.5rem}
+.religion-timeline-track{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 0.65rem;
+  padding:2.25rem 0 0.75rem;position:relative;overflow:visible
+}
+.religion-timeline-track::before{
+  content:'';position:absolute;left:10%;right:10%;top:0.55rem;height:2px;
+  background:linear-gradient(90deg,var(--gold),rgba(107,74,0,0.35));pointer-events:none
+}
+.religion-history--catholic .religion-timeline-track::before{
+  background:linear-gradient(90deg,#8B5E3C,rgba(139,94,60,0.35))
+}
+.religion-timeline-node{
+  min-width:0;max-width:none;padding:0 0.4rem;position:relative;text-align:center
+}
+.religion-timeline-node::before{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);top:-1.7rem;
+  width:12px;height:12px;border-radius:50%;z-index:1;
+  background:var(--gold);box-shadow:0 0 10px rgba(107,74,0,0.35);border:2px solid var(--bg)
+}
+.religion-history--catholic .religion-timeline-node::before{background:#8B5E3C;box-shadow:0 0 10px rgba(139,94,60,0.35)}
+.religion-history--catholic .religion-timeline-node .h-year{color:#8B5E3C}
+.religion-timeline-node .h-year{margin-bottom:0.45rem;display:block}
+.religion-timeline-node .h-text{font-size:0.9rem;line-height:1.6;text-align:center}
+@media(max-width:900px){
+  .religion-timeline-track{
+    grid-template-columns:repeat(5,minmax(148px,1fr));
+    overflow-x:auto;padding-bottom:0.5rem;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold-bdr) transparent
+  }
+  .religion-timeline-track::-webkit-scrollbar{height:4px}
+  .religion-timeline-track::-webkit-scrollbar-thumb{background:var(--gold-bdr);border-radius:3px}
+}
+
 /* ── SPLIT LAYOUT ── */
 .split-layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:2.5rem;align-items:start}
 @media(max-width:700px){.split-layout{grid-template-columns:1fr}}
 .split-layout>div:last-child{min-width:0;overflow:hidden}
 .impact-body,.v-item-body,.card-body,.num-card-body,.concl-body{overflow-wrap:break-word;word-break:break-word}
 .accent-panel{border-radius:8px;padding:1.75rem 1.25rem;text-align:center}
-.accent-panel--buddhist{background:linear-gradient(160deg,#1a1000,#2a1800);border:1px solid rgba(201,168,76,0.28)}
-.accent-panel--catholic{background:linear-gradient(160deg,#130008,#1e0210);border:1px solid rgba(139,26,26,0.35)}
+.accent-panel--buddhist{background:linear-gradient(160deg,#E8D9B8,#F0E8D0);border:1px solid rgba(184,134,11,0.35)}
+.accent-panel--catholic{background:linear-gradient(160deg,#EDE0D0,#F5ECD8);border:1px solid rgba(139,94,60,0.35)}
 .panel-icon{font-size:2.5rem;display:block;margin-bottom:0.75rem}
 .panel-stat-n{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:var(--gold);display:block;line-height:1.1}
 .panel-stat-l{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:1rem}
@@ -156,16 +255,16 @@ a{color:inherit;text-decoration:none}
 
 /* ── COLLAPSIBLE ── */
 .coll-wrap{margin:0.4rem 0}
-.coll-btn{width:100%;text-align:left;background:rgba(139,26,26,0.07);border:1px solid rgba(139,26,26,0.28);border-radius:6px;padding:0.7rem 1rem;color:#e09090;font-family:'Lora',serif;font-size:0.97rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s}
-.coll-btn:hover{background:rgba(139,26,26,0.13)}
+.coll-btn{width:100%;text-align:left;background:rgba(139,94,60,0.07);border:1px solid rgba(139,94,60,0.28);border-radius:6px;padding:0.7rem 1rem;color:#5C3D20;font-family:'Lora',serif;font-size:0.97rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s}
+.coll-btn:hover{background:rgba(139,94,60,0.13)}
 .coll-chevron{display:inline-block;transition:transform 0.25s;font-size:0.7rem}
 .coll-btn[aria-expanded="true"] .coll-chevron{transform:rotate(180deg)}
 .coll-body{max-height:0;overflow:hidden;transition:max-height 0.38s var(--ease),padding 0.25s;padding:0 1rem;font-size:0.95rem;color:var(--muted);line-height:1.7}
 .coll-body.open{max-height:500px;padding:0.75rem 1rem}
 
 /* ── HIGHLIGHT BOX ── */
-.highlight-box{background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.03));border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
-.highlight-box.crimson{background:linear-gradient(135deg,rgba(139,26,26,0.1),rgba(139,26,26,0.03));border-color:rgba(139,26,26,0.3)}
+.highlight-box{background:linear-gradient(135deg,rgba(184,134,11,0.07),rgba(184,134,11,0.02));border:1px solid rgba(184,134,11,0.28);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.highlight-box.crimson{background:linear-gradient(135deg,rgba(139,94,60,0.08),rgba(139,94,60,0.02));border-color:rgba(139,94,60,0.28)}
 .highlight-box-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold);margin-bottom:0.35rem}
 
 /* ── STAT BAR ── */
@@ -181,7 +280,7 @@ a{color:inherit;text-decoration:none}
 
 /* ── NUMBER CARDS (Section V) ── */
 .num-card{background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.4rem}
-.num-card-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);opacity:0.35;line-height:1;display:block;margin-bottom:0.5rem}
+.num-card-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);opacity:0.55;line-height:1;display:block;margin-bottom:0.5rem}
 .num-card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--parchment);margin-bottom:0.3rem}
 .num-card-body{font-size:0.95rem;color:var(--muted);line-height:1.68}
 
@@ -200,22 +299,22 @@ a{color:inherit;text-decoration:none}
 .ref-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.12)}
 .ref-footer ul{list-style:none}
 .ref-footer li{font-size:0.95rem;color:var(--muted);line-height:2;display:flex;gap:0.5rem}
-.ref-footer li::before{content:'–';color:var(--gold);opacity:0.7;font-size:0.9rem;margin-top:0;flex-shrink:0}
-.copy-line{margin-top:2rem;font-size:0.75rem;color:rgba(245,237,214,0.25);text-align:center}
+.ref-footer li::before{content:'–';color:var(--gold);font-size:0.9rem;margin-top:0;flex-shrink:0}
+.copy-line{margin-top:2rem;font-size:0.75rem;color:var(--muted);text-align:center}
 
 /* ── HERO ── */
 #hero{
   min-height:calc(100vh - var(--navbar-h));display:flex;align-items:center;justify-content:center;
   text-align:center;position:relative;
   background:transparent;
-  padding:3rem 2rem
+  padding:3rem 2rem;
+  border-bottom:1px solid rgba(184,134,11,0.15)
 }
 #hero-pat{display:none}
 
 /* ── FIXED DECORATORS ── */
-.lotus-fixed{position:fixed;top:-70px;left:210px;z-index:0;pointer-events:none}
+.lotus-fixed{position:fixed;top:-70px;left:-70px;z-index:0;pointer-events:none}
 .cross-fixed{position:fixed;bottom:-70px;right:-70px;z-index:0;pointer-events:none}
-@media(max-width:900px){.lotus-fixed{left:-70px}}
 .hero-inner{position:relative;z-index:1;max-width:min(92vw,980px)}
 .hero-decor{position:absolute;opacity:0.05;pointer-events:none}
 .hero-decor--l{top:10%;left:5%;width:180px;height:180px}
@@ -230,8 +329,7 @@ a{color:inherit;text-decoration:none}
 .hero-title{font-size:clamp(2rem,4vw,3.4rem);font-weight:700;color:var(--parchment);letter-spacing:-0.01em;white-space:nowrap;animation:fadeUp 0.9s var(--ease) 0.25s both}
 /* ── MOBILE ── */
 @media(max-width:900px){
-  html{font-size:100%}
-  #main-content{margin-left:0;margin-top:var(--navbar-h)}
+  html{font-size:112%}
 }
 
 @media(max-width:700px){
@@ -254,6 +352,7 @@ a{color:inherit;text-decoration:none}
   .hero-title{white-space:normal;font-size:clamp(1.6rem,8vw,2.2rem);letter-spacing:0}
   .hero-sub{font-size:clamp(0.95rem,4.5vw,1.2rem)}
   .hero-tagline{font-size:0.85rem;padding:0 0.25rem;word-break:keep-all}
+  .hero-group{font-size:0.9rem}
   .hero-src{display:flex;flex-wrap:wrap;justify-content:center;gap:0.3rem;margin-top:1.25rem}
   .hero-src .pill,.pill{font-size:0.72rem;padding:0.2rem 0.65rem}
 
@@ -289,6 +388,11 @@ a{color:inherit;text-decoration:none}
   .h-item{width:130px;padding:0.75rem 0.65rem}
   .h-year{font-size:0.75rem}
   .h-text{font-size:0.7rem}
+  .religion-stats-row{flex-wrap:nowrap}
+  .religion-stat{min-width:140px;flex:0 0 auto}
+  .religion-timeline-node .h-text{font-size:0.82rem}
+  .religion-stat-n{font-size:1.15rem}
+  .religion-stat-l,.religion-stat-motto{font-size:0.65rem}
 
   /* ── IMPACT CARDS ── */
   .impact-card{padding:0.85rem 1rem}
@@ -316,9 +420,9 @@ a{color:inherit;text-decoration:none}
   .v-item-body{font-size:0.85rem}
 
   /* ── IMAGE STRIP ── */
-  .img-strip figure{flex:0 0 160px}
-  .img-strip img{height:108px}
-  .img-strip figcaption{font-size:0.65rem;padding:0.35rem 0.5rem}
+  .img-strip figure{flex:0 0 min(78vw,280px)}
+  .img-strip img{min-height:120px;max-height:220px;object-fit:contain}
+  .img-strip figcaption{font-size:0.7rem;padding:0.45rem 0.6rem}
 
   /* ── PILLS ── */
   .pill{font-size:0.72rem;padding:0.2rem 0.65rem}
@@ -351,15 +455,18 @@ a{color:inherit;text-decoration:none}
   .cross-fixed{bottom:-40px!important;right:-40px!important;width:180px!important;height:180px!important;opacity:0.07!important}
 
   /* ── NAVBAR ── */
-  #navbar{padding:0 1rem 0 3.75rem}
+  #navbar{grid-template-columns:1fr auto;padding:0 1rem;gap:0.5rem}
+  .nav-links{display:none}
   .quiz-btn{font-size:0.8rem;padding:0.4rem 1rem;letter-spacing:0.08em}
+  #scroll-top-btn{right:1rem;bottom:1rem;width:40px;height:40px;font-size:1.2rem}
 
   /* ── HOST VIEW GRID ── */
   .section-wrap [style*="grid-template-columns: 1fr 300px"]{grid-template-columns:1fr!important}
 }
-.hero-slash{color:rgba(201,168,76,0.4);margin:0 0.15em}
+.hero-slash{color:rgba(107,74,0,0.7);margin:0 0.15em}
 .hero-sub{font-size:clamp(1.1rem,2.8vw,1.65rem);color:var(--gold);font-weight:600;margin-top:0.75rem;font-family:'Cormorant Garamond',serif;animation:fadeUp 0.9s var(--ease) 0.4s both}
 .hero-tagline{font-size:1rem;color:var(--muted);margin-top:0.6rem;font-style:italic;animation:fadeUp 0.8s var(--ease) 0.52s both}
+.hero-group{font-size:1rem;color:var(--gold);font-weight:600;margin-top:0.5rem;letter-spacing:0.12em;animation:fadeUp 0.8s var(--ease) 0.58s both}
 .hero-src{margin-top:1.5rem;animation:fadeUp 0.8s var(--ease) 0.65s both}
 
 /* ── HIDE ALL ICONS ── */
@@ -368,30 +475,36 @@ a{color:inherit;text-decoration:none}
 
 /* ── FEATURED IMAGE ── */
 .featured-img-wrap{border-radius:8px;overflow:hidden;margin:1.75rem 0;position:relative;border:1px solid var(--gold-bdr)}
-.featured-img-wrap img{width:100%;height:300px;object-fit:cover;display:block;filter:brightness(0.75);transition:filter 0.4s}
-.featured-img-wrap:hover img{filter:brightness(0.9)}
+.featured-img-wrap img{width:100%;height:300px;object-fit:cover;display:block;filter:brightness(0.9) sepia(0.05);transition:filter 0.4s}
+.featured-img-wrap:hover img{filter:brightness(1) sepia(0)}
 .featured-img-cap{position:absolute;bottom:0;left:0;right:0;padding:0.75rem 1.1rem;background:linear-gradient(transparent,rgba(0,0,0,0.82));font-family:'Lora',serif;font-size:0.78rem;color:rgba(245,237,214,0.85);letter-spacing:0.04em;line-height:1.5}
 
 /* ── DUO IMAGE GRID ── */
-.img-duo{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1.75rem 0}
-.img-duo figure{border-radius:8px;overflow:hidden;border:1px solid var(--gold-bdr);margin:0;position:relative}
-.img-duo img{width:100%;height:200px;object-fit:cover;display:block;filter:brightness(0.8) sepia(0.1);transition:filter 0.35s}
+.img-duo{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1.75rem 0;align-items:start}
+.img-duo figure{
+  border-radius:8px;overflow:hidden;border:1px solid var(--gold-bdr);margin:0;position:relative;
+  background:rgba(237,229,208,0.65)
+}
+.img-duo img{
+  width:100%;height:auto;max-height:420px;object-fit:contain;object-position:center;
+  display:block;filter:brightness(0.9) sepia(0.08);transition:filter 0.35s
+}
 .img-duo img:hover{filter:brightness(1) sepia(0)}
-.img-duo figcaption{padding:0.5rem 0.75rem;font-family:'Lora',serif;font-size:0.72rem;color:var(--muted);background:rgba(13,13,13,0.92);line-height:1.45;border-top:1px solid var(--gold-bdr)}
+.img-duo figcaption{padding:0.5rem 0.75rem;font-family:'Lora',serif;font-size:0.72rem;color:var(--muted);background:rgba(237,229,208,0.95);line-height:1.45;border-top:1px solid var(--gold-bdr)}
 @media(max-width:700px){.img-duo{grid-template-columns:1fr}}
 
 /* ── CITATION STYLES ── */
 .cite{display:inline;font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;color:var(--gold);vertical-align:super;line-height:0;cursor:help;position:relative;padding:0 0.1rem;border-bottom:1px dotted rgba(201,168,76,0.5)}
 .cite::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(26,18,9,0.97);border:1px solid rgba(201,168,76,0.3);color:var(--parchment);font-family:'Lora',serif;font-size:0.72rem;font-weight:400;font-style:normal;line-height:1.55;padding:0.5rem 0.75rem;border-radius:6px;width:260px;white-space:normal;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.6)}
 .cite:hover::after{opacity:1}
-.source-bar{margin-top:2rem;padding:0.65rem 1rem;background:rgba(201,168,76,0.04);border-top:1px solid rgba(201,168,76,0.15);border-bottom:1px solid rgba(201,168,76,0.15);display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.75rem}
-.source-bar-label{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.7;flex-shrink:0}
+.source-bar{margin-top:2rem;padding:0.65rem 1rem;background:rgba(184,134,11,0.05);border-top:1px solid rgba(184,134,11,0.2);border-bottom:1px solid rgba(184,134,11,0.2);display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.75rem}
+.source-bar-label{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);flex-shrink:0}
 .source-bar-text{font-family:'Lora',serif;font-size:0.75rem;color:var(--muted);line-height:1.5}
 .source-bar-sep{color:rgba(201,168,76,0.3);font-size:0.8rem}
 .ref-numbered{list-style:none;counter-reset:ref-counter;margin:0}
 .ref-numbered li{counter-increment:ref-counter;display:flex;gap:0.75rem;margin-bottom:0.65rem;font-size:0.85rem;color:var(--muted);line-height:1.7}
 .ref-numbered li::before{content:counter(ref-counter)".";font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);flex-shrink:0;min-width:1.2rem}
-.ref-section-title{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(201,168,76,0.2);display:block}
+.ref-section-title{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(201,168,76,0.2);display:block}
 
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s var(--ease),transform 0.65s var(--ease)}
@@ -405,45 +518,52 @@ a{color:inherit;text-decoration:none}
 .spin-ccw{animation:slow-spin-r 80s linear infinite;transform-origin:center;pointer-events:none}
 
 /* ── IMAGE STRIP ── */
-.img-strip{display:flex;gap:0.75rem;overflow-x:auto;padding:0.5rem 0 1rem;margin:1.5rem 0 0;
+.img-strip{display:flex;gap:1rem;overflow-x:auto;padding:0.5rem 0 1rem;margin:1.5rem 0 0;
   -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold-bdr) transparent}
 .img-strip::-webkit-scrollbar{height:3px}
 .img-strip::-webkit-scrollbar-thumb{background:var(--gold-bdr);border-radius:3px}
-.img-strip figure{flex:0 0 210px;border-radius:6px;overflow:hidden;border:1px solid var(--gold-bdr)}
-.img-strip img{width:100%;height:140px;object-fit:cover;display:block;
-  filter:brightness(0.8) sepia(0.2);transition:filter 0.35s}
+.img-strip figure{
+  flex:0 0 260px;border-radius:8px;overflow:hidden;border:1px solid var(--gold-bdr);
+  display:flex;flex-direction:column;background:rgba(237,229,208,0.65)
+}
+.img-strip img{
+  width:100%;height:auto;min-height:140px;max-height:240px;object-fit:contain;object-position:center;
+  display:block;filter:brightness(0.9) sepia(0.08);transition:filter 0.35s
+}
 .img-strip img:hover{filter:brightness(1) sepia(0)}
-.img-strip figcaption{font-size:0.7rem;color:var(--muted);padding:0.45rem 0.65rem;
-  background:rgba(13,13,13,0.92);line-height:1.4}
+.img-strip figcaption{font-size:0.75rem;color:var(--muted);padding:0.55rem 0.75rem;
+  background:rgba(237,229,208,0.95);line-height:1.45}
 </style>
 </head>
 <body>
 
+<div id="nav-hover-zone" aria-hidden="true"></div>
 <!-- NAVBAR -->
-<nav id="navbar">
-  <a href="/quiz" class="quiz-btn">Quiz</a>
+<nav id="navbar" aria-label="Thanh điều hướng">
+  <a href="#hero" class="nav-brand">
+    <span class="nav-brand-title">MLN131</span>
+    <span class="nav-brand-sep">&middot;</span>
+    <span class="nav-brand-sub">Phật giáo &amp; Công giáo</span>
+  </a>
+  <div class="nav-links">
+    <a href="#hero" class="nav-link" data-s="hero">Tổng quan</a>
+    <a href="#section-1" class="nav-link" data-s="section-1">Mác-Lênin</a>
+    <a href="#section-2" class="nav-link" data-s="section-2">Chính sách</a>
+    <a href="#section-3" class="nav-link" data-s="section-3">Phật giáo</a>
+    <a href="#section-4" class="nav-link" data-s="section-4">Công giáo</a>
+    <a href="#section-5" class="nav-link" data-s="section-5">Quan hệ TG</a>
+    <a href="#section-6" class="nav-link" data-s="section-6">Kết luận</a>
+    <a href="#section-ai" class="nav-link" data-s="section-ai">AI Usage</a>
+  </div>
+  <div class="nav-actions">
+    <span class="nav-badge">Nhóm 5</span>
+    <a href="/quiz" class="quiz-btn">Quiz</a>
+  </div>
 </nav>
-
-<!-- SIDEBAR -->
-<aside id="sidebar" role="navigation" aria-label="Mục lục">
-  <span class="toc-label">Mục lục</span>
-  <a class="toc-item" href="#hero" data-s="hero"><span class="toc-num">0.</span>Tổng quan</a>
-  <hr class="toc-sep"/>
-  <a class="toc-item" href="#section-1" data-s="section-1"><span class="toc-num">I.</span>Quan điểm Mác-Lênin</a>
-  <a class="toc-item" href="#section-2" data-s="section-2"><span class="toc-num">II.</span>Chính sách tôn giáo</a>
-  <a class="toc-item" href="#section-3" data-s="section-3"><span class="toc-num">III.</span>Phật giáo</a>
-  <a class="toc-item" href="#section-4" data-s="section-4"><span class="toc-num">IV.</span>Công giáo</a>
-  <a class="toc-item" href="#section-5" data-s="section-5"><span class="toc-num">V.</span>Quan hệ Dân tộc–Tôn giáo</a>
-  <a class="toc-item" href="#section-6" data-s="section-6"><span class="toc-num">VI.</span>Thực tiễn &amp; Kết luận</a>
-  <a class="toc-item" href="#section-ai" data-s="section-ai"><span class="toc-num">VII.</span>AI Usage</a>
-</aside>
-
-<button id="ham-btn" aria-label="Mở mục lục" aria-expanded="false">&#9776;</button>
-<div id="sidebar-overlay"></div>
 
 <!-- FIXED BACKGROUND DECORATORS (stay visible while scrolling) -->
 <svg class="spin-cw lotus-fixed" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
-  style="width:360px;height:360px;opacity:0.13;color:#C9A84C">
+  style="width:360px;height:360px;opacity:0.18;color:#B8860B">
     <!-- 8 outer petals -->
     <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7"/>
     <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(45 100 100)"/>
@@ -468,7 +588,7 @@ a{color:inherit;text-decoration:none}
   </svg>
 
 <svg class="spin-ccw cross-fixed" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
-  style="width:320px;height:320px;opacity:0.09;color:#8B1A1A">
+  style="width:320px;height:320px;opacity:0.14;color:#556B2F">
     <!-- Outer rings -->
     <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
     <circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="1" opacity=".2"/>
@@ -508,11 +628,7 @@ a{color:inherit;text-decoration:none}
     <h1 class="hero-title">PHẬT GIÁO<span class="hero-slash">/</span>CÔNG GIÁO</h1>
     <p class="hero-sub">ĐỒNG HÀNH CÙNG DÂN TỘC</p>
     <p class="hero-tagline">Tôn giáo &ndash; Dân tộc &ndash; Tổ quốc Việt Nam Xã hội chủ nghĩa</p>
-    <div class="hero-src">
-      <span class="pill">MLN131</span>
-      <span class="pill">Giáo trình CNXHKH 2021</span>
-      <span class="pill">Văn kiện ĐH XIV</span>
-    </div>
+    <p class="hero-group">Nhóm 5</p>
   </div>
 </section>
 
@@ -599,7 +715,7 @@ a{color:inherit;text-decoration:none}
   <!-- Ảnh minh họa: Tôn giáo là hiện tượng xã hội phổ biến (tính quần chúng) -->
   <div class="img-duo reveal" style="margin-top:2.5rem">
     <figure>
-      <img src="images/phat-giao/chua-huong.jpg" alt="Hành hương Chùa Hương — tính quần chúng của tôn giáo" loading="lazy"/>
+      <img src="images/chuahuong.jpg" alt="Hành hương Chùa Hương — tính quần chúng của tôn giáo" loading="lazy"/>
       <figcaption>Hàng triệu tín đồ hành hương Chùa Hương mỗi năm — minh chứng sinh động cho "tính quần chúng" của tôn giáo Việt Nam</figcaption>
     </figure>
     <figure>
@@ -624,6 +740,17 @@ a{color:inherit;text-decoration:none}
   <span class="s-label">Phần II</span>
   <h2 class="s-title">Chính sách Tôn giáo của Đảng và Nhà nước</h2>
   <hr class="s-divider"/>
+
+  <div class="highlight-box reveal" style="margin-bottom:2rem">
+    <h4 class="highlight-box-title">Nguyên tắc</h4>
+    <ul class="student-list" style="margin:0">
+      <li>Tôn giáo vẫn tồn tại trong thời kỳ quá độ lên chủ nghĩa xã hội (TKQĐ).</li>
+      <li>Không trấn áp nhu cầu tín ngưỡng chính đáng của nhân dân.</li>
+      <li>Kiên quyết chống lợi dụng tôn giáo để chống phá, chia rẽ dân tộc và gây hại đến Tổ quốc.</li>
+    </ul>
+  </div>
+
+  <h3 class="subsection-title" style="margin-top:0">6 nội dung chính sách</h3>
 
   <div class="v-timeline">
     <div class="v-item reveal">
@@ -652,32 +779,25 @@ a{color:inherit;text-decoration:none}
     </div>
   </div>
 
-  <div style="margin-top:1.5rem">
-    <span class="pill">Hiến pháp 2013 Điều 24</span>
-    <span class="pill">Luật Tín ngưỡng, Tôn giáo 2016</span>
-    <span class="pill">Văn kiện ĐH XIV Tập 2, tr.33, 65–66</span>
+  <!-- Ảnh minh họa: Di sản tôn giáo được pháp luật bảo vệ và phát huy -->
+  <div class="img-duo reveal" style="margin-top:2rem">
+    <figure class="img-duo-fit">
+      <img src="images/chua1cot.jpg" alt="Chùa Một Cột được bảo tồn — Nhà nước bảo vệ di sản tôn giáo" loading="lazy"/>
+      <figcaption>Chùa Một Cột (Hà Nội) được Nhà nước bảo tồn và phục dựng — minh chứng chính sách tôn trọng, phát huy giá trị tôn giáo</figcaption>
+    </figure>
+    <figure class="img-duo-fit">
+      <img src="images/nha-tho-da-phat-diem-ninh-binh.jpg" alt="Nhà thờ Phát Diệm — di sản Công giáo được bảo tồn" loading="lazy"/>
+      <figcaption>Nhà thờ Phát Diệm — Di sản kiến trúc Công giáo Việt Nam được bảo vệ theo Luật Di sản văn hóa</figcaption>
+    </figure>
   </div>
 
-  <!-- Source bar Phần II -->
-  <div class="source-bar" style="margin-top:1rem">
+  <div class="source-bar" style="margin-top:1.25rem">
     <span class="source-bar-label">Nguồn</span>
     <span class="source-bar-text">Giáo trình CNXHKH – Bộ GD&amp;ĐT, 2021, tr.222–228</span>
     <span class="source-bar-sep">|</span>
     <span class="source-bar-text">Văn kiện ĐH XIV Tập 2, tr.33, 62, 65–66</span>
     <span class="source-bar-sep">|</span>
     <span class="source-bar-text">Hiến pháp 2013 Điều 24; Luật TN-TG 2016</span>
-  </div>
-
-  <!-- Ảnh minh họa: Di sản tôn giáo được pháp luật bảo vệ và phát huy -->
-  <div class="img-duo reveal" style="margin-top:2rem">
-    <figure>
-      <img src="images/phat-giao/chua-mot-cot.jpg" alt="Chùa Một Cột được bảo tồn — Nhà nước bảo vệ di sản tôn giáo" loading="lazy"/>
-      <figcaption>Chùa Một Cột (Hà Nội) được Nhà nước bảo tồn và phục dựng — minh chứng chính sách tôn trọng, phát huy giá trị tôn giáo</figcaption>
-    </figure>
-    <figure>
-      <img src="images/cong-giao/nha-tho-phat-diem.jpg" alt="Nhà thờ Phát Diệm — di sản Công giáo được bảo tồn" loading="lazy"/>
-      <figcaption>Nhà thờ Phát Diệm — Di sản kiến trúc Công giáo Việt Nam được bảo vệ theo Luật Di sản văn hóa</figcaption>
-    </figure>
   </div>
 </div>
 </section>
@@ -689,54 +809,62 @@ a{color:inherit;text-decoration:none}
   <h2 class="s-title">Phật giáo Việt Nam</h2>
   <hr class="s-divider"/>
 
-  <!-- Featured banner image -->
-  <div class="featured-img-wrap reveal">
-    <img src="images/timeline/phat-giao-du-nhap.jpg" alt="Con đường Phật giáo du nhập Việt Nam từ thế kỷ I-II SCN" loading="lazy"/>
-    <span class="featured-img-cap">Con đường Phật giáo du nhập Việt Nam (Thế kỷ I–II SCN) — Từ Ấn Độ qua đường biển và từ Trung Quốc, Luy Lâu (Bắc Ninh) là trung tâm Phật giáo đầu tiên</span>
+  <div class="religion-overview-duo religion-overview-duo--buddhist reveal">
+    <div class="religion-overview-media">
+      <figure class="religion-portrait-wrap">
+        <img src="images/budharoad.png" alt="Bản đồ truyền bá Phật giáo vào Việt Nam (thế kỷ I–II SCN)" loading="lazy"/>
+        <figcaption class="religion-portrait-cap">Con đường Phật giáo du nhập Việt Nam (Thế kỷ I–II SCN) — Từ Ấn Độ qua đường biển và từ Trung Quốc, Luy Lâu (Bắc Ninh) là trung tâm Phật giáo đầu tiên</figcaption>
+      </figure>
+    </div>
+    <div class="religion-overview-main">
+      <h3 class="subsection-title" style="margin-top:0">Tổng quan</h3>
+      <div class="religion-stats-row">
+        <div class="religion-stat">
+          <span class="religion-stat-n">TK II SCN</span>
+          <span class="religion-stat-l">Du nhập Việt Nam</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-n">~14–15tr</span>
+          <span class="religion-stat-l">Tín đồ</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-n">Hàng vạn</span>
+          <span class="religion-stat-l">Cơ sở thờ tự</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-motto">Phương châm:<br/><strong>Đạo pháp – Dân tộc – CNXH</strong></span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="split-layout">
-    <!-- Accent panel -->
-    <div class="accent-panel accent-panel--buddhist reveal">
-      <span class="panel-icon">&#9753;</span>
-      <span class="panel-stat-n">TK II SCN</span>
-      <span class="panel-stat-l">Du nhập Việt Nam</span>
-      <hr class="panel-sep"/>
-      <span class="panel-stat-n">18.544</span>
-      <span class="panel-stat-l">Cơ sở thờ tự</span>
-      <hr class="panel-sep"/>
-      <span class="panel-stat-n">~80%</span>
-      <span class="panel-stat-l">Dân số ảnh hưởng</span>
-      <hr class="panel-sep"/>
-      <span style="font-size:.72rem;color:var(--muted);line-height:1.55;display:block;margin-top:.25rem">Phương châm:<br/><strong style="color:var(--gold)">Đạo pháp – Dân tộc – CNXH</strong></span>
-    </div>
-
-    <!-- Content -->
-    <div>
-      <!-- Lịch sử -->
-      <h3 class="subsection-title" style="margin-top:0">Lịch sử đồng hành với Dân tộc</h3>
-      <div class="h-timeline">
-        <div class="h-item">
+  <div class="religion-history religion-history--buddhist reveal">
+    <h3 class="subsection-title" style="margin-top:0">Lịch sử đồng hành với Dân tộc</h3>
+    <div class="religion-timeline">
+      <div class="religion-timeline-track">
+        <div class="religion-timeline-node">
           <span class="h-year">TK I–II SCN</span>
           <p class="h-text">Du nhập từ Ấn Độ (đường biển) và Trung Quốc (đường bộ); trung tâm Luy Lâu lớn hơn cả Lạc Dương và Bành Thành</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">TK III–IX (Bắc thuộc)</span>
           <p class="h-text">Chỗ dựa tinh thần; thiền sư Mâu Tử, Khương Tăng Hội củng cố văn hóa dân tộc thời Bắc thuộc</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">TK X–XIV (Lý–Trần)</span>
           <p class="h-text">Quốc giáo; Thiền phái Trúc Lâm Yên Tử (vua Trần Nhân Tông); "Phật pháp bất ly thế gian giác"<span class="cite" data-tip="Thiền ngữ Trúc Lâm Yên Tử (TK XIII): Đạo Phật không tách rời cuộc đời thực tế — nền tảng tư tưởng Phật giáo nhập thế của Việt Nam"></span></p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">TK XIX–XX (Kháng chiến)</span>
           <p class="h-text">Tăng ni phật tử tham gia kháng chiến; HT. Thích Quảng Đức tự thiêu vì đạo pháp (1963)</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">1981 – nay</span>
           <p class="h-text">GHPGVN thành lập; phương châm "Đạo pháp – Dân tộc – Chủ nghĩa xã hội"<span class="cite" data-tip="Hiến chương GHPGVN, 1981: Phương châm hành đạo của Giáo hội Phật giáo Việt Nam thống nhất"></span></p>
         </div>
       </div>
+    </div>
+  </div>
 
       <!-- Đóng góp tích cực -->
       <h3 class="subsection-title">Đóng góp tích cực</h3>
@@ -770,33 +898,26 @@ a{color:inherit;text-decoration:none}
       <!-- Hình ảnh Phật giáo -->
       <div class="img-strip reveal">
         <figure>
-          <img src="images/phat-giao/chua-mot-cot.jpg" alt="Chùa Một Cột" loading="lazy"/>
-          <figcaption>Chùa Một Cột — Hà Nội</figcaption>
+          <img src="images/chuabichdong.jpg" alt="Chùa Bích Động — Ninh Bình" loading="lazy"/>
+          <figcaption>Chùa Bích Động — Ninh Bình</figcaption>
         </figure>
         <figure>
           <img src="images/timeline/truc-lam-yen-tu.jpg" alt="Trúc Lâm Yên Tử" loading="lazy"/>
-          <figcaption>Thiền viện Trúc Lâm Yên Tử</figcaption>
+          <figcaption>Chùa Bái Đính - Ninh Bình</figcaption>
         </figure>
         <figure>
           <img src="images/phat-giao/chua-huong.jpg" alt="Chùa Hương" loading="lazy"/>
-          <figcaption>Chùa Hương — Hà Nội</figcaption>
+          <figcaption>Chùa Trấn Quốc — Hà Nội</figcaption>
         </figure>
         <figure>
-          <img src="images/timeline/ghpgvn-1981.jpg" alt="GHPGVN 1981" loading="lazy"/>
-          <figcaption>Đại hội GHPGVN 1981</figcaption>
-        </figure>
-        <figure>
-          <img src="images/phat-giao/tuong-phat.jpg" alt="Tượng Phật" loading="lazy"/>
+          <img src="images/phatnam.jpg" alt="Tượng Phật Việt Nam" loading="lazy"/>
           <figcaption>Tượng Phật Việt Nam</figcaption>
-        </figure>
-        <figure>
-          <img src="images/timeline/phat-giao-du-nhap.jpg" alt="Phật giáo du nhập" loading="lazy"/>
-          <figcaption>Con đường du nhập Phật giáo</figcaption>
         </figure>
       </div>
 
       <!-- Thách thức -->
-      <h3 class="subsection-title" style="color:#e09090">Thách thức &amp; Hạn chế</h3>
+      <h3 class="subsection-title" style="color:#8B5E3C">Thách thức &amp; Hạn chế</h3>
+      <p class="section-note">Các hiện tượng tiêu cực, không phải bản chất Phật giáo</p>
       <div>
         <div class="coll-wrap">
           <button class="coll-btn" aria-expanded="false">Mê tín dị đoan: cúng bái trục lợi, đốt vàng mã <span class="coll-chevron">&#9660;</span></button>
@@ -822,8 +943,6 @@ a{color:inherit;text-decoration:none}
         <strong>Cơ sở thờ tự:</strong> <span>Hàng vạn trên cả nước</span>
         <strong>GHPGVN:</strong> <span>Thành lập 7/11/1981 — "Đạo pháp – Dân tộc – CNXH"</span>
       </div>
-    </div>
-  </div>
 
   <!-- Source bar Phần III -->
   <div class="source-bar">
@@ -844,79 +963,92 @@ a{color:inherit;text-decoration:none}
   <h2 class="s-title">Công giáo Việt Nam</h2>
   <hr class="s-divider"/>
 
-  <!-- Featured banner image -->
-  <div class="featured-img-wrap reveal">
-    <img src="images/timeline/alexandre-de-rhodes.jpg" alt="Alexandre de Rhodes (Đắc Lộ) — người sáng lập chữ Quốc ngữ" loading="lazy"/>
-    <span class="featured-img-cap">Alexandre de Rhodes (Đắc Lộ, 1593–1660) — Linh mục Dòng Tên, người hệ thống hóa chữ Quốc ngữ (1651), đặt nền móng cho chữ viết hiện đại của Việt Nam</span>
+  <div class="religion-overview-duo religion-overview-duo--catholic reveal">
+    <div class="religion-overview-media">
+      <figure class="religion-portrait-wrap">
+        <img src="images/Derhodes.jpg" alt="Alexandre de Rhodes (Đắc Lộ) — người sáng lập chữ Quốc ngữ" loading="lazy"/>
+        <figcaption class="religion-portrait-cap">Alexandre de Rhodes (Đắc Lộ, 1593–1660) — Linh mục Dòng Tên, người hệ thống hóa chữ Quốc ngữ (1651), đặt nền móng cho chữ viết hiện đại của Việt Nam</figcaption>
+      </figure>
+    </div>
+    <div class="religion-overview-main">
+      <h3 class="subsection-title" style="margin-top:0">Tổng quan</h3>
+      <div class="religion-stats-row">
+        <div class="religion-stat">
+          <span class="religion-stat-n">1533</span>
+          <span class="religion-stat-l">Du nhập Việt Nam</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-n">~7–8tr</span>
+          <span class="religion-stat-l">Tín đồ</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-n">27</span>
+          <span class="religion-stat-l">Giáo phận</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-n">3</span>
+          <span class="religion-stat-l">Giáo tỉnh: Hà Nội – Huế – TP.HCM</span>
+        </div>
+        <div class="religion-stat">
+          <span class="religion-stat-motto">Đường hướng:<br/><strong>"Sống Phúc Âm giữa lòng Dân tộc"</strong></span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="split-layout">
-    <!-- Accent panel -->
-    <div class="accent-panel accent-panel--catholic reveal">
-      <span class="panel-icon" style="color:#c88">&#10013;</span>
-      <span class="panel-stat-n">1533</span>
-      <span class="panel-stat-l">Du nhập Việt Nam</span>
-      <hr class="panel-sep"/>
-      <span class="panel-stat-n">~6,5tr</span>
-      <span class="panel-stat-l">Tín đồ Công giáo</span>
-      <hr class="panel-sep"/>
-      <span class="panel-stat-n">27</span>
-      <span class="panel-stat-l">Giáo phận</span>
-      <hr class="panel-sep"/>
-      <span style="font-size:.72rem;color:var(--muted);line-height:1.55;display:block;margin-top:.25rem">Đường hướng:<br/><strong style="color:#c88">"Sống Phúc Âm giữa lòng Dân tộc"</strong></span>
-    </div>
-
-    <!-- Content -->
-    <div>
-      <h3 class="subsection-title" style="margin-top:0">Các mốc lịch sử quan trọng</h3>
-      <div class="h-timeline">
-        <div class="h-item">
+  <div class="religion-history religion-history--catholic reveal">
+    <h3 class="subsection-title" style="margin-top:0">Lịch sử đồng hành với Dân tộc</h3>
+    <div class="religion-timeline">
+      <div class="religion-timeline-track">
+        <div class="religion-timeline-node">
           <span class="h-year">TK XVI–XVII</span>
           <p class="h-text">~1533: Giáo sĩ I-nê-khu vào Ninh Cường; Francisco de Pina, Alexandre de Rhodes truyền đạo và học tiếng Việt</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">TK XVIII–XIX</span>
           <p class="h-text">Bách đạo khốc liệt; 117 vị tử đạo được phong Hiển thánh năm 1988 bởi Đức Giáo hoàng Gioan Phaolô II</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">TK XX</span>
           <p class="h-text">Phong trào "Công giáo kháng chiến"; Ủy ban Liên lạc người CG Yêu nước thành lập 1955</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">1980</span>
           <p class="h-text">Thư chung HĐGM VN: "Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào"</p>
         </div>
-        <div class="h-item">
+        <div class="religion-timeline-node">
           <span class="h-year">Hiện nay</span>
           <p class="h-text">VN–Vatican: Đại diện Thường trú từ 2023; phương châm "Tốt đời, đẹp đạo"</p>
         </div>
       </div>
+    </div>
+  </div>
 
       <!-- Đóng góp -->
       <h3 class="subsection-title">Đóng góp tích cực</h3>
       <div style="display:flex;flex-direction:column;gap:0.65rem">
         <div class="impact-card reveal">
-          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <span class="impact-check" style="color:#556B2F">&#10003;</span>
           <div><p class="impact-title">Chữ Quốc ngữ — Di sản vô giá</p><p class="impact-body">Francisco de Pina đặt nền móng, Alexandre de Rhodes hệ thống hóa (1651) — chữ cái La-tinh ký âm tiếng Việt, nền tảng ngôn ngữ dân tộc hiện đại, giúp xóa mù chữ và phổ cập giáo dục toàn quốc.</p></div>
         </div>
         <div class="impact-card reveal">
-          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <span class="impact-check" style="color:#556B2F">&#10003;</span>
           <div><p class="impact-title">Giáo dục</p><p class="impact-body">Mạng lưới trường từ tiểu học đến đại học, đặc biệt vùng nông thôn và dân tộc thiểu số; Đại học Đà Lạt (1957) — đào tạo nhiều thế hệ trí thức Việt Nam.</p></div>
         </div>
         <div class="impact-card reveal">
-          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <span class="impact-check" style="color:#556B2F">&#10003;</span>
           <div><p class="impact-title">Y tế &amp; Từ thiện</p><p class="impact-body">Hệ thống bệnh viện, phòng khám, cô nhi viện, nhà dưỡng lão; Dòng Nữ Tử Bác Ái, Dòng Mến Thánh Giá phục vụ cộng đồng không phân biệt tôn giáo, đặc biệt người nghèo.</p></div>
         </div>
         <div class="impact-card reveal">
-          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <span class="impact-check" style="color:#556B2F">&#10003;</span>
           <div><p class="impact-title">Yêu nước &amp; Kháng chiến</p><p class="impact-body">Linh mục, tu sĩ, giáo dân tham gia kháng chiến chống Pháp và chống Mỹ. "Người Công giáo tốt cũng là người công dân tốt" — phương châm xuyên suốt lịch sử Công giáo Việt Nam.</p></div>
         </div>
         <div class="impact-card reveal">
-          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <span class="impact-check" style="color:#556B2F">&#10003;</span>
           <div><p class="impact-title">Kiến trúc &amp; Nghệ thuật</p><p class="impact-body">Nhà thờ Đức Bà TP.HCM, Nhà thờ Lớn Hà Nội, Nhà thờ Phát Diệm — kiến trúc Gothic-Việt hòa quyện Đông-Tây độc đáo. Âm nhạc thánh ca tiếng Việt phong phú.</p></div>
         </div>
         <div class="impact-card reveal">
-          <span class="impact-check" style="color:#c88">&#10003;</span>
+          <span class="impact-check" style="color:#556B2F">&#10003;</span>
           <div><p class="impact-title">Đạo đức &amp; Lối sống</p><p class="impact-body">Giáo lý Kitô giáo về bác ái, yêu thương, trung thực, công bằng, phục vụ người nghèo — góp phần bồi dưỡng nhân cách và xây dựng lối sống trách nhiệm, văn minh.</p></div>
         </div>
       </div>
@@ -950,7 +1082,8 @@ a{color:inherit;text-decoration:none}
       </div>
 
       <!-- Thách thức Công giáo -->
-      <h3 class="subsection-title" style="color:#e09090">Thách thức &amp; Hạn chế</h3>
+      <h3 class="subsection-title" style="color:#8B5E3C">Thách thức &amp; Hạn chế</h3>
+      <p class="section-note">Các hiện tượng cụ thể, không đại diện toàn Giáo hội</p>
       <div>
         <div class="coll-wrap">
           <button class="coll-btn" aria-expanded="false">Lịch sử: lợi dụng Công giáo phục vụ mục đích chính trị <span class="coll-chevron">&#9660;</span></button>
@@ -978,7 +1111,7 @@ a{color:inherit;text-decoration:none}
       </div>
 
       <div class="highlight-box crimson">
-        <h4 class="highlight-box-title" style="color:#e09090">"Tốt đời, đẹp đạo"<span class="cite" data-tip="Phương châm thực tiễn cộng đồng Công giáo Việt Nam — Người Công giáo tốt cũng là công dân tốt; sống đạo gắn liền với yêu nước và trách nhiệm xã hội"></span></h4>
+        <h4 class="highlight-box-title" style="color:#8B5E3C">"Tốt đời, đẹp đạo"<span class="cite" data-tip="Phương châm thực tiễn cộng đồng Công giáo Việt Nam — Người Công giáo tốt cũng là công dân tốt; sống đạo gắn liền với yêu nước và trách nhiệm xã hội"></span></h4>
         <p style="font-size:.85rem;color:var(--muted)">"Người Công giáo tốt cũng là người công dân tốt; sống đạo gắn liền với yêu nước, trách nhiệm xã hội và khát vọng xây dựng đất nước phát triển."</p>
       </div>
 
@@ -988,8 +1121,6 @@ a{color:inherit;text-decoration:none}
         <strong>Giáo tỉnh:</strong> <span>3 (Hà Nội – Huế – TP.HCM)</span>
         <strong>VN–Vatican:</strong> <span>Đại diện Thường trú từ 12/2023</span>
       </div>
-    </div>
-  </div>
 
   <!-- Source bar Phần IV -->
   <div class="source-bar">
@@ -1047,12 +1178,12 @@ a{color:inherit;text-decoration:none}
   <!-- Ảnh minh họa: Tôn giáo gắn bó với bản sắc và văn hóa dân tộc -->
   <div class="img-duo reveal">
     <figure>
-      <img src="images/timeline/truc-lam-yen-tu.jpg" alt="Thiền phái Trúc Lâm Yên Tử — Phật giáo thuần Việt" loading="lazy"/>
+      <img src="images/VainetvethienphaiTLyT3.jpg" alt="Thiền phái Trúc Lâm Yên Tử — Phật giáo thuần Việt" loading="lazy"/>
       <figcaption>Thiền phái Trúc Lâm Yên Tử (TK XIII) do vua Trần Nhân Tông sáng lập — Phật giáo Việt Nam thuần túy, gắn chặt với bản sắc dân tộc</figcaption>
     </figure>
     <figure>
-      <img src="images/timeline/chua-mot-cot-ly.jpg" alt="Chùa Một Cột thời Lý — Phật giáo là quốc giáo" loading="lazy"/>
-      <figcaption>Chùa Một Cột thời Lý-Trần — Khi Phật giáo là quốc giáo, tôn giáo gắn liền với vận mệnh và bản sắc quốc gia</figcaption>
+      <img src="images/chua-phattich.jpg" alt="Chùa Phật Tích thời Lý — Phật giáo là quốc giáo" loading="lazy"/>
+      <figcaption>Chùa Phật Tích thời Lý-Trần — Khi Phật giáo là quốc giáo, tôn giáo gắn liền với vận mệnh và bản sắc quốc gia</figcaption>
     </figure>
   </div>
 
@@ -1080,6 +1211,8 @@ a{color:inherit;text-decoration:none}
   <h2 class="s-title">Thực tiễn &amp; Kết luận</h2>
   <hr class="s-divider"/>
 
+  <h3 class="subsection-title" style="margin-top:0">Thực trạng tôn giáo Việt Nam hiện nay</h3>
+
   <!-- Stats dashboard -->
   <div class="stats-dash reveal">
     <div class="dash-card">
@@ -1100,20 +1233,26 @@ a{color:inherit;text-decoration:none}
     </div>
   </div>
 
+  <div class="stat-bar reveal" style="margin-bottom:2.5rem">
+    <strong>Phật giáo:</strong> <span>~14–15 triệu tín đồ</span>
+    <strong>Công giáo:</strong> <span>~7–8 triệu tín đồ</span>
+    <strong>VN–Vatican:</strong> <span>Đại diện Thường trú từ 2023</span>
+  </div>
+
   <!-- Ảnh minh họa: Dấu mốc lịch sử hai tôn giáo đồng hành cùng Tổ quốc -->
   <div class="img-duo reveal" style="margin-bottom:2.5rem">
-    <figure>
-      <img src="images/timeline/ghpgvn-1981.jpg" alt="Đại hội thành lập GHPGVN 7/11/1981" loading="lazy"/>
+    <figure class="img-duo-fit">
+      <img src="images/phat-giao-viet-nam-tu-khoi-nguyen-den-nam-1981-chuong-12-1736415886.jpg" alt="Đại hội thành lập GHPGVN 7/11/1981" loading="lazy"/>
       <figcaption>Đại hội thành lập Giáo hội Phật giáo Việt Nam (7/11/1981) — Dấu mốc thống nhất Phật giáo cả nước, thực hiện phương châm "Đạo pháp – Dân tộc – CNXH"</figcaption>
     </figure>
-    <figure>
-      <img src="images/cong-giao/nha-tho-ha-noi.jpg" alt="Nhà thờ Lớn Hà Nội — Công giáo Việt Nam hiện đại" loading="lazy"/>
+    <figure class="img-duo-fit">
+      <img src="images/nhatholonhanoi.jpg" alt="Nhà thờ Lớn Hà Nội — Công giáo Việt Nam hiện đại" loading="lazy"/>
       <figcaption>Nhà thờ Lớn Hà Nội — Biểu tượng Công giáo Việt Nam tiếp tục phát triển trong lòng dân tộc theo tinh thần Thư chung 1980</figcaption>
     </figure>
   </div>
 
   <!-- Trách nhiệm sinh viên -->
-  <h3 class="subsection-title">Liên hệ bản thân</h3>
+  <h3 class="subsection-title">Trách nhiệm của sinh viên</h3>
   <ul class="student-list">
     <li>Nhận thức đúng chính sách tự do tín ngưỡng của Đảng và Nhà nước; phân biệt quyền tự do tín ngưỡng hợp pháp với hành vi vi phạm pháp luật dưới danh nghĩa tôn giáo.</li>
     <li>Tôn trọng và đoàn kết với đồng bào các tôn giáo; không kỳ thị, phân biệt đối xử vì lý do tín ngưỡng, tôn giáo.</li>
@@ -1169,9 +1308,9 @@ a{color:inherit;text-decoration:none}
   <div class="reveal" style="border:1px solid var(--gold-bdr);border-radius:8px;overflow:hidden;margin-bottom:2rem">
     <!-- Header row -->
     <div style="display:grid;grid-template-columns:80px 1fr 2fr;background:rgba(201,168,76,0.08);border-bottom:1px solid var(--gold-bdr);padding:0.75rem 1.25rem;gap:1rem">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.7">#</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.7">Công cụ</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.7">Mục đích</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)">#</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)">Công cụ</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)">Mục đích</span>
     </div>
     <!-- Row 1 -->
     <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;border-bottom:1px solid rgba(201,168,76,0.08);transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
@@ -1208,26 +1347,60 @@ a{color:inherit;text-decoration:none}
 
 </main><!-- /main-content -->
 
+<button id="scroll-top-btn" type="button" aria-label="Cuộn lên đầu trang" title="Lên đầu trang">&#8593;</button>
+
 <script>
 (function(){
-  /* ── Sidebar toggle ── */
-  var btn=document.getElementById('ham-btn'),
-      sb=document.getElementById('sidebar'),
-      ov=document.getElementById('sidebar-overlay');
+  /* ── Navbar: ẩn khi scroll xuống, hiện khi hover vùng trên ── */
+  var navbar=document.getElementById('navbar');
+  var hoverZone=document.getElementById('nav-hover-zone');
+  var lastY=window.scrollY;
+  var navPinned=false;
+  var SCROLL_TOP=72;
 
-  function open(){sb.classList.add('open');ov.classList.add('active');btn.setAttribute('aria-expanded','true');btn.innerHTML='&#10005;';document.body.style.overflow='hidden'}
-  function close(){sb.classList.remove('open');ov.classList.remove('active');btn.setAttribute('aria-expanded','false');btn.innerHTML='&#9776;';document.body.style.overflow=''}
+  function showNavbar(){
+    navbar.classList.remove('is-hidden');
+    hoverZone.style.pointerEvents='none';
+  }
+  function hideNavbar(){
+    if(!navPinned&&window.scrollY>SCROLL_TOP){
+      navbar.classList.add('is-hidden');
+      hoverZone.style.pointerEvents='auto';
+    }
+  }
+  function setPinned(on){
+    navPinned=on;
+    if(on)showNavbar();
+    else if(window.scrollY>SCROLL_TOP)hideNavbar();
+  }
 
-  btn.addEventListener('click',function(){sb.classList.contains('open')?close():open()});
-  ov.addEventListener('click',close);
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+  hoverZone.addEventListener('mouseenter',function(){setPinned(true)});
+  hoverZone.addEventListener('mouseleave',function(){setPinned(false)});
+  navbar.addEventListener('mouseenter',function(){setPinned(true)});
+  navbar.addEventListener('mouseleave',function(){setPinned(false)});
+  hoverZone.addEventListener('touchstart',function(){setPinned(true)},{passive:true});
 
-  /* Close sidebar on toc click (mobile) */
-  document.querySelectorAll('.toc-item').forEach(function(a){a.addEventListener('click',close)});
+  var scrollTopBtn=document.getElementById('scroll-top-btn');
+  var SCROLL_BTN_SHOW=320;
 
-  /* ── Active TOC via IntersectionObserver ── */
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY;
+    if(y<=SCROLL_TOP){
+      showNavbar();
+    }else if(y>lastY&&!navPinned){
+      hideNavbar();
+    }
+    lastY=y;
+    scrollTopBtn.classList.toggle('is-visible',y>SCROLL_BTN_SHOW);
+  },{passive:true});
+
+  scrollTopBtn.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  /* ── Active nav links via IntersectionObserver ── */
   var sections=document.querySelectorAll('section[id]');
-  var tocLinks=document.querySelectorAll('.toc-item[data-s]');
+  var tocLinks=document.querySelectorAll('.nav-link[data-s]');
 
   var navObs=new IntersectionObserver(function(entries){
     entries.forEach(function(entry){

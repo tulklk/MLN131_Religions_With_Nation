@@ -5,9 +5,9 @@ import { LeaderboardEntry } from '@/lib/room-types'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const PARCHMENT = '#F5EDD6'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const PARCHMENT = '#0D0703'
+const MUTED = '#2A1C0C'
 
 interface Props {
   entries: LeaderboardEntry[]
@@ -18,7 +18,7 @@ interface Props {
 
 const RANK_COLORS = [
   { color: GOLD, bg: 'rgba(201,168,76,0.1)', border: 'rgba(201,168,76,0.3)' },
-  { color: 'rgba(245,237,214,0.75)', bg: 'rgba(245,237,214,0.06)', border: 'rgba(245,237,214,0.2)' },
+  { color: '#4A3520', bg: 'rgba(107,74,0,0.06)', border: 'rgba(107,74,0,0.22)' },
   { color: '#e8a060', bg: 'rgba(232,160,96,0.08)', border: 'rgba(232,160,96,0.28)' },
 ]
 

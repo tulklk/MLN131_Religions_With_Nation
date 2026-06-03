@@ -6,8 +6,8 @@ import { useQuizStore } from '@/lib/store/quiz-store'
 const TOTAL = 20
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const MUTED = '#2A1C0C'
 
 export default function TimerBar() {
   const { timeLeft, setTimeLeft, timeOut, screen } = useQuizStore()

@@ -6,14 +6,14 @@ import Link from 'next/link'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const PARCHMENT = '#F5EDD6'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const PARCHMENT = '#0D0703'
+const MUTED = '#2A1C0C'
 const BG: React.CSSProperties = {
   minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center',
   justifyContent: 'flex-start', padding: '3rem 1.5rem',
-  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
-  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#0D0D0D',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #E8D9B8 0%, #FAF6EC 65%)',
+  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#FAF6EC',
   color: PARCHMENT, fontFamily: B,
 }
 

@@ -10,17 +10,17 @@ import FinalPodium from './FinalPodium'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const PARCHMENT = '#F5EDD6'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const PARCHMENT = '#0D0703'
+const MUTED = '#2A1C0C'
 const BG: React.CSSProperties = {
   minHeight: '100vh', display: 'flex', flexDirection: 'column',
-  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
-  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#0D0D0D',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #E8D9B8 0%, #FAF6EC 65%)',
+  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#FAF6EC',
   color: PARCHMENT, fontFamily: B,
 }
-const CARD: React.CSSProperties = { background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)', borderRadius: '8px' }
-const BTN_PRIMARY: React.CSSProperties = { padding: '0.9rem 2rem', borderRadius: '6px', cursor: 'pointer', border: 'none', fontFamily: D, fontSize: '1.05rem', fontWeight: 600, letterSpacing: '0.08em', color: '#0D0D0D', background: `linear-gradient(135deg, ${GOLD}, #a07830)` }
+const CARD: React.CSSProperties = { background: 'rgba(184,134,11,0.07)', border: '1px solid rgba(184,134,11,0.28)', borderRadius: '8px' }
+const BTN_PRIMARY: React.CSSProperties = { padding: '0.9rem 2rem', borderRadius: '6px', cursor: 'pointer', border: 'none', fontFamily: D, fontSize: '1.05rem', fontWeight: 600, letterSpacing: '0.08em', color: '#FAF6EC', background: `linear-gradient(135deg, ${GOLD}, #8B6914)` }
 
 export default function HostView() {
   const params = useParams()
@@ -88,7 +88,7 @@ export default function HostView() {
   return (
     <div style={BG}>
       {/* Top bar */}
-      <div style={{ borderBottom: '1px solid rgba(201,168,76,0.12)', background: 'rgba(13,13,13,0.8)', backdropFilter: 'blur(8px)', padding: '0.75rem 1.5rem' }}>
+      <div style={{ borderBottom: '1px solid rgba(184,134,11,0.18)', background: 'rgba(250,246,236,0.96)', backdropFilter: 'blur(8px)', padding: '0.75rem 1.5rem' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontFamily: D, fontSize: '1.8rem', fontWeight: 700, color: GOLD, letterSpacing: '0.2em' }}>{code}</div>

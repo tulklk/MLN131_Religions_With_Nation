@@ -4,7 +4,7 @@ import { useQuizStore } from '@/lib/store/quiz-store'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
+const GOLD = '#6B4A00'
 
 export default function CoinCounter() {
   const coins = useQuizStore((s) => s.coins)

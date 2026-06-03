@@ -5,8 +5,8 @@ import { PowerUpType, POWER_UP_INFO } from '@/lib/room-types'
 
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
-const GOLD = '#C9A84C'
-const MUTED = 'rgba(245,237,214,0.55)'
+const GOLD = '#6B4A00'
+const MUTED = '#2A1C0C'
 
 interface Props {
   powerUps: PowerUpType[]
