@@ -32,20 +32,21 @@ async function getRoomRaw(code: string): Promise<RoomState | null> {
   return (data?.state as RoomState | null) ?? null
 }
 
+async function insertRoom(room: RoomState): Promise<void> {
+  const code = room.code.toUpperCase()
+  const { error } = await getSupabaseAdmin()
+    .from('quiz_rooms')
+    .insert({ code, state: room })
+  if (error) throw new Error(`Failed to insert room ${code}: ${error.message}`)
+}
+
 async function saveRoom(room: RoomState): Promise<void> {
   const code = room.code.toUpperCase()
   const { error } = await getSupabaseAdmin()
     .from('quiz_rooms')
-    .upsert(
-      {
-        code,
-        state: room,
-      },
-      { onConflict: 'code' },
-    )
-  if (error) {
-    throw new Error(`Failed to save room ${code}: ${error.message}`)
-  }
+    .update({ state: room })
+    .eq('code', code)
+  if (error) throw new Error(`Failed to update room ${code}: ${error.message}`)
 }
 
 async function deleteRoom(code: string): Promise<void> {
@@ -98,7 +99,7 @@ export async function createRoom(hostName: string): Promise<{ room: RoomState; p
     leaderboard: [],
     createdAt: Date.now(), lastActivity: Date.now(),
   }
-  await saveRoom(room)
+  await insertRoom(room)
   return { room, playerId }
 }
 

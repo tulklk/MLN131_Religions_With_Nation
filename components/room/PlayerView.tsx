@@ -22,7 +22,7 @@ const BG: React.CSSProperties = {
   color: PARCHMENT, fontFamily: B,
 }
 
-const TIMER_TOTAL = 15
+const TIMER_TOTAL = 20
 const ANSWER_STYLES = [
   { bg: 'rgba(139,26,26,0.15)', border: 'rgba(139,26,26,0.45)', hover: 'rgba(139,26,26,0.3)', dot: '#c0504d', label: 'A' },
   { bg: 'rgba(40,80,160,0.15)', border: 'rgba(40,80,160,0.45)', hover: 'rgba(40,80,160,0.3)', dot: '#4a7cc7', label: 'B' },

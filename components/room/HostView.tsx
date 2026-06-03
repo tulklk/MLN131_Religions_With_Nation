@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRoomPoll } from './useRoomPoll'
 import { QUIZ_QUESTIONS } from '@/lib/quiz-data'
@@ -28,6 +28,9 @@ export default function HostView() {
   const { room, session, error } = useRoomPoll(code)
   const [busy, setBusy] = useState(false)
   const [showEndConfirm, setShowEndConfirm] = useState(false)
+  const [hostCountdown, setHostCountdown] = useState(20)
+  const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const autoTickRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   async function post(endpoint: string) {
     if (!session) return
@@ -35,6 +38,41 @@ export default function HostView() {
     await fetch(`/api/room/${code}/${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ hostId: session.playerId }) })
     setBusy(false)
   }
+
+  // Auto-show results after 20s when playing
+  useEffect(() => {
+    if (room?.status !== 'playing' || !session) {
+      if (autoTimerRef.current) clearTimeout(autoTimerRef.current)
+      if (autoTickRef.current) clearInterval(autoTickRef.current)
+      return
+    }
+
+    const QUESTION_TIME = 20
+    const elapsed = room.questionStartedAt > 0 ? (Date.now() - room.questionStartedAt) / 1000 : 0
+    const remaining = Math.max(0, Math.ceil(QUESTION_TIME - elapsed))
+
+    setHostCountdown(remaining)
+    if (autoTimerRef.current) clearTimeout(autoTimerRef.current)
+    if (autoTickRef.current) clearInterval(autoTickRef.current)
+
+    if (remaining === 0) {
+      fetch(`/api/room/${code}/results`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ hostId: session.playerId }) })
+      return
+    }
+
+    autoTickRef.current = setInterval(() => {
+      setHostCountdown(t => Math.max(0, t - 1))
+    }, 1000)
+
+    autoTimerRef.current = setTimeout(() => {
+      fetch(`/api/room/${code}/results`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ hostId: session.playerId }) })
+    }, remaining * 1000)
+
+    return () => {
+      if (autoTimerRef.current) clearTimeout(autoTimerRef.current)
+      if (autoTickRef.current) clearInterval(autoTickRef.current)
+    }
+  }, [room?.currentQ, room?.status, session, code])
 
   if (error) return <div style={{ ...BG, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p style={{ fontFamily: B, color: '#c87070' }}>{error}</p></div>
   if (!room || !session) return <div style={{ ...BG, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p style={{ fontFamily: B, color: MUTED }}>Đang tải...</p></div>
@@ -110,24 +148,29 @@ export default function HostView() {
                 <div style={{ padding: '1.25rem 1.5rem' }}>
                   <p style={{ fontFamily: D, fontSize: '1.15rem', fontWeight: 600, color: PARCHMENT, lineHeight: 1.55, marginBottom: '1rem' }}>{q.question}</p>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                    {q.answers.map((ans, i) => (
-                      <div key={i} style={{
-                        padding: '0.6rem 0.85rem', borderRadius: '6px', fontSize: '0.85rem', fontFamily: B,
-                        background: i === q.correct ? 'rgba(40,120,80,0.2)' : 'rgba(201,168,76,0.04)',
-                        border: `1px solid ${i === q.correct ? 'rgba(40,120,80,0.5)' : 'rgba(201,168,76,0.12)'}`,
-                        color: i === q.correct ? '#7dc99a' : MUTED,
-                      }}>
-                        <span style={{ fontFamily: D, fontWeight: 700, marginRight: '0.35rem' }}>{['A','B','C','D'][i]}.</span>
-                        {ans}
-                        {i === q.correct && <span style={{ marginLeft: '0.4rem', color: '#7dc99a' }}> ✓</span>}
-                      </div>
-                    ))}
+                    {q.answers.map((ans, i) => {
+                      // Only reveal correct answer after question closes
+                      const revealCorrect = room.status === 'post_question' && i === q.correct
+                      return (
+                        <div key={i} style={{
+                          padding: '0.6rem 0.85rem', borderRadius: '6px', fontSize: '0.85rem', fontFamily: B,
+                          background: revealCorrect ? 'rgba(40,120,80,0.2)' : 'rgba(201,168,76,0.04)',
+                          border: `1px solid ${revealCorrect ? 'rgba(40,120,80,0.5)' : 'rgba(201,168,76,0.12)'}`,
+                          color: revealCorrect ? '#7dc99a' : MUTED,
+                        }}>
+                          <span style={{ fontFamily: D, fontWeight: 700, marginRight: '0.35rem' }}>{['A','B','C','D'][i]}.</span>
+                          {ans}
+                          {revealCorrect && <span style={{ marginLeft: '0.4rem', color: '#7dc99a' }}> ✓</span>}
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
               </div>
 
               {room.status === 'playing' && (
                 <div style={{ ...CARD, padding: '1.25rem 1.5rem' }}>
+                  {/* Answer progress */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                     <span style={{ fontFamily: B, fontSize: '0.85rem', color: MUTED }}>Đã trả lời</span>
                     <span style={{ fontFamily: D, fontSize: '1rem', fontWeight: 700, color: GOLD }}>{answeredCount}/{totalPlayers}</span>
@@ -135,13 +178,44 @@ export default function HostView() {
                   <div style={{ height: '6px', background: 'rgba(201,168,76,0.1)', borderRadius: '3px', overflow: 'hidden', marginBottom: '1rem' }}>
                     <motion.div animate={{ width: `${answerPct}%` }} transition={{ duration: 0.5 }} style={{ height: '100%', borderRadius: '3px', background: `linear-gradient(90deg, ${GOLD}, #e8c870)` }} />
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}
-                    onClick={() => post('results')} disabled={busy}
-                    style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', fontFamily: B, fontSize: '0.9rem', fontWeight: 600, color: GOLD, background: 'transparent', border: '1px solid rgba(201,168,76,0.35)', cursor: 'pointer', opacity: busy ? 0.5 : 1 }}
-                  >
-                    Xem kết quả ngay
-                  </motion.button>
+
+                  {/* Auto countdown */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
+                      <div style={{ position: 'relative', width: '44px', height: '44px', flexShrink: 0 }}>
+                        <svg viewBox="0 0 44 44" style={{ transform: 'rotate(-90deg)', width: '44px', height: '44px' }}>
+                          <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(201,168,76,0.12)" strokeWidth="3" />
+                          <motion.circle
+                            cx="22" cy="22" r="18" fill="none"
+                            stroke={hostCountdown <= 5 ? '#c87070' : GOLD}
+                            strokeWidth="3"
+                            strokeDasharray={`${2 * Math.PI * 18}`}
+                            animate={{ strokeDashoffset: 2 * Math.PI * 18 * (1 - hostCountdown / 20) }}
+                            transition={{ duration: 0.9, ease: 'linear' }}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <span style={{
+                          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontFamily: D, fontSize: '0.95rem', fontWeight: 700,
+                          color: hostCountdown <= 5 ? '#c87070' : GOLD,
+                        }}>
+                          {hostCountdown}
+                        </span>
+                      </div>
+                      <span style={{ fontFamily: B, fontSize: '0.82rem', color: MUTED }}>
+                        Tự động hiện kết quả sau {hostCountdown}s
+                      </span>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}
+                      onClick={() => { if (autoTimerRef.current) clearTimeout(autoTimerRef.current); if (autoTickRef.current) clearInterval(autoTickRef.current); post('results') }}
+                      disabled={busy}
+                      style={{ padding: '0.55rem 1rem', borderRadius: '6px', fontFamily: B, fontSize: '0.82rem', fontWeight: 600, color: GOLD, background: 'transparent', border: '1px solid rgba(201,168,76,0.35)', cursor: 'pointer', opacity: busy ? 0.5 : 1, flexShrink: 0 }}
+                    >
+                      Hiện ngay
+                    </motion.button>
+                  </div>
                 </div>
               )}
 

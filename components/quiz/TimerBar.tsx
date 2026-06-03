@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { useQuizStore } from '@/lib/store/quiz-store'
 
-const TOTAL = 15
+const TOTAL = 20
 const D = "'Cormorant Garamond', Georgia, serif"
 const B = "'Lora', Georgia, serif"
 const GOLD = '#C9A84C'
