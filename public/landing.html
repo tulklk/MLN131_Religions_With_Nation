@@ -16,8 +16,8 @@
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:76px;font-size:115%}
-body{background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04' transform='rotate(45 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04' transform='rotate(90 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.04' transform='rotate(135 50 50)'/%3E%3Crect x='47' y='62' width='6' height='30' fill='white' opacity='.025'/%3E%3Crect x='35' y='74' width='30' height='6' fill='white' opacity='.025'/%3E%3C/svg%3E");background-size:100px 100px;background-repeat:repeat;color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:1rem;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:76px;font-size:130%}
+body{background-color:var(--bg);background-image:radial-gradient(ellipse at 50% 35%,#1e1508 0%,#0d0d0d 65%);background-attachment:fixed;background-size:cover;color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:1rem;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2}
 a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar{width:5px}
@@ -88,7 +88,7 @@ a{color:inherit;text-decoration:none}
 
 /* ── MAIN ── */
 #main-content{margin-left:var(--sidebar-w);margin-top:var(--navbar-h)}
-.section-wrap{padding:5rem 2.5rem;max-width:920px;margin:0 auto}
+.section-wrap{padding:4.5rem 2rem;max-width:1160px;margin:0 auto}
 .section-border{border-top:1px solid rgba(201,168,76,0.1)}
 
 /* ── TYPOGRAPHY HELPERS ── */
@@ -194,23 +194,28 @@ a{color:inherit;text-decoration:none}
 /* ── STUDENT LIST ── */
 .student-list{list-style:none;margin:1rem 0 2rem}
 .student-list li{display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.75rem;font-size:1rem;color:var(--muted)}
-.student-list li::before{content:'◆';color:var(--gold);flex-shrink:0;margin-top:0.1rem;font-size:0.65rem}
+.student-list li::before{content:'–';color:var(--gold);flex-shrink:0;margin-top:0.1rem;font-size:0.9rem}
 
 /* ── FOOTER ── */
 .ref-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(201,168,76,0.12)}
 .ref-footer ul{list-style:none}
 .ref-footer li{font-size:0.95rem;color:var(--muted);line-height:2;display:flex;gap:0.5rem}
-.ref-footer li::before{content:'■';color:var(--gold);opacity:0.5;font-size:0.5rem;margin-top:0.45rem;flex-shrink:0}
+.ref-footer li::before{content:'–';color:var(--gold);opacity:0.7;font-size:0.9rem;margin-top:0;flex-shrink:0}
 .copy-line{margin-top:2rem;font-size:0.75rem;color:rgba(245,237,214,0.25);text-align:center}
 
 /* ── HERO ── */
 #hero{
   min-height:calc(100vh - var(--navbar-h));display:flex;align-items:center;justify-content:center;
-  text-align:center;position:relative;overflow:hidden;
-  background:radial-gradient(ellipse at 50% 40%,#1e1508 0%,#0D0D0D 70%);
+  text-align:center;position:relative;
+  background:transparent;
   padding:3rem 2rem
 }
-#hero-pat{position:absolute;inset:0;opacity:0.045;pointer-events:none;background-repeat:repeat;background-size:100px 100px}
+#hero-pat{display:none}
+
+/* ── FIXED DECORATORS ── */
+.lotus-fixed{position:fixed;top:-70px;left:210px;z-index:0;pointer-events:none}
+.cross-fixed{position:fixed;bottom:-70px;right:-70px;z-index:0;pointer-events:none}
+@media(max-width:900px){.lotus-fixed{left:-70px}}
 .hero-inner{position:relative;z-index:1;max-width:min(92vw,980px)}
 .hero-decor{position:absolute;opacity:0.05;pointer-events:none}
 .hero-decor--l{top:10%;left:5%;width:180px;height:180px}
@@ -228,6 +233,10 @@ a{color:inherit;text-decoration:none}
 .hero-sub{font-size:clamp(1.1rem,2.8vw,1.65rem);color:var(--gold);font-weight:600;margin-top:0.75rem;font-family:'Cormorant Garamond',serif;animation:fadeUp 0.9s var(--ease) 0.4s both}
 .hero-tagline{font-size:1rem;color:var(--muted);margin-top:0.6rem;font-style:italic;animation:fadeUp 0.8s var(--ease) 0.52s both}
 .hero-src{margin-top:1.5rem;animation:fadeUp 0.8s var(--ease) 0.65s both}
+
+/* ── HIDE ALL ICONS ── */
+.card-icon,.panel-icon,.impact-check{display:none}
+.impact-card{display:block}
 
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s var(--ease),transform 0.65s var(--ease)}
@@ -257,13 +266,13 @@ a{color:inherit;text-decoration:none}
 
 <!-- NAVBAR -->
 <nav id="navbar">
-  <a href="/quiz" class="quiz-btn">&#9654;&nbsp;Quiz</a>
+  <a href="/quiz" class="quiz-btn">Quiz</a>
 </nav>
 
 <!-- SIDEBAR -->
 <aside id="sidebar" role="navigation" aria-label="Mục lục">
   <span class="toc-label">Mục lục</span>
-  <a class="toc-item" href="#hero" data-s="hero"><span class="toc-num">&#9670;</span>Tổng quan</a>
+  <a class="toc-item" href="#hero" data-s="hero"><span class="toc-num">0.</span>Tổng quan</a>
   <hr class="toc-sep"/>
   <a class="toc-item" href="#section-1" data-s="section-1"><span class="toc-num">I.</span>Quan điểm Mác-Lênin</a>
   <a class="toc-item" href="#section-2" data-s="section-2"><span class="toc-num">II.</span>Chính sách tôn giáo</a>
@@ -271,21 +280,15 @@ a{color:inherit;text-decoration:none}
   <a class="toc-item" href="#section-4" data-s="section-4"><span class="toc-num">IV.</span>Công giáo</a>
   <a class="toc-item" href="#section-5" data-s="section-5"><span class="toc-num">V.</span>Quan hệ Dân tộc–Tôn giáo</a>
   <a class="toc-item" href="#section-6" data-s="section-6"><span class="toc-num">VI.</span>Thực tiễn &amp; Kết luận</a>
+  <a class="toc-item" href="#section-ai" data-s="section-ai"><span class="toc-num">VII.</span>AI Usage</a>
 </aside>
 
 <button id="ham-btn" aria-label="Mở mục lục" aria-expanded="false">&#9776;</button>
 <div id="sidebar-overlay"></div>
 
-<!-- MAIN -->
-<main id="main-content">
-
-<!-- ══ HERO ══ -->
-<section id="hero">
-  <div id="hero-pat" aria-hidden="true" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6' transform='rotate(45 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6' transform='rotate(90 50 50)'/%3E%3Cellipse cx='50' cy='30' rx='5' ry='16' fill='white' opacity='.6' transform='rotate(135 50 50)'/%3E%3Crect x='47' y='62' width='6' height='30' fill='white' opacity='.35'/%3E%3Crect x='35' y='74' width='30' height='6' fill='white' opacity='.35'/%3E%3C/svg%3E&quot;)"></div>
-
-  <!-- Full spinning LotusDecor — top-left -->
-  <svg class="spin-cw" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
-    style="position:absolute;top:-70px;left:-70px;width:340px;height:340px;opacity:0.1;color:#C9A84C">
+<!-- FIXED BACKGROUND DECORATORS (stay visible while scrolling) -->
+<svg class="spin-cw lotus-fixed" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+  style="width:360px;height:360px;opacity:0.13;color:#C9A84C">
     <!-- 8 outer petals -->
     <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7"/>
     <ellipse cx="100" cy="40" rx="12" ry="48" fill="currentColor" opacity=".7" transform="rotate(45 100 100)"/>
@@ -309,9 +312,8 @@ a{color:inherit;text-decoration:none}
     <circle cx="100" cy="100" r="8" fill="currentColor" opacity="1"/>
   </svg>
 
-  <!-- Full spinning CrossDecor — bottom-right -->
-  <svg class="spin-ccw" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
-    style="position:absolute;bottom:-70px;right:-70px;width:300px;height:300px;opacity:0.07;color:#8B1A1A">
+<svg class="spin-ccw cross-fixed" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+  style="width:320px;height:320px;opacity:0.09;color:#8B1A1A">
     <!-- Outer rings -->
     <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
     <circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="1" opacity=".2"/>
@@ -341,6 +343,11 @@ a{color:inherit;text-decoration:none}
     <circle cx="55" cy="23" r="2.5" fill="currentColor" opacity=".4"/>
   </svg>
 
+<!-- MAIN -->
+<main id="main-content">
+
+<!-- ══ HERO ══ -->
+<section id="hero">
   <div class="hero-inner">
     <span class="hero-badge">Chương 6 &middot; MLN131 &middot; Chủ nghĩa Xã hội Khoa học</span>
     <h1 class="hero-title">PHẬT GIÁO<span class="hero-slash">/</span>CÔNG GIÁO</h1>
@@ -385,9 +392,9 @@ a{color:inherit;text-decoration:none}
   <!-- Nguồn gốc -->
   <h3 class="subsection-title">Nguồn gốc của Tôn giáo</h3>
   <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem">
-    <span class="pill">&#127758; Nguồn gốc Tự nhiên – KT-XH</span>
-    <span class="pill">&#129504; Nguồn gốc Nhận thức</span>
-    <span class="pill">&#128149; Nguồn gốc Tâm lý</span>
+    <span class="pill">Nguồn gốc Tự nhiên – KT-XH</span>
+    <span class="pill">Nguồn gốc Nhận thức</span>
+    <span class="pill">Nguồn gốc Tâm lý</span>
   </div>
 
   <div class="grid-3 reveal">
@@ -445,27 +452,27 @@ a{color:inherit;text-decoration:none}
 
   <div class="v-timeline">
     <div class="v-item reveal">
-      <h3 class="v-item-title">&#128214; Tín ngưỡng là nhu cầu tinh thần lâu dài</h3>
+      <h3 class="v-item-title">Tín ngưỡng là nhu cầu tinh thần lâu dài</h3>
       <p class="v-item-body">Tín ngưỡng, tôn giáo là nhu cầu tinh thần của một bộ phận nhân dân, đang và sẽ tồn tại cùng dân tộc. Nhà nước tôn trọng và tạo điều kiện để đồng bào các tôn giáo thực hành tín ngưỡng lành mạnh.</p>
     </div>
     <div class="v-item rv1 reveal">
-      <h3 class="v-item-title">&#9878; Hiến pháp 2013 — Điều 24: Quyền tự do tín ngưỡng</h3>
+      <h3 class="v-item-title">Hiến pháp 2013 — Điều 24: Quyền tự do tín ngưỡng</h3>
       <p class="v-item-body">Mọi người có quyền tự do tín ngưỡng, tôn giáo, theo hoặc không theo một tôn giáo nào. Các tôn giáo bình đẳng trước pháp luật. Không ai được xâm phạm tự do tín ngưỡng hoặc lợi dụng tín ngưỡng để vi phạm pháp luật.</p>
     </div>
     <div class="v-item rv2 reveal">
-      <h3 class="v-item-title">&#129309; Đoàn kết đồng bào tôn giáo</h3>
+      <h3 class="v-item-title">Đoàn kết đồng bào tôn giáo</h3>
       <p class="v-item-body">Tăng cường đoàn kết đồng bào theo các tôn giáo khác nhau, giữa đồng bào theo tôn giáo và không theo tôn giáo. Phát huy những giá trị văn hóa, đạo đức tốt đẹp của tôn giáo.</p>
     </div>
     <div class="v-item reveal">
-      <h3 class="v-item-title">&#127775; Phát huy giá trị văn hóa, đạo đức tôn giáo</h3>
+      <h3 class="v-item-title">Phát huy giá trị văn hóa, đạo đức tôn giáo</h3>
       <p class="v-item-body">Động viên chức sắc, tín đồ các tôn giáo sống "tốt đời, đẹp đạo", đóng góp tích cực cho công cuộc xây dựng và bảo vệ Tổ quốc.</p>
     </div>
     <div class="v-item rv1 reveal">
-      <h3 class="v-item-title">&#128736; Luật Tín ngưỡng, Tôn giáo 2016</h3>
+      <h3 class="v-item-title">Luật Tín ngưỡng, Tôn giáo 2016</h3>
       <p class="v-item-body">Thông qua ngày 18/11/2016 (hiệu lực 01/01/2018) — khung pháp lý toàn diện đầu tiên về tín ngưỡng, tôn giáo. Bảo đảm quyền tự do tín ngưỡng; các tôn giáo bình đẳng trước pháp luật; phân biệt nhu cầu tín ngưỡng chính đáng với lợi dụng tôn giáo.</p>
     </div>
     <div class="v-item rv2 reveal">
-      <h3 class="v-item-title">&#128683; Vấn đề theo đạo và truyền đạo</h3>
+      <h3 class="v-item-title">Vấn đề theo đạo và truyền đạo</h3>
       <p class="v-item-body">Đấu tranh chống mê tín dị đoan, chống lợi dụng tôn giáo để vi phạm pháp luật hoặc can thiệp vào công việc nội bộ của Nhà nước. Nghiêm cấm việc ép buộc người dân theo đạo.</p>
     </div>
   </div>
@@ -529,7 +536,7 @@ a{color:inherit;text-decoration:none}
       </div>
 
       <!-- Đóng góp tích cực -->
-      <h3 class="subsection-title">&#10003; Đóng góp tích cực</h3>
+      <h3 class="subsection-title">Đóng góp tích cực</h3>
       <div style="display:flex;flex-direction:column;gap:0.65rem">
         <div class="impact-card reveal">
           <span class="impact-check">&#10003;</span>
@@ -586,7 +593,7 @@ a{color:inherit;text-decoration:none}
       </div>
 
       <!-- Thách thức -->
-      <h3 class="subsection-title" style="color:#e09090">&#10007; Thách thức &amp; Hạn chế</h3>
+      <h3 class="subsection-title" style="color:#e09090">Thách thức &amp; Hạn chế</h3>
       <div>
         <div class="coll-wrap">
           <button class="coll-btn" aria-expanded="false">Mê tín dị đoan lẫn vào tín ngưỡng <span class="coll-chevron">&#9660;</span></button>
@@ -666,7 +673,7 @@ a{color:inherit;text-decoration:none}
       </div>
 
       <!-- Đóng góp -->
-      <h3 class="subsection-title">&#10003; Đóng góp tích cực</h3>
+      <h3 class="subsection-title">Đóng góp tích cực</h3>
       <div style="display:flex;flex-direction:column;gap:0.65rem">
         <div class="impact-card reveal">
           <span class="impact-check" style="color:#c88">&#10003;</span>
@@ -724,7 +731,7 @@ a{color:inherit;text-decoration:none}
 
       <!-- Highlight boxes -->
       <div class="highlight-box" style="margin-top:1.75rem">
-        <h4 class="highlight-box-title">&#128218; Thư chung HĐGM Việt Nam 1980</h4>
+        <h4 class="highlight-box-title">Thư chung HĐGM Việt Nam 1980</h4>
         <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--parchment)">"Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào."</p>
         <p style="font-size:.8rem;color:var(--muted);margin-top:.5rem">Đường hướng mục vụ xuyên suốt của Giáo hội Công giáo Việt Nam từ 1980 đến nay</p>
       </div>
@@ -820,7 +827,7 @@ a{color:inherit;text-decoration:none}
   </div>
 
   <!-- Trách nhiệm sinh viên -->
-  <h3 class="subsection-title">Liên hệ bản thân — Sinh viên MLN131</h3>
+  <h3 class="subsection-title">Liên hệ bản thân</h3>
   <ul class="student-list">
     <li>Chủ động tìm hiểu lịch sử và đóng góp của các tôn giáo lớn đối với dân tộc Việt Nam, nhìn nhận khách quan, khoa học trên nền tảng lý luận Mác-Lênin.</li>
     <li>Tôn trọng quyền tự do tín ngưỡng, tôn giáo của mọi người; không kỳ thị, phân biệt đối xử trên cơ sở tôn giáo.</li>
@@ -857,10 +864,59 @@ a{color:inherit;text-decoration:none}
       <li>Giáo trình Chủ nghĩa Xã hội Khoa học — Bộ GD&amp;ĐT 2021</li>
       <li>Thư chung Hội đồng Giám mục Việt Nam 1980</li>
     </ul>
-    <p class="copy-line">
-      &copy; 2025 &middot; MLN131 &middot; FPT University &nbsp;&nbsp;&#9753;&nbsp; Phật giáo &nbsp;&nbsp;&#10013;&nbsp; Công giáo &nbsp;&nbsp;&#9670;&nbsp; Đồng hành cùng Dân tộc
+  </div>
+</div>
+</section>
+
+<!-- ══ SECTION AI ══ -->
+<section id="section-ai" class="section-border">
+<div class="section-wrap">
+  <span class="s-label">Phần VII</span>
+  <h2 class="s-title">AI Usage</h2>
+  <hr class="s-divider"/>
+
+  <p class="reveal" style="font-size:1rem;color:var(--muted);line-height:1.85;max-width:680px;margin-bottom:2.5rem">
+    Dự án được xây dựng với sự hỗ trợ của các công cụ AI. Bên dưới là quy trình sử dụng và vai trò của từng công cụ trong việc thiết kế, tạo nội dung, kiểm tra nguồn và hoàn thiện giao diện.
+  </p>
+
+  <!-- AI tools table -->
+  <div class="reveal" style="border:1px solid var(--gold-bdr);border-radius:8px;overflow:hidden;margin-bottom:2rem">
+    <!-- Header row -->
+    <div style="display:grid;grid-template-columns:80px 1fr 2fr;background:rgba(201,168,76,0.08);border-bottom:1px solid var(--gold-bdr);padding:0.75rem 1.25rem;gap:1rem">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.7">#</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.7">Công cụ</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);opacity:0.7">Mục đích</span>
+    </div>
+    <!-- Row 1 -->
+    <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;border-bottom:1px solid rgba(201,168,76,0.08);transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)">01</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment);align-self:center">GitHub Copilot</span>
+      <span style="font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);align-self:center;line-height:1.65">Hỗ trợ thiết kế giao diện web, cải thiện UI/UX.</span>
+    </div>
+    <!-- Row 2 -->
+    <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;border-bottom:1px solid rgba(201,168,76,0.08);transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)">02</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment);align-self:center">Gemini</span>
+      <span style="font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);align-self:center;line-height:1.65">Tạo hình ảnh và hỗ trợ khơi gợi ý tưởng trực quan.</span>
+    </div>
+    <!-- Row 3 -->
+    <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)">03</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment);align-self:center">ChatGPT</span>
+      <span style="font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);align-self:center;line-height:1.65">Kiểm tra tài liệu và đối chiếu nguồn.</span>
+    </div>
+  </div>
+
+  <!-- Disclaimer note -->
+  <div class="reveal" style="background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:1.25rem 1.5rem">
+    <p style="font-family:'Lora',serif;font-size:0.95rem;color:var(--muted);line-height:1.8;font-style:italic">
+      Mọi nội dung được AI tạo ra đều được nhóm kiểm chứng lại và kiểm tra từng nguồn trước khi hoàn thiện và đưa vào bài trình bày.
     </p>
   </div>
+
+  <p class="copy-line" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(201,168,76,0.1)">
+    &copy; 2025 &middot; MLN131 &middot; FPT University &middot; Phật giáo &middot; Công giáo &middot; Đồng hành cùng Dân tộc
+  </p>
 </div>
 </section>
 

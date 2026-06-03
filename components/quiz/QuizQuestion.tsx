@@ -5,81 +5,138 @@ import { useQuizStore } from '@/lib/store/quiz-store'
 import TimerBar from './TimerBar'
 import CoinCounter from './CoinCounter'
 
-const ANSWER_COLORS = [
-  { bg: 'bg-red-900/40 hover:bg-red-800/60 border-red-700/50', label: 'A', dot: 'bg-red-500' },
-  { bg: 'bg-blue-900/40 hover:bg-blue-800/60 border-blue-700/50', label: 'B', dot: 'bg-blue-500' },
-  { bg: 'bg-amber-900/40 hover:bg-amber-800/60 border-amber-700/50', label: 'C', dot: 'bg-amber-500' },
-  { bg: 'bg-green-900/40 hover:bg-green-800/60 border-green-700/50', label: 'D', dot: 'bg-green-500' },
+const D = "'Cormorant Garamond', Georgia, serif"
+const B = "'Lora', Georgia, serif"
+const GOLD = '#C9A84C'
+const PARCHMENT = '#F5EDD6'
+const MUTED = 'rgba(245,237,214,0.55)'
+const BG: React.CSSProperties = {
+  minHeight: '100vh',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+  backgroundColor: '#0D0D0D',
+  color: PARCHMENT,
+  fontFamily: B,
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '1rem',
+}
+
+const ANSWER_STYLES = [
+  { bg: 'rgba(139,26,26,0.15)', border: 'rgba(139,26,26,0.45)', dot: '#c0504d', hoverBg: 'rgba(139,26,26,0.28)' },
+  { bg: 'rgba(40,80,160,0.15)', border: 'rgba(40,80,160,0.45)', dot: '#4a7cc7', hoverBg: 'rgba(40,80,160,0.28)' },
+  { bg: 'rgba(201,168,76,0.1)',  border: 'rgba(201,168,76,0.35)', dot: GOLD,    hoverBg: 'rgba(201,168,76,0.2)' },
+  { bg: 'rgba(40,120,80,0.15)', border: 'rgba(40,120,80,0.45)',  dot: '#5a9e72', hoverBg: 'rgba(40,120,80,0.28)' },
 ]
+const LABELS = ['A', 'B', 'C', 'D']
+
+function categoryLabel(cat: string) {
+  if (cat === 'phat-giao') return 'Phật giáo'
+  if (cat === 'cong-giao') return 'Công giáo'
+  if (cat === 'mac-lenin') return 'Mác-Lênin'
+  return 'Pháp luật'
+}
+function diffLabel(d: string) {
+  if (d === 'easy') return 'Cơ bản'
+  if (d === 'medium') return 'Trung bình'
+  return 'Nâng cao'
+}
 
 export default function QuizQuestion() {
   const { questions, currentIndex, streak, answer } = useQuizStore()
   const q = questions[currentIndex]
 
   return (
-    <div className="min-h-screen flex flex-col p-4" style={{ background: '#0f0e17' }}>
+    <div style={BG}>
       {/* Top bar */}
-      <div className="max-w-2xl w-full mx-auto pt-4">
-        <div className="flex items-center justify-between mb-4">
+      <div style={{ maxWidth: '680px', width: '100%', margin: '0 auto', paddingTop: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
           <CoinCounter />
-          <div className="flex items-center gap-3">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {streak >= 2 && (
               <motion.div
                 initial={{ scale: 0, y: -10 }}
                 animate={{ scale: 1, y: 0 }}
-                className="flex items-center gap-1 bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-mono font-bold px-2.5 py-1 rounded-full"
+                style={{
+                  fontFamily: B, fontSize: '0.78rem', fontWeight: 600,
+                  color: '#e8a060', border: '1px solid rgba(232,160,96,0.4)',
+                  background: 'rgba(232,160,96,0.1)', padding: '0.2rem 0.7rem', borderRadius: '20px',
+                }}
               >
-                🔥 ×{streak}
+                Streak ×{streak}
               </motion.div>
             )}
-            <span className="text-ghost text-sm font-mono">
-              {currentIndex + 1}
-              <span className="text-muted">/{questions.length}</span>
+            <span style={{ fontFamily: B, fontSize: '0.85rem', color: MUTED }}>
+              {currentIndex + 1}<span style={{ opacity: 0.5 }}>/{questions.length}</span>
             </span>
           </div>
         </div>
-
         <TimerBar />
       </div>
 
       {/* Question */}
-      <div className="flex-1 flex flex-col justify-center max-w-2xl w-full mx-auto py-6">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: '680px', width: '100%', margin: '0 auto', paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
         <motion.div
           key={q.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Category badge */}
-          <div className="mb-4">
-            <span className="text-xs font-mono text-muted uppercase tracking-widest">
-              {q.category === 'phat-giao' ? '🪷 Phật giáo' :
-               q.category === 'cong-giao' ? '✝️ Công giáo' :
-               q.category === 'mac-lenin' ? '📖 Mác-Lênin' : '⚖️ Pháp luật'}
-              {' · '}
-              {q.difficulty === 'easy' ? '⭐' : q.difficulty === 'medium' ? '⭐⭐' : '⭐⭐⭐'}
+          {/* Category + difficulty */}
+          <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <span style={{
+              fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+              color: GOLD, border: '1px solid rgba(201,168,76,0.28)', background: 'rgba(201,168,76,0.06)',
+              padding: '0.2rem 0.75rem', borderRadius: '20px',
+            }}>
+              {categoryLabel(q.category)}
+            </span>
+            <span style={{
+              fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase',
+              color: MUTED, border: '1px solid rgba(245,237,214,0.12)', background: 'rgba(245,237,214,0.04)',
+              padding: '0.2rem 0.75rem', borderRadius: '20px',
+            }}>
+              {diffLabel(q.difficulty)}
             </span>
           </div>
 
           {/* Question text */}
-          <div className="bg-surface/50 border border-white/10 rounded-2xl p-6 mb-6">
-            <p className="text-white font-viet text-xl font-semibold leading-relaxed">{q.question}</p>
+          <div style={{
+            background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)',
+            borderRadius: '8px', padding: '1.5rem', marginBottom: '1.25rem',
+          }}>
+            <p style={{ fontFamily: D, fontSize: '1.35rem', fontWeight: 600, color: PARCHMENT, lineHeight: 1.5 }}>
+              {q.question}
+            </p>
           </div>
 
           {/* Answers */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.65rem' }}>
             {q.answers.map((ans, i) => (
               <motion.button
                 key={i}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => answer(i)}
-                className={`flex items-center gap-3 p-4 rounded-xl border text-left transition-all duration-200 cursor-pointer ${ANSWER_COLORS[i].bg}`}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.85rem',
+                  padding: '0.9rem 1.1rem', borderRadius: '8px', textAlign: 'left', cursor: 'pointer',
+                  background: ANSWER_STYLES[i].bg,
+                  border: `1px solid ${ANSWER_STYLES[i].border}`,
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = ANSWER_STYLES[i].hoverBg)}
+                onMouseLeave={e => (e.currentTarget.style.background = ANSWER_STYLES[i].bg)}
               >
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-mono font-black text-white flex-shrink-0 ${ANSWER_COLORS[i].dot}`}>
-                  {ANSWER_COLORS[i].label}
+                <div style={{
+                  width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+                  background: ANSWER_STYLES[i].dot, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: D, fontSize: '0.85rem', fontWeight: 700, color: '#fff',
+                }}>
+                  {LABELS[i]}
                 </div>
-                <span className="text-white font-viet text-sm leading-snug">{ans}</span>
+                <span style={{ fontFamily: B, fontSize: '0.95rem', color: PARCHMENT, lineHeight: 1.5 }}>{ans}</span>
               </motion.button>
             ))}
           </div>

@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useRoomPoll } from './useRoomPoll'
 import { QUIZ_QUESTIONS } from '@/lib/quiz-data'
 import { PowerUpType, POWER_UP_INFO } from '@/lib/room-types'
@@ -10,13 +10,32 @@ import PowerUpBar from './PowerUpBar'
 import MiniLeaderboard from './MiniLeaderboard'
 import FinalPodium from './FinalPodium'
 
+const D = "'Cormorant Garamond', Georgia, serif"
+const B = "'Lora', Georgia, serif"
+const GOLD = '#C9A84C'
+const PARCHMENT = '#F5EDD6'
+const MUTED = 'rgba(245,237,214,0.55)'
+const BG: React.CSSProperties = {
+  minHeight: '100vh',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundAttachment: 'fixed', backgroundSize: 'cover', backgroundColor: '#0D0D0D',
+  color: PARCHMENT, fontFamily: B,
+}
+
 const TIMER_TOTAL = 15
-const ANSWER_COLORS = [
-  { bg: 'bg-red-900/40 hover:bg-red-800/60 border-red-700/50 active:bg-red-700/70', correct: 'bg-green-800/60 border-green-500/70', wrong: 'bg-red-800/60 border-red-500/70', label: 'A', dot: 'bg-red-500' },
-  { bg: 'bg-blue-900/40 hover:bg-blue-800/60 border-blue-700/50 active:bg-blue-700/70', correct: 'bg-green-800/60 border-green-500/70', wrong: 'bg-red-800/60 border-red-500/70', label: 'B', dot: 'bg-blue-500' },
-  { bg: 'bg-amber-900/40 hover:bg-amber-800/60 border-amber-700/50 active:bg-amber-700/70', correct: 'bg-green-800/60 border-green-500/70', wrong: 'bg-red-800/60 border-red-500/70', label: 'C', dot: 'bg-amber-500' },
-  { bg: 'bg-green-900/40 hover:bg-green-800/60 border-green-700/50 active:bg-green-700/70', correct: 'bg-green-800/60 border-green-500/70', wrong: 'bg-red-800/60 border-red-500/70', label: 'D', dot: 'bg-green-500' },
+const ANSWER_STYLES = [
+  { bg: 'rgba(139,26,26,0.15)', border: 'rgba(139,26,26,0.45)', hover: 'rgba(139,26,26,0.3)', dot: '#c0504d', label: 'A' },
+  { bg: 'rgba(40,80,160,0.15)', border: 'rgba(40,80,160,0.45)', hover: 'rgba(40,80,160,0.3)', dot: '#4a7cc7', label: 'B' },
+  { bg: 'rgba(201,168,76,0.1)',  border: 'rgba(201,168,76,0.35)', hover: 'rgba(201,168,76,0.22)', dot: GOLD,   label: 'C' },
+  { bg: 'rgba(40,120,80,0.15)', border: 'rgba(40,120,80,0.45)', hover: 'rgba(40,120,80,0.3)', dot: '#5a9e72', label: 'D' },
 ]
+
+function categoryLabel(cat: string) {
+  if (cat === 'phat-giao') return 'Phật giáo'
+  if (cat === 'cong-giao') return 'Công giáo'
+  if (cat === 'mac-lenin') return 'Mác-Lênin'
+  return 'Pháp luật'
+}
 
 export default function PlayerView() {
   const params = useParams()
@@ -31,50 +50,40 @@ export default function PlayerView() {
   const lastQRef = useRef(-1)
   const submittingRef = useRef(false)
 
-  // Reset per question — uses server timestamp so late joiners get accurate remaining time
   useEffect(() => {
     if (!room || room.status !== 'playing') return
     if (room.currentQ === lastQRef.current) return
     lastQRef.current = room.currentQ
-    setMyAnswer(null)
-    setSelectedPowerUp(null)
-    setEliminated([])
-    setFeedback(null)
+    setMyAnswer(null); setSelectedPowerUp(null); setEliminated([]); setFeedback(null)
     submittingRef.current = false
-
     const elapsed = room.questionStartedAt > 0 ? (Date.now() - room.questionStartedAt) / 1000 : 0
     const initial = Math.max(0, Math.ceil(TIMER_TOTAL - elapsed))
     setTimeLeft(initial)
-
     if (timerRef.current) clearInterval(timerRef.current)
     if (initial <= 0) return
-
     timerRef.current = setInterval(() => {
-      setTimeLeft(t => {
-        if (t <= 1) { clearInterval(timerRef.current!); return 0 }
-        return t - 1
-      })
+      setTimeLeft(t => { if (t <= 1) { clearInterval(timerRef.current!); return 0 } return t - 1 })
     }, 1000)
     return () => { if (timerRef.current) clearInterval(timerRef.current) }
   }, [room?.currentQ, room?.status])
 
-  // Auto-submit timeout
   useEffect(() => {
-    if (timeLeft === 0 && myAnswer === null && room?.status === 'playing') {
-      submitAnswer(-1)
-    }
+    if (timeLeft === 0 && myAnswer === null && room?.status === 'playing') submitAnswer(-1)
   }, [timeLeft])
+
+  useEffect(() => {
+    if (!room || !session || room.status !== 'post_question') return
+    const ans = room.currentAnswers[session.playerId]
+    if (ans) setFeedback({ correct: ans.isCorrect, earned: ans.scoreEarned, multiplier: ans.luckyMultiplier })
+  }, [room?.status])
 
   async function activatePrecision(powerUp: PowerUpType | null) {
     setSelectedPowerUp(powerUp)
     if (powerUp === 'precision' && room) {
       const q = QUIZ_QUESTIONS[room.currentQ]
       const wrongs = [0, 1, 2, 3].filter(i => i !== q.correct)
-      const toElim = wrongs.sort(() => Math.random() - 0.5).slice(0, 2)
-      setEliminated(toElim)
-    } else {
-      setEliminated([])
-    }
+      setEliminated(wrongs.sort(() => Math.random() - 0.5).slice(0, 2))
+    } else { setEliminated([]) }
   }
 
   async function submitAnswer(answerIndex: number) {
@@ -82,20 +91,11 @@ export default function PlayerView() {
     submittingRef.current = true
     if (timerRef.current) clearInterval(timerRef.current)
     setMyAnswer(answerIndex)
-
     await fetch(`/api/room/${code}/answer`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ playerId: session.playerId, answerIndex, powerUpUsed: selectedPowerUp }),
     })
   }
-
-  // Set feedback when room transitions to post_question
-  useEffect(() => {
-    if (!room || !session || room.status !== 'post_question') return
-    const ans = room.currentAnswers[session.playerId]
-    if (ans) setFeedback({ correct: ans.isCorrect, earned: ans.scoreEarned, multiplier: ans.luckyMultiplier })
-  }, [room?.status])
 
   if (error) return <ErrorScreen msg={error} />
   if (!room || !session) return <LoadingScreen />
@@ -103,158 +103,143 @@ export default function PlayerView() {
   const me = room.players[session.playerId]
   const q = QUIZ_QUESTIONS[room.currentQ]
 
-  if (room.status === 'finished') {
-    return <FinalPodium entries={room.leaderboard} myPlayerId={session.playerId} isHost={false} />
-  }
+  if (room.status === 'finished') return <FinalPodium entries={room.leaderboard} myPlayerId={session.playerId} isHost={false} />
 
   if (room.status === 'waiting') {
     const playerCount = Object.values(room.players).filter(p => p.id !== room.hostId).length
-    return (
-      <WaitingRoom
-        code={code}
-        playerCount={playerCount}
-        myName={session.name}
-        hostName={room.hostName}
-      />
-    )
+    return <WaitingRoom code={code} playerCount={playerCount} myName={session.name} hostName={room.hostName} />
   }
 
   if (room.status === 'post_question') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: '#0f0e17' }}>
-        <div className="w-full max-w-md">
+      <div style={{ ...BG, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+        <div style={{ width: '100%', maxWidth: '480px' }}>
           {feedback && (
-            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center mb-6">
-              <div className="text-6xl mb-2">{feedback.correct ? '✅' : '❌'}</div>
-              <div className="font-display text-2xl font-bold text-white mb-1">
+            <motion.div initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+              <h2 style={{ fontFamily: D, fontSize: '2.4rem', fontWeight: 700, color: feedback.correct ? GOLD : '#c87070', marginBottom: '0.75rem' }}>
                 {feedback.correct ? 'Chính xác!' : 'Chưa đúng!'}
-              </div>
+              </h2>
               {feedback.correct && feedback.earned > 0 && (
-                <div className="flex items-center justify-center gap-2 mt-2">
-                  <span className="bg-gold-500/20 border border-gold-500/40 text-gold-400 font-mono font-bold px-3 py-1 rounded-full text-sm">
-                    🪙 +{feedback.earned}
+                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <span style={{ fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: GOLD, border: '1px solid rgba(201,168,76,0.35)', background: 'rgba(201,168,76,0.08)', padding: '0.25rem 0.85rem', borderRadius: '20px' }}>
+                    +{feedback.earned} xu
                   </span>
                   {feedback.multiplier && feedback.multiplier !== 1 && (
-                    <span className="bg-purple-500/20 border border-purple-500/40 text-purple-400 font-mono font-bold px-3 py-1 rounded-full text-sm">
-                      🎲 ×{feedback.multiplier}
+                    <span style={{ fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: '#c8a0e8', border: '1px solid rgba(200,160,232,0.35)', background: 'rgba(200,160,232,0.08)', padding: '0.25rem 0.85rem', borderRadius: '20px' }}>
+                      x{feedback.multiplier} may mắn
                     </span>
                   )}
                 </div>
               )}
-              {/* Correct answer */}
               {!feedback.correct && (
-                <div className="mt-3 bg-green-900/30 border border-green-500/40 rounded-xl p-3 text-sm">
-                  <span className="text-green-400 font-viet font-semibold">Đáp án đúng: </span>
-                  <span className="text-white font-viet">{q.answers[q.correct]}</span>
+                <div style={{ marginTop: '0.75rem', background: 'rgba(40,120,80,0.12)', border: '1px solid rgba(40,120,80,0.4)', borderRadius: '6px', padding: '0.75rem 1rem' }}>
+                  <span style={{ fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: '#7dc99a' }}>Đáp án đúng: </span>
+                  <span style={{ fontFamily: B, fontSize: '0.85rem', color: PARCHMENT }}>{q.answers[q.correct]}</span>
                 </div>
               )}
             </motion.div>
           )}
           <MiniLeaderboard entries={room.leaderboard} myPlayerId={session.playerId} questionIndex={room.currentQ} totalQ={room.totalQ} />
-          <p className="text-center text-ghost/50 font-viet text-xs mt-4">Chờ host tiếp tục câu tiếp theo...</p>
+          <p style={{ textAlign: 'center', fontFamily: B, fontSize: '0.78rem', color: MUTED, marginTop: '1rem' }}>Chờ host tiếp tục câu tiếp theo...</p>
         </div>
       </div>
     )
   }
 
-  // playing
   const pct = (timeLeft / TIMER_TOTAL) * 100
-  const timerColor = pct > 50 ? '#4cc9f0' : pct > 25 ? '#f4a261' : '#e63946'
+  const timerColor = pct > 50 ? GOLD : pct > 25 ? '#e8a060' : '#c87070'
   const hasAnswered = myAnswer !== null
 
   return (
-    <div className="min-h-screen flex flex-col p-4" style={{ background: '#0f0e17' }}>
-      {/* Top bar */}
-      <div className="max-w-2xl w-full mx-auto pt-3">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5 bg-surface/80 border border-gold-500/30 px-3 py-1.5 rounded-full">
-            <span>🪙</span>
-            <span className="font-mono font-bold text-gold-400 text-sm">{(me?.score ?? 0).toLocaleString()}</span>
+    <div style={{ ...BG, display: 'flex', flexDirection: 'column', padding: '1rem' }}>
+      <div style={{ maxWidth: '680px', width: '100%', margin: '0 auto', paddingTop: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.3)', padding: '0.3rem 0.85rem', borderRadius: '20px' }}>
+            <span style={{ fontFamily: D, fontSize: '0.75rem', color: GOLD, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Xu</span>
+            <span style={{ fontFamily: D, fontSize: '1rem', fontWeight: 700, color: GOLD }}>{(me?.score ?? 0).toLocaleString()}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             {(me?.streak ?? 0) >= 2 && (
-              <span className="bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-mono font-bold px-2 py-1 rounded-full">
-                🔥 ×{me?.streak}
+              <span style={{ fontFamily: B, fontSize: '0.78rem', fontWeight: 600, color: '#e8a060', border: '1px solid rgba(232,160,96,0.4)', background: 'rgba(232,160,96,0.1)', padding: '0.2rem 0.65rem', borderRadius: '20px' }}>
+                Streak ×{me?.streak}
               </span>
             )}
-            <span className="text-ghost text-sm font-mono">{room.currentQ + 1}<span className="text-muted">/{room.totalQ}</span></span>
+            <span style={{ fontFamily: B, fontSize: '0.85rem', color: MUTED }}>{room.currentQ + 1}/{room.totalQ}</span>
           </div>
         </div>
 
         {/* Timer */}
-        <div className="mb-4">
-          <div className="flex justify-between text-xs mb-1">
-            <span className="text-ghost/60 font-mono">Thời gian</span>
-            <span className={`font-mono font-bold tabular-nums ${timeLeft <= 5 ? 'text-red-400 animate-pulse' : 'text-white'}`}>{timeLeft}s</span>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+            <span style={{ fontFamily: B, fontSize: '0.72rem', color: MUTED, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Thời gian</span>
+            <span style={{ fontFamily: D, fontSize: '0.95rem', fontWeight: 700, color: timeLeft <= 5 ? '#c87070' : GOLD }}>{timeLeft}s</span>
           </div>
-          <div className="h-2 bg-surface-2 rounded-full overflow-hidden">
-            <div className="h-full rounded-full transition-all duration-1000 linear" style={{ width: `${pct}%`, backgroundColor: timerColor }} />
+          <div style={{ height: '4px', background: 'rgba(201,168,76,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+            <div style={{ height: '100%', borderRadius: '2px', backgroundColor: timerColor, width: `${pct}%`, transition: 'width 1s linear' }} />
           </div>
         </div>
 
-        {/* Power-ups */}
         {!hasAnswered && me && me.powerUps.length > 0 && (
-          <div className="mb-3">
-            <p className="text-xs text-ghost/50 font-viet mb-1.5 text-center">Chọn item hỗ trợ:</p>
+          <div style={{ marginBottom: '0.5rem', textAlign: 'center' }}>
+            <p style={{ fontFamily: B, fontSize: '0.75rem', color: MUTED, marginBottom: '0.5rem' }}>Chọn hỗ trợ:</p>
             <PowerUpBar powerUps={me.powerUps} selected={selectedPowerUp} onSelect={activatePrecision} />
           </div>
         )}
       </div>
 
-      {/* Question */}
-      <div className="flex-1 flex flex-col justify-center max-w-2xl w-full mx-auto py-4">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', maxWidth: '680px', width: '100%', margin: '0 auto', paddingTop: '1rem', paddingBottom: '1rem' }}>
         <motion.div key={room.currentQ} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="mb-3">
-            <span className="text-xs font-mono text-muted uppercase tracking-widest">
-              {q.category === 'phat-giao' ? '🪷 Phật giáo' : q.category === 'cong-giao' ? '✝️ Công giáo' : q.category === 'mac-lenin' ? '📖 Mác-Lênin' : '⚖️ Pháp luật'}
-              {' · '}
-              {q.difficulty === 'easy' ? '⭐' : q.difficulty === 'medium' ? '⭐⭐' : '⭐⭐⭐'}
+          <div style={{ marginBottom: '0.75rem' }}>
+            <span style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: GOLD, border: '1px solid rgba(201,168,76,0.28)', background: 'rgba(201,168,76,0.06)', padding: '0.2rem 0.75rem', borderRadius: '20px' }}>
+              {categoryLabel(q.category)}
             </span>
           </div>
 
-          <div className="bg-surface/50 border border-white/10 rounded-2xl p-5 mb-5">
-            <p className="text-white font-viet text-lg font-semibold leading-relaxed">{q.question}</p>
+          <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)', borderRadius: '8px', padding: '1.25rem 1.5rem', marginBottom: '1rem' }}>
+            <p style={{ fontFamily: D, fontSize: '1.25rem', fontWeight: 600, color: PARCHMENT, lineHeight: 1.5 }}>{q.question}</p>
             {selectedPowerUp && (
-              <div className={`mt-3 text-xs font-viet px-2 py-1 rounded-lg inline-block ${POWER_UP_INFO[selectedPowerUp].color}`}>
-                {POWER_UP_INFO[selectedPowerUp].icon} {POWER_UP_INFO[selectedPowerUp].name} đang kích hoạt
-              </div>
+              <p style={{ marginTop: '0.6rem', fontFamily: B, fontSize: '0.78rem', color: GOLD }}>
+                {POWER_UP_INFO[selectedPowerUp].name} đang kích hoạt
+              </p>
             )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.6rem' }}>
             {q.answers.map((ans, i) => {
-              const isEliminated = eliminated.includes(i)
+              const isElim = eliminated.includes(i)
               const isSelected = myAnswer === i
               const showResult = hasAnswered && room.status === 'playing'
-              let bgClass = ANSWER_COLORS[i].bg
-
-              if (isEliminated && !hasAnswered) bgClass = 'bg-surface/20 border-white/5 opacity-30'
-              else if (showResult && i === q.correct) bgClass = ANSWER_COLORS[i].correct
-              else if (showResult && isSelected && i !== q.correct) bgClass = ANSWER_COLORS[i].wrong
-
+              let bg = ANSWER_STYLES[i].bg
+              let border = ANSWER_STYLES[i].border
+              if (isElim && !hasAnswered) { bg = 'rgba(201,168,76,0.03)'; border = 'rgba(201,168,76,0.08)' }
+              else if (showResult && i === q.correct) { bg = 'rgba(40,120,80,0.3)'; border = 'rgba(40,120,80,0.6)' }
+              else if (showResult && isSelected && i !== q.correct) { bg = 'rgba(139,26,26,0.35)'; border = 'rgba(139,26,26,0.6)' }
               return (
                 <motion.button
                   key={i}
-                  whileHover={hasAnswered || isEliminated ? {} : { scale: 1.02 }}
-                  whileTap={hasAnswered || isEliminated ? {} : { scale: 0.97 }}
-                  onClick={() => !hasAnswered && !isEliminated && submitAnswer(i)}
-                  disabled={hasAnswered || isEliminated}
-                  className={`flex items-center gap-3 p-4 rounded-xl border text-left transition-all duration-200 ${bgClass} ${
-                    hasAnswered || isEliminated ? 'cursor-default' : 'cursor-pointer'
-                  }`}
+                  whileHover={hasAnswered || isElim ? {} : { scale: 1.02 }}
+                  whileTap={hasAnswered || isElim ? {} : { scale: 0.97 }}
+                  onClick={() => !hasAnswered && !isElim && submitAnswer(i)}
+                  disabled={hasAnswered || isElim}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.85rem 1rem',
+                    borderRadius: '8px', textAlign: 'left', cursor: hasAnswered || isElim ? 'default' : 'pointer',
+                    background: bg, border: `1px solid ${border}`, opacity: isElim ? 0.3 : 1,
+                    transition: 'background 0.2s',
+                  }}
                 >
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-mono font-black text-white flex-shrink-0 ${ANSWER_COLORS[i].dot}`}>
-                    {ANSWER_COLORS[i].label}
+                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', flexShrink: 0, background: ANSWER_STYLES[i].dot, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: D, fontSize: '0.85rem', fontWeight: 700, color: '#fff' }}>
+                    {ANSWER_STYLES[i].label}
                   </div>
-                  <span className="text-white font-viet text-sm leading-snug">{ans}</span>
+                  <span style={{ fontFamily: B, fontSize: '0.92rem', color: PARCHMENT, lineHeight: 1.45 }}>{ans}</span>
                 </motion.button>
               )
             })}
           </div>
 
           {hasAnswered && (
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center text-ghost/50 font-viet text-xs mt-4">
-              {myAnswer === -1 ? '⏰ Hết giờ — chờ host tiếp tục...' : '✓ Đã trả lời — chờ kết quả...'}
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ textAlign: 'center', fontFamily: B, fontSize: '0.78rem', color: MUTED, marginTop: '1rem' }}>
+              {myAnswer === -1 ? 'Hết giờ — chờ host tiếp tục...' : 'Đã trả lời — chờ kết quả...'}
             </motion.p>
           )}
         </motion.div>
@@ -265,16 +250,18 @@ export default function PlayerView() {
 
 function WaitingRoom({ code, playerCount, myName, hostName }: { code: string; playerCount: number; myName: string; hostName: string }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0f0e17' }}>
-      <div className="text-center max-w-sm">
-        <div className="text-5xl mb-4">⏳</div>
-        <h2 className="font-display text-2xl font-bold text-white mb-2">Đang chờ bắt đầu</h2>
-        <p className="text-ghost font-viet text-sm mb-6">Chào <span className="text-gold-400 font-semibold">{myName}</span>! Host <span className="text-blue-400 font-semibold">{hostName}</span> sẽ bắt đầu sớm.</p>
-        <div className="bg-surface/50 border border-white/10 rounded-2xl p-6">
-          <p className="text-ghost/60 font-viet text-xs uppercase tracking-widest mb-2">Mã phòng</p>
-          <div className="font-mono text-4xl font-black text-gold-400 tracking-[0.3em] mb-4">{code}</div>
-          <div className="text-ghost font-viet text-sm">
-            <span className="text-white font-semibold">{playerCount}</span> người chơi trong phòng
+    <div style={{ ...BG, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+      <div style={{ textAlign: 'center', maxWidth: '360px' }}>
+        <div style={{ width: '44px', height: '2px', background: GOLD, margin: '0 auto 1.5rem', opacity: 0.55 }} />
+        <h2 style={{ fontFamily: D, fontSize: '2rem', fontWeight: 700, color: PARCHMENT, marginBottom: '0.5rem' }}>Đang chờ bắt đầu</h2>
+        <p style={{ fontFamily: B, fontSize: '0.9rem', color: MUTED, marginBottom: '2rem' }}>
+          Chào <span style={{ color: GOLD, fontWeight: 600 }}>{myName}</span>! Host <span style={{ color: GOLD, fontWeight: 600 }}>{hostName}</span> sẽ bắt đầu sớm.
+        </p>
+        <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)', borderRadius: '8px', padding: '1.5rem' }}>
+          <p style={{ fontFamily: B, fontSize: '0.72rem', color: MUTED, textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: '0.5rem' }}>Mã phòng</p>
+          <div style={{ fontFamily: D, fontSize: '3rem', fontWeight: 700, color: GOLD, letterSpacing: '0.35em', marginBottom: '1rem' }}>{code}</div>
+          <div style={{ fontFamily: B, fontSize: '0.88rem', color: MUTED }}>
+            <span style={{ color: PARCHMENT, fontWeight: 600 }}>{playerCount}</span> người trong phòng
           </div>
         </div>
       </div>
@@ -284,23 +271,19 @@ function WaitingRoom({ code, playerCount, myName, hostName }: { code: string; pl
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#0f0e17' }}>
-      <div className="text-center">
-        <div className="text-4xl mb-3 animate-spin">⏳</div>
-        <p className="text-ghost font-viet text-sm">Đang kết nối...</p>
-      </div>
+    <div style={{ ...BG, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <p style={{ fontFamily: B, fontSize: '0.9rem', color: MUTED }}>Đang kết nối...</p>
     </div>
   )
 }
 
 function ErrorScreen({ msg }: { msg: string }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0f0e17' }}>
-      <div className="text-center max-w-sm">
-        <div className="text-5xl mb-3">❌</div>
-        <h2 className="font-display text-xl font-bold text-white mb-2">Lỗi kết nối</h2>
-        <p className="text-ghost font-viet text-sm mb-6">{msg}</p>
-        <a href="/room" className="text-gold-400 font-viet underline">← Quay lại</a>
+    <div style={{ ...BG, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+      <div style={{ textAlign: 'center', maxWidth: '360px' }}>
+        <h2 style={{ fontFamily: D, fontSize: '1.8rem', fontWeight: 700, color: '#c87070', marginBottom: '0.75rem' }}>Lỗi kết nối</h2>
+        <p style={{ fontFamily: B, fontSize: '0.9rem', color: MUTED, marginBottom: '1.5rem' }}>{msg}</p>
+        <a href="/room" style={{ fontFamily: B, fontSize: '0.88rem', color: GOLD }}>Quay lại</a>
       </div>
     </div>
   )

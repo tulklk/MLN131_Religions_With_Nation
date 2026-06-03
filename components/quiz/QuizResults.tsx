@@ -4,11 +4,30 @@ import { motion } from 'framer-motion'
 import { useQuizStore } from '@/lib/store/quiz-store'
 import Link from 'next/link'
 
+const D = "'Cormorant Garamond', Georgia, serif"
+const B = "'Lora', Georgia, serif"
+const GOLD = '#C9A84C'
+const PARCHMENT = '#F5EDD6'
+const MUTED = 'rgba(245,237,214,0.55)'
+const BG: React.CSSProperties = {
+  minHeight: '100vh',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+  backgroundColor: '#0D0D0D',
+  color: PARCHMENT,
+  fontFamily: B,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '2rem',
+}
+
 function getRank(pct: number) {
-  if (pct >= 90) return { emoji: '🏆', label: 'Xuất sắc!', color: 'text-gold-400' }
-  if (pct >= 70) return { emoji: '🥇', label: 'Tốt lắm!', color: 'text-yellow-400' }
-  if (pct >= 50) return { emoji: '🥈', label: 'Khá tốt!', color: 'text-ghost' }
-  return { emoji: '📚', label: 'Cần ôn thêm!', color: 'text-blue-400' }
+  if (pct >= 90) return { label: 'Xuất sắc!', sub: 'Nắm vững kiến thức chương 6', color: GOLD }
+  if (pct >= 70) return { label: 'Tốt lắm!', sub: 'Hiểu tốt nội dung', color: GOLD }
+  if (pct >= 50) return { label: 'Khá tốt!', sub: 'Cần ôn thêm một số phần', color: MUTED }
+  return { label: 'Cần ôn thêm!', sub: 'Hãy đọc lại bài giảng Chương 6', color: '#c87070' }
 }
 
 export default function QuizResults() {
@@ -18,89 +37,102 @@ export default function QuizResults() {
   const rank = getRank(pct)
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0f0e17' }}>
+    <div style={BG}>
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{ width: '100%', maxWidth: '460px' }}
       >
         {/* Rank */}
-        <div className="text-center mb-8">
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
-            className="text-7xl mb-3"
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{ width: '44px', height: '2px', background: GOLD, margin: '0 auto 1.5rem', opacity: 0.55 }} />
+          <motion.h2
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            style={{ fontFamily: D, fontSize: '3rem', fontWeight: 700, color: rank.color, marginBottom: '0.5rem', lineHeight: 1.1 }}
           >
-            {rank.emoji}
-          </motion.div>
-          <h2 className={`font-display text-3xl font-black mb-1 ${rank.color}`}>{rank.label}</h2>
-          <p className="text-ghost font-viet text-sm">Kết quả Quiz MLN131 Chương 6</p>
+            {rank.label}
+          </motion.h2>
+          <p style={{ fontFamily: B, fontSize: '0.88rem', color: MUTED, fontStyle: 'italic' }}>{rank.sub}</p>
+          <p style={{ fontFamily: B, fontSize: '0.78rem', color: MUTED, marginTop: '0.25rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            Kết quả Quiz MLN131 · Chương 6
+          </p>
         </div>
 
-        {/* Stats */}
-        <div className="bg-surface/40 border border-white/10 rounded-2xl p-6 mb-6 space-y-4">
+        {/* Stats card */}
+        <div style={{
+          background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)',
+          borderRadius: '8px', padding: '1.5rem', marginBottom: '1.5rem',
+        }}>
           {/* Coins */}
-          <div className="flex items-center justify-between">
-            <span className="text-ghost font-viet text-sm">Tổng xu</span>
-            <span className="font-mono font-black text-gold-400 text-xl">🪙 {coins.toLocaleString()}</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <span style={{ fontFamily: B, fontSize: '0.85rem', color: MUTED }}>Tổng xu</span>
+            <span style={{ fontFamily: D, fontSize: '1.5rem', fontWeight: 700, color: GOLD }}>{coins.toLocaleString()} xu</span>
           </div>
 
-          <div className="h-px bg-white/8" />
+          <div style={{ height: '1px', background: 'rgba(201,168,76,0.12)', margin: '0 0 1rem' }} />
 
-          {/* Correct / Wrong */}
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div>
-              <div className="text-2xl font-display font-bold text-green-400">{correctCount}</div>
-              <div className="text-ghost text-xs font-viet">Đúng</div>
-            </div>
-            <div>
-              <div className="text-2xl font-display font-bold text-red-400">{wrongCount}</div>
-              <div className="text-ghost text-xs font-viet">Sai</div>
-            </div>
-            <div>
-              <div className="text-2xl font-display font-bold text-orange-400">{maxStreak}</div>
-              <div className="text-ghost text-xs font-viet">Max Streak</div>
-            </div>
+          {/* Correct / Wrong / Streak */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.5rem', textAlign: 'center', marginBottom: '1rem' }}>
+            {[
+              { val: correctCount, label: 'Đúng', color: '#7dc99a' },
+              { val: wrongCount, label: 'Sai', color: '#c87070' },
+              { val: maxStreak, label: 'Max Streak', color: '#e8a060' },
+            ].map(item => (
+              <div key={item.label}>
+                <div style={{ fontFamily: D, fontSize: '2rem', fontWeight: 700, color: item.color }}>{item.val}</div>
+                <div style={{ fontFamily: B, fontSize: '0.75rem', color: MUTED, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{item.label}</div>
+              </div>
+            ))}
           </div>
 
-          <div className="h-px bg-white/8" />
+          <div style={{ height: '1px', background: 'rgba(201,168,76,0.12)', margin: '0 0 1rem' }} />
 
-          {/* Percentage bar */}
+          {/* Progress bar */}
           <div>
-            <div className="flex justify-between text-xs mb-1.5">
-              <span className="text-ghost font-viet">Tỉ lệ đúng</span>
-              <span className={`font-mono font-bold ${rank.color}`}>{pct}%</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ fontFamily: B, fontSize: '0.8rem', color: MUTED }}>Tỉ lệ đúng</span>
+              <span style={{ fontFamily: D, fontSize: '0.95rem', fontWeight: 700, color: rank.color }}>{pct}%</span>
             </div>
-            <div className="h-2.5 bg-surface-2 rounded-full overflow-hidden">
+            <div style={{ height: '6px', background: 'rgba(201,168,76,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${pct}%` }}
-                transition={{ delay: 0.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-                className="h-full rounded-full bg-gradient-to-r from-gold-500 to-gold-300"
+                transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                style={{ height: '100%', borderRadius: '3px', background: `linear-gradient(90deg, ${GOLD}, #e8c870)` }}
               />
             </div>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col gap-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={restartGame}
-            className="w-full py-4 rounded-2xl font-viet font-bold text-lg text-ink"
-            style={{ background: 'linear-gradient(135deg, #f4e04d, #d4a017)' }}
+            style={{
+              width: '100%', padding: '1rem', borderRadius: '6px',
+              fontFamily: D, fontSize: '1.1rem', fontWeight: 600, letterSpacing: '0.08em',
+              color: '#0D0D0D', cursor: 'pointer', border: 'none',
+              background: `linear-gradient(135deg, ${GOLD}, #a07830)`,
+            }}
           >
-            🔄 Chơi lại
+            Chơi lại
           </motion.button>
 
           <Link
-            href="/"
-            className="w-full py-3 rounded-2xl font-viet font-semibold text-sm text-ghost border border-white/10 hover:bg-surface/40 transition-colors text-center"
+            href="/landing.html"
+            style={{
+              display: 'block', width: '100%', padding: '0.85rem', borderRadius: '6px',
+              fontFamily: D, fontSize: '0.95rem', fontWeight: 600, letterSpacing: '0.08em',
+              color: MUTED, border: '1px solid rgba(245,237,214,0.15)', background: 'transparent',
+              textAlign: 'center', textDecoration: 'none',
+            }}
           >
-            ← Về trang chủ
+            Về trang chủ
           </Link>
         </div>
       </motion.div>

@@ -3,69 +3,111 @@
 import { motion } from 'framer-motion'
 import { useQuizStore } from '@/lib/store/quiz-store'
 
+const D = "'Cormorant Garamond', Georgia, serif"
+const B = "'Lora', Georgia, serif"
+const GOLD = '#C9A84C'
+const PARCHMENT = '#F5EDD6'
+const MUTED = 'rgba(245,237,214,0.55)'
+const BG: React.CSSProperties = {
+  minHeight: '100vh',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+  backgroundColor: '#0D0D0D',
+  color: PARCHMENT,
+  fontFamily: B,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '2rem',
+}
+
 export default function QuizFeedback() {
   const { questions, currentIndex, lastAnswerCorrect, lastCoinsEarned, streak, nextQuestion } = useQuizStore()
   const q = questions[currentIndex]
   const isCorrect = lastAnswerCorrect
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0f0e17' }}>
+    <div style={BG}>
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.93 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ width: '100%', maxWidth: '460px' }}
       >
-        {/* Result icon */}
-        <div className="text-center mb-6">
+        {/* Result indicator */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <motion.div
-            initial={{ scale: 0.5 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.1, duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number] }}
-            className="text-7xl mb-3"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            style={{
+              height: '3px', borderRadius: '2px', marginBottom: '1.5rem',
+              background: isCorrect
+                ? `linear-gradient(90deg, transparent, ${GOLD}, transparent)`
+                : 'linear-gradient(90deg, transparent, #8B1A1A, transparent)',
+            }}
+          />
+          <motion.h2
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            style={{
+              fontFamily: D, fontSize: '2.5rem', fontWeight: 700,
+              color: isCorrect ? GOLD : '#c87070', marginBottom: '0.75rem',
+            }}
           >
-            {isCorrect ? '✅' : '❌'}
-          </motion.div>
-
-          <h2 className="font-display text-2xl font-bold text-white mb-1">
             {isCorrect ? 'Chính xác!' : 'Chưa đúng rồi!'}
-          </h2>
+          </motion.h2>
 
           {isCorrect && lastCoinsEarned > 0 && (
             <motion.div
-              initial={{ y: 10, opacity: 0 }}
+              initial={{ y: 8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-1.5 bg-gold-500/20 border border-gold-500/40 text-gold-400 font-mono font-bold px-3 py-1.5 rounded-full text-sm"
+              style={{ display: 'inline-flex', gap: '0.4rem', alignItems: 'center' }}
             >
-              🪙 +{lastCoinsEarned.toLocaleString()} xu
-            </motion.div>
-          )}
-
-          {isCorrect && streak >= 3 && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: 'spring', stiffness: 300 }}
-              className="inline-flex items-center gap-1 bg-orange-500/20 border border-orange-500/40 text-orange-400 font-mono font-bold px-3 py-1.5 rounded-full text-sm ml-2"
-            >
-              🔥 STREAK ×{streak}
+              <span style={{
+                fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: GOLD,
+                border: '1px solid rgba(201,168,76,0.35)', background: 'rgba(201,168,76,0.08)',
+                padding: '0.25rem 0.85rem', borderRadius: '20px', marginRight: '0.5rem',
+              }}>
+                +{lastCoinsEarned.toLocaleString()} xu
+              </span>
+              {streak >= 3 && (
+                <span style={{
+                  fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: '#e8a060',
+                  border: '1px solid rgba(232,160,96,0.35)', background: 'rgba(232,160,96,0.08)',
+                  padding: '0.25rem 0.85rem', borderRadius: '20px',
+                }}>
+                  Streak ×{streak}
+                </span>
+              )}
             </motion.div>
           )}
         </div>
 
-        {/* Correct answer highlight (when wrong) */}
+        {/* Correct answer (when wrong) */}
         {!isCorrect && (
-          <div className="bg-green-900/30 border border-green-500/40 rounded-xl p-3 mb-4 text-sm">
-            <span className="text-green-400 font-viet font-semibold">Đáp án đúng: </span>
-            <span className="text-white font-viet">{q.answers[q.correct]}</span>
+          <div style={{
+            background: 'rgba(40,120,80,0.12)', border: '1px solid rgba(40,120,80,0.4)',
+            borderRadius: '8px', padding: '0.85rem 1.1rem', marginBottom: '1rem',
+          }}>
+            <span style={{ fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: '#7dc99a' }}>Đáp án đúng: </span>
+            <span style={{ fontFamily: B, fontSize: '0.85rem', color: PARCHMENT }}>{q.answers[q.correct]}</span>
           </div>
         )}
 
         {/* Explanation */}
-        <div className="bg-surface/50 border border-white/10 rounded-xl p-4 mb-6">
-          <p className="text-xs text-ghost/60 font-viet uppercase tracking-wider mb-2">Giải thích</p>
-          <p className="text-ghost font-viet text-sm leading-relaxed">{q.explanation}</p>
+        <div style={{
+          background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.22)',
+          borderRadius: '8px', padding: '1.25rem 1.5rem', marginBottom: '1.75rem',
+        }}>
+          <p style={{ fontFamily: B, fontSize: '0.72rem', color: MUTED, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '0.6rem' }}>
+            Giải thích
+          </p>
+          <p style={{ fontFamily: B, fontSize: '0.92rem', color: MUTED, lineHeight: 1.75 }}>
+            {q.explanation}
+          </p>
         </div>
 
         {/* Next button */}
@@ -73,10 +115,14 @@ export default function QuizFeedback() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={nextQuestion}
-          className="w-full py-4 rounded-2xl font-viet font-bold text-lg text-ink transition-all duration-200"
-          style={{ background: 'linear-gradient(135deg, #f4e04d, #d4a017)' }}
+          style={{
+            width: '100%', padding: '1rem', borderRadius: '6px',
+            fontFamily: D, fontSize: '1.1rem', fontWeight: 600, letterSpacing: '0.08em',
+            color: '#0D0D0D', cursor: 'pointer', border: 'none',
+            background: `linear-gradient(135deg, ${GOLD}, #a07830)`,
+          }}
         >
-          Câu tiếp theo →
+          Câu tiếp theo
         </motion.button>
       </motion.div>
     </div>

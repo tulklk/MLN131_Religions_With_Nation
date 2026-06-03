@@ -3,73 +3,115 @@
 import { motion } from 'framer-motion'
 import { useQuizStore } from '@/lib/store/quiz-store'
 
+const D = "'Cormorant Garamond', Georgia, serif"
+const B = "'Lora', Georgia, serif"
+const GOLD = '#C9A84C'
+const PARCHMENT = '#F5EDD6'
+const MUTED = 'rgba(245,237,214,0.55)'
+const CARD: React.CSSProperties = {
+  background: 'rgba(201,168,76,0.06)',
+  border: '1px solid rgba(201,168,76,0.22)',
+  borderRadius: '8px',
+}
+const BG: React.CSSProperties = {
+  minHeight: '100vh',
+  backgroundImage: 'radial-gradient(ellipse at 50% 35%, #1e1508 0%, #0d0d0d 65%)',
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+  backgroundColor: '#0D0D0D',
+  color: PARCHMENT,
+  fontFamily: B,
+}
+
 export default function QuizLobby() {
   const startGame = useQuizStore((s) => s.startGame)
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0f0e17' }}>
+    <div style={{ ...BG, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-        className="w-full max-w-md"
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        style={{ width: '100%', maxWidth: '440px' }}
       >
         {/* Header */}
-        <div className="text-center mb-10">
-          <div className="text-6xl mb-4">🏛️</div>
-          <h1 className="font-display text-4xl font-black text-white mb-2">
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <span style={{
+            display: 'inline-block', fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: GOLD, border: `1px solid rgba(201,168,76,0.3)`,
+            background: 'rgba(201,168,76,0.06)', padding: '0.25rem 1rem', borderRadius: '20px',
+            marginBottom: '1.25rem',
+          }}>
+            Chương 6 · Tôn giáo &amp; Dân tộc
+          </span>
+          <h1 style={{ fontFamily: D, fontSize: '3rem', fontWeight: 700, color: PARCHMENT, lineHeight: 1.1, marginBottom: '0.25rem' }}>
             Quiz MLN131
           </h1>
-          <div className="inline-block bg-gold-500/15 border border-gold-500/30 text-gold-400 text-xs font-mono font-bold px-3 py-1.5 rounded-full">
-            Chương 6 · Tôn giáo & Dân tộc
-          </div>
+          <p style={{ fontFamily: B, fontSize: '0.9rem', color: MUTED, fontStyle: 'italic' }}>
+            Phật giáo &amp; Công giáo đồng hành cùng Dân tộc
+          </p>
         </div>
 
+        {/* Divider */}
+        <div style={{ width: '44px', height: '2px', background: GOLD, margin: '0 auto 2rem', opacity: 0.55 }} />
+
         {/* Info cards */}
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.75rem', marginBottom: '1.75rem' }}>
           {[
-            { icon: '📝', value: '60', label: 'câu hỏi' },
-            { icon: '⏱️', value: '15s', label: 'mỗi câu' },
-            { icon: '🔥', value: 'Streak', label: 'bonus xu' },
+            { value: '60', label: 'câu hỏi' },
+            { value: '15s', label: 'mỗi câu' },
+            { value: 'Streak', label: 'bonus xu' },
           ].map((item) => (
-            <div
-              key={item.label}
-              className="bg-surface/50 border border-white/10 rounded-xl p-3 text-center"
-            >
-              <div className="text-2xl mb-1">{item.icon}</div>
-              <div className="font-display font-bold text-white text-lg leading-none">{item.value}</div>
-              <div className="text-ghost text-xs font-viet mt-0.5">{item.label}</div>
+            <div key={item.label} style={{ ...CARD, padding: '1rem 0.75rem', textAlign: 'center' }}>
+              <div style={{ fontFamily: D, fontSize: '1.6rem', fontWeight: 700, color: GOLD, lineHeight: 1 }}>{item.value}</div>
+              <div style={{ fontFamily: B, fontSize: '0.78rem', color: MUTED, marginTop: '0.3rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{item.label}</div>
             </div>
           ))}
         </div>
 
         {/* Scoring info */}
-        <div className="bg-surface/30 border border-white/8 rounded-xl p-4 mb-8 text-sm font-viet text-ghost space-y-1.5">
-          <p>🪙 <span className="text-white font-semibold">100–200 xu</span> cho mỗi câu đúng (theo tốc độ)</p>
-          <p>🔥 <span className="text-white font-semibold">Streak ×50 xu</span> khi trả lời đúng liên tiếp ≥3 câu</p>
-          <p>⏰ <span className="text-white font-semibold">Hết giờ</span> = 0 xu, mất streak</p>
+        <div style={{ ...CARD, padding: '1.25rem 1.5rem', marginBottom: '2rem' }}>
+          <p style={{ fontFamily: B, fontSize: '0.88rem', color: MUTED, lineHeight: 1.8 }}>
+            <span style={{ color: PARCHMENT, fontWeight: 600 }}>100–200 xu</span> cho mỗi câu đúng (theo tốc độ)<br />
+            <span style={{ color: PARCHMENT, fontWeight: 600 }}>Streak +50 xu</span> khi trả lời đúng liên tiếp ≥3 câu<br />
+            <span style={{ color: PARCHMENT, fontWeight: 600 }}>Hết giờ</span> = 0 xu, mất streak
+          </p>
         </div>
 
-        {/* CTA */}
+        {/* Primary CTA */}
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={startGame}
-          className="w-full py-4 rounded-2xl font-viet font-bold text-lg text-ink transition-all duration-200 shadow-[0_0_40px_rgba(244,224,77,0.3)] hover:shadow-[0_0_60px_rgba(244,224,77,0.5)]"
-          style={{ background: 'linear-gradient(135deg, #f4e04d, #d4a017)' }}
+          style={{
+            width: '100%', padding: '1rem', borderRadius: '6px',
+            fontFamily: D, fontSize: '1.1rem', fontWeight: 600, letterSpacing: '0.08em',
+            color: '#0D0D0D', cursor: 'pointer', border: 'none',
+            background: `linear-gradient(135deg, ${GOLD}, #a07830)`,
+            marginBottom: '0.75rem',
+          }}
         >
           Chơi đơn
         </motion.button>
 
+        {/* Room button */}
         <a
           href="/room"
-          className="block w-full py-3 rounded-2xl font-viet font-semibold text-base text-white border border-white/20 bg-surface/30 hover:bg-surface/50 transition-colors text-center mt-3"
+          style={{
+            display: 'block', width: '100%', padding: '0.85rem', borderRadius: '6px',
+            fontFamily: D, fontSize: '1rem', fontWeight: 600, letterSpacing: '0.08em',
+            color: GOLD, border: `1.5px solid rgba(201,168,76,0.4)`, background: 'transparent',
+            textAlign: 'center', textDecoration: 'none', marginBottom: '1.5rem',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.08)')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
         >
-          🏠 Tạo / Tham gia phòng thi
+          Tạo / Tham gia phòng thi
         </a>
 
-        <p className="text-center text-muted text-xs font-viet mt-4">
-          Ôn bài Chương 6 MLN131 · Phật giáo & Công giáo
+        <p style={{ textAlign: 'center', fontFamily: B, fontSize: '0.78rem', color: MUTED }}>
+          Ôn bài Chương 6 MLN131 · Phật giáo &amp; Công giáo
         </p>
       </motion.div>
     </div>
