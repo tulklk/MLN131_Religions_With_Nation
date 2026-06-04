@@ -13,11 +13,13 @@
   --gold-bdr:rgba(107,74,0,0.42);--parchment:#0D0703;--crimson:#5C3A1E;
   --olive:#2D4018;--muted:#2A1C0C;
   --navbar-h:60px;
+  --scroll-offset:calc(var(--navbar-h) + 16px);
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:76px;font-size:145%}
+html{scroll-behavior:smooth;scroll-padding-top:var(--scroll-offset);font-size:145%}
 body{background-color:var(--bg);background-image:radial-gradient(ellipse at 50% 35%,#E8D9B8 0%,#FAF6EC 65%);background-attachment:fixed;background-size:cover;color:var(--parchment);font-family:'Lora',Georgia,serif;font-size:1rem;font-weight:500;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.nav-open{overflow:hidden}
 h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;line-height:1.2}
 a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar{width:5px}
@@ -71,6 +73,57 @@ a{color:inherit;text-decoration:none}
   transition:background 0.2s,color 0.2s;white-space:nowrap
 }
 .quiz-btn:hover{background:var(--gold);color:#0D0D0D}
+
+.nav-menu-btn{
+  display:none;align-items:center;justify-content:center;
+  width:44px;height:44px;padding:0;border-radius:4px;
+  border:1.5px solid var(--gold-bdr);background:transparent;
+  color:var(--gold);cursor:pointer;flex-shrink:0;
+  transition:background 0.2s,color 0.2s,border-color 0.2s
+}
+.nav-menu-btn:hover{background:var(--gold-dim);border-color:var(--gold)}
+.nav-menu-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.nav-menu-icon{display:block;width:20px;height:2px;background:currentColor;position:relative;border-radius:1px}
+.nav-menu-icon::before,.nav-menu-icon::after{
+  content:'';position:absolute;left:0;width:20px;height:2px;background:currentColor;border-radius:1px;
+  transition:transform 0.25s var(--ease),top 0.25s var(--ease)
+}
+.nav-menu-icon::before{top:-6px}
+.nav-menu-icon::after{top:6px}
+.nav-menu-btn[aria-expanded="true"] .nav-menu-icon{background:transparent}
+.nav-menu-btn[aria-expanded="true"] .nav-menu-icon::before{top:0;transform:rotate(45deg)}
+.nav-menu-btn[aria-expanded="true"] .nav-menu-icon::after{top:0;transform:rotate(-45deg)}
+
+#nav-drawer{
+  position:fixed;inset:0;z-index:110;visibility:hidden;pointer-events:none;
+  transition:visibility 0.35s var(--ease)
+}
+#nav-drawer.is-open{visibility:visible;pointer-events:auto}
+.nav-drawer-backdrop{
+  position:absolute;inset:0;border:none;padding:0;margin:0;cursor:pointer;
+  background:rgba(13,7,3,0.45);opacity:0;transition:opacity 0.35s var(--ease)
+}
+#nav-drawer.is-open .nav-drawer-backdrop{opacity:1}
+.nav-drawer-panel{
+  position:absolute;top:var(--navbar-h);right:0;bottom:0;
+  width:min(320px,100vw);max-width:100%;
+  background:rgba(250,246,236,0.98);backdrop-filter:blur(10px);
+  border-left:1px solid var(--gold-bdr);
+  box-shadow:-8px 0 32px rgba(43,36,24,0.12);
+  padding:0.75rem 0 1.5rem;overflow-y:auto;
+  transform:translateX(100%);transition:transform 0.4s var(--ease);
+  -webkit-overflow-scrolling:touch
+}
+#nav-drawer.is-open .nav-drawer-panel{transform:translateX(0)}
+.nav-drawer-panel .nav-link{
+  display:block;padding:0.85rem 1.5rem;min-height:44px;
+  border-bottom:1px solid rgba(201,168,76,0.12);
+  border-left:3px solid transparent;white-space:normal
+}
+.nav-drawer-panel .nav-link:hover,.nav-drawer-panel .nav-link.active{
+  background:var(--gold-dim);border-bottom-color:rgba(201,168,76,0.12)
+}
+.nav-drawer-panel .nav-link.active{border-left-color:var(--gold)}
 
 /* ── SCROLL TO TOP ── */
 #scroll-top-btn{
@@ -173,8 +226,26 @@ a{color:inherit;text-decoration:none}
   display:grid;grid-template-columns:minmax(240px,340px) minmax(0,1fr);
   gap:2rem;align-items:start;margin:1.75rem 0 2rem
 }
-.religion-overview-duo--buddhist{grid-template-columns:minmax(280px,400px) minmax(0,1fr)}
-.religion-overview-duo--buddhist .religion-portrait-wrap img{object-position:center center}
+.religion-overview-duo--buddhist{
+  grid-template-columns:minmax(360px,1.05fr) minmax(260px,0.95fr);
+  align-items:stretch
+}
+.religion-overview-duo--buddhist .religion-overview-media,
+.religion-overview-duo--buddhist .religion-portrait-wrap{
+  height:100%;display:flex;flex-direction:column
+}
+.religion-overview-duo--buddhist .religion-portrait-wrap img{
+  flex:1;min-height:0;width:100%;height:100%;max-height:none;
+  object-fit:contain;object-position:center center
+}
+.religion-overview-duo--buddhist .religion-portrait-cap{flex-shrink:0}
+.religion-overview-duo--buddhist .religion-stat{
+  background:linear-gradient(160deg,#E8D9B8,#F0E8D0);border-color:rgba(184,134,11,0.35)
+}
+.religion-overview-duo--buddhist .religion-stats-row{
+  grid-template-columns:1fr;gap:0.65rem
+}
+.religion-overview-duo--buddhist .religion-stat:last-child{grid-column:auto}
 .religion-overview-duo--catholic .religion-portrait-wrap{border-color:rgba(139,94,60,0.35)}
 .religion-portrait-wrap{
   margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--gold-bdr);
@@ -198,6 +269,12 @@ a{color:inherit;text-decoration:none}
 @media(max-width:900px){
   .religion-overview-duo{grid-template-columns:1fr;gap:1.25rem}
   .religion-overview-media{max-width:380px;margin:0 auto;width:100%}
+  .religion-overview-duo--buddhist{align-items:start}
+  .religion-overview-duo--buddhist .religion-overview-media,
+  .religion-overview-duo--buddhist .religion-portrait-wrap{height:auto;display:block}
+  .religion-overview-duo--buddhist .religion-portrait-wrap img{
+    flex:none;height:auto;max-height:480px
+  }
 }
 .religion-timeline{margin-top:0.5rem}
 .religion-timeline-track{
@@ -250,7 +327,8 @@ a{color:inherit;text-decoration:none}
 /* ── POSITIVE IMPACT CARDS ── */
 .impact-card{display:flex;gap:0.75rem;align-items:flex-start;background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1rem 1.1rem}
 .impact-check{color:var(--gold);font-size:1rem;flex-shrink:0;margin-top:0.15rem}
-.impact-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--parchment);margin-bottom:0.15rem}
+.impact-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:0.25rem}
+#section-4 .impact-title{color:#8B5E3C}
 .impact-body{font-size:0.93rem;color:var(--muted);line-height:1.65}
 
 /* ── COLLAPSIBLE ── */
@@ -273,7 +351,7 @@ a{color:inherit;text-decoration:none}
 
 /* ── STATS DASHBOARD ── */
 .stats-dash{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
-@media(max-width:700px){.stats-dash{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.stats-dash{grid-template-columns:repeat(2,1fr)}}
 .dash-card{text-align:center;background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.25rem 0.75rem}
 .dash-n{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:700;color:var(--gold);display:block;line-height:1.1}
 .dash-l{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.08em;display:block}
@@ -283,6 +361,24 @@ a{color:inherit;text-decoration:none}
 .num-card-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--gold);opacity:0.55;line-height:1;display:block;margin-bottom:0.5rem}
 .num-card-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--parchment);margin-bottom:0.3rem}
 .num-card-body{font-size:0.95rem;color:var(--muted);line-height:1.68}
+.relation-points{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1.15rem 1.35rem;margin-bottom:2.5rem
+}
+.relation-points .num-card{
+  display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;
+  gap:0.4rem 1.15rem;align-items:start;padding:1.3rem 1.45rem;margin:0
+}
+.relation-points .num-card-n{
+  grid-row:1/3;grid-column:1;align-self:start;
+  font-size:2.1rem;margin:0;opacity:0.65;padding-top:0.1rem
+}
+.relation-points .num-card-title{
+  grid-column:2;grid-row:1;margin-bottom:0;line-height:1.35;
+  font-weight:700;color:var(--gold)
+}
+.relation-points .num-card-body{grid-column:2;grid-row:2;line-height:1.75}
+.relation-points .num-card:last-child{grid-column:1/-1}
 
 /* ── CONCLUSION CARDS ── */
 .concl-card{background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent);border:1px solid var(--gold-bdr);border-radius:8px;padding:1.5rem;position:relative;overflow:hidden}
@@ -327,9 +423,20 @@ a{color:inherit;text-decoration:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
 .hero-badge{display:inline-block;font-family:'Lora',serif;font-size:0.82rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-bdr);padding:0.35rem 1.1rem;border-radius:20px;margin-bottom:1.5rem;animation:fadeUp 0.8s var(--ease) 0.1s both}
 .hero-title{font-size:clamp(2rem,4vw,3.4rem);font-weight:700;color:var(--parchment);letter-spacing:-0.01em;white-space:nowrap;animation:fadeUp 0.9s var(--ease) 0.25s both}
+/* ── TABLET / MOBILE NAV ── */
+@media(max-width:1023px){
+  #navbar{grid-template-columns:1fr auto;padding:0 1rem;gap:0.5rem}
+  .nav-links{display:none}
+  .nav-menu-btn{display:flex}
+}
+@media(min-width:1024px){
+  #nav-drawer{display:none}
+}
+
 /* ── MOBILE ── */
 @media(max-width:900px){
   html{font-size:112%}
+  body{background-attachment:scroll}
 }
 
 @media(max-width:700px){
@@ -404,11 +511,13 @@ a{color:inherit;text-decoration:none}
   .dash-n{font-size:1.8rem}
   .dash-l{font-size:0.7rem}
 
-  /* ── NUMBER CARDS ── */
-  .grid-auto{grid-template-columns:1fr 1fr}
-  .num-card-n{font-size:2rem}
-  .num-card-title{font-size:0.95rem}
-  .num-card-body{font-size:0.8rem}
+  /* ── NUMBER CARDS (Phần V) ── */
+  .relation-points{grid-template-columns:1fr;gap:0.85rem}
+  .relation-points .num-card{padding:1.1rem 1.15rem;gap:0.35rem 0.9rem}
+  .relation-points .num-card-n{font-size:1.65rem}
+  .relation-points .num-card:last-child{grid-column:auto}
+  .relation-points .num-card-title{font-size:1rem}
+  .relation-points .num-card-body{font-size:0.88rem;line-height:1.7}
 
   /* ── QUOTE ── */
   .quote-block{padding:1rem 1.1rem}
@@ -455,13 +564,22 @@ a{color:inherit;text-decoration:none}
   .cross-fixed{bottom:-40px!important;right:-40px!important;width:180px!important;height:180px!important;opacity:0.07!important}
 
   /* ── NAVBAR ── */
-  #navbar{grid-template-columns:1fr auto;padding:0 1rem;gap:0.5rem}
-  .nav-links{display:none}
+  :root{--navbar-h:56px}
+  .nav-brand-sub,.nav-brand-sep{display:none}
   .quiz-btn{font-size:0.8rem;padding:0.4rem 1rem;letter-spacing:0.08em}
   #scroll-top-btn{right:1rem;bottom:1rem;width:40px;height:40px;font-size:1.2rem}
 
+  /* ── FEATURED IMAGE ── */
+  .featured-img-wrap img{height:auto;max-height:280px}
+
   /* ── HOST VIEW GRID ── */
   .section-wrap [style*="grid-template-columns: 1fr 300px"]{grid-template-columns:1fr!important}
+
+  /* ── COPY LINE ── */
+  .copy-line{padding:0 1rem;word-break:break-word}
+}
+@media(max-width:400px){
+  .nav-badge{display:none}
 }
 .hero-slash{color:rgba(107,74,0,0.7);margin:0 0.15em}
 .hero-sub{font-size:clamp(1.1rem,2.8vw,1.65rem);color:var(--gold);font-weight:600;margin-top:0.75rem;font-family:'Cormorant Garamond',serif;animation:fadeUp 0.9s var(--ease) 0.4s both}
@@ -495,15 +613,17 @@ a{color:inherit;text-decoration:none}
 
 /* ── CITATION STYLES ── */
 .cite{display:inline;font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;color:var(--gold);vertical-align:super;line-height:0;cursor:help;position:relative;padding:0 0.1rem;border-bottom:1px dotted rgba(201,168,76,0.5)}
-.cite::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(26,18,9,0.97);border:1px solid rgba(201,168,76,0.3);color:var(--parchment);font-family:'Lora',serif;font-size:0.72rem;font-weight:400;font-style:normal;line-height:1.55;padding:0.5rem 0.75rem;border-radius:6px;width:260px;white-space:normal;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.6)}
+.cite::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(26,18,9,0.97);border:1px solid rgba(201,168,76,0.3);color:var(--parchment);font-family:'Lora',serif;font-size:0.72rem;font-weight:400;font-style:normal;line-height:1.55;padding:0.5rem 0.75rem;border-radius:6px;width:min(260px,calc(100vw - 2rem));max-width:calc(100vw - 2rem);white-space:normal;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.6)}
 .cite:hover::after{opacity:1}
 .source-bar{margin-top:2rem;padding:0.65rem 1rem;background:rgba(184,134,11,0.05);border-top:1px solid rgba(184,134,11,0.2);border-bottom:1px solid rgba(184,134,11,0.2);display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.75rem}
 .source-bar-label{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);flex-shrink:0}
 .source-bar-text{font-family:'Lora',serif;font-size:0.75rem;color:var(--muted);line-height:1.5}
 .source-bar-sep{color:rgba(201,168,76,0.3);font-size:0.8rem}
-.ref-numbered{list-style:none;counter-reset:ref-counter;margin:0}
-.ref-numbered li{counter-increment:ref-counter;display:flex;gap:0.75rem;margin-bottom:0.65rem;font-size:0.85rem;color:var(--muted);line-height:1.7}
-.ref-numbered li::before{content:counter(ref-counter)".";font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);flex-shrink:0;min-width:1.2rem}
+.ref-numbered{list-style:none;counter-reset:ref-counter;margin:0;padding:0}
+.ref-numbered li{counter-increment:ref-counter;display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.9rem;font-size:0.9rem;color:var(--muted);line-height:1.75}
+.ref-numbered li::before{content:counter(ref-counter)".";font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);flex-shrink:0;min-width:1.35rem;line-height:1.75}
+.ref-numbered .ref-body{flex:1;min-width:0}
+.ref-numbered .ref-body em{font-style:italic;color:var(--parchment)}
 .ref-section-title{font-family:'Cormorant Garamond',serif;font-size:0.65rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(201,168,76,0.2);display:block}
 
 /* ── SCROLL REVEAL ── */
@@ -533,6 +653,45 @@ a{color:inherit;text-decoration:none}
 .img-strip img:hover{filter:brightness(1) sepia(0)}
 .img-strip figcaption{font-size:0.75rem;color:var(--muted);padding:0.55rem 0.75rem;
   background:rgba(237,229,208,0.95);line-height:1.45}
+
+/* ── AI USAGE TABLE ── */
+.ai-table{border:1px solid var(--gold-bdr);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+.ai-table-head,.ai-table-row{
+  display:grid;grid-template-columns:80px 1fr 2fr;gap:1rem;padding:0.75rem 1.25rem;align-items:center
+}
+.ai-table-head{background:rgba(201,168,76,0.08);border-bottom:1px solid var(--gold-bdr)}
+.ai-table-head span{
+  font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--gold)
+}
+.ai-table-row{padding:1.1rem 1.25rem;border-bottom:1px solid rgba(201,168,76,0.08);transition:background 0.2s}
+.ai-table-row:last-child{border-bottom:none}
+.ai-table-row:hover{background:rgba(201,168,76,0.04)}
+.ai-table-num{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)
+}
+.ai-table-tool{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment)
+}
+.ai-table-purpose{
+  font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);line-height:1.65
+}
+@media(max-width:600px){
+  .ai-table-head{display:none}
+  .ai-table-row{
+    grid-template-columns:1fr;gap:0.35rem;padding:1rem 1.15rem
+  }
+  .ai-table-num{font-size:1.15rem}
+  .ai-table-tool,.ai-table-purpose{display:block}
+  .ai-table-tool::before{
+    content:'Công cụ: ';font-weight:500;color:var(--muted);font-size:0.72rem;
+    letter-spacing:0.08em;text-transform:uppercase
+  }
+  .ai-table-purpose::before{
+    content:'Mục đích: ';font-weight:500;color:var(--muted);font-size:0.72rem;
+    letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:0.2rem
+  }
+}
 </style>
 </head>
 <body>
@@ -556,10 +715,27 @@ a{color:inherit;text-decoration:none}
     <a href="#section-ai" class="nav-link" data-s="section-ai">AI Usage</a>
   </div>
   <div class="nav-actions">
+    <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-drawer" aria-label="Mở menu điều hướng">
+      <span class="nav-menu-icon" aria-hidden="true"></span>
+    </button>
     <span class="nav-badge">Nhóm 5</span>
     <a href="/quiz" class="quiz-btn">Quiz</a>
   </div>
 </nav>
+
+<div id="nav-drawer" aria-hidden="true">
+  <button type="button" class="nav-drawer-backdrop" aria-label="Đóng menu"></button>
+  <nav class="nav-drawer-panel" aria-label="Menu điều hướng">
+    <a href="#hero" class="nav-link" data-s="hero">Tổng quan</a>
+    <a href="#section-1" class="nav-link" data-s="section-1">Mác-Lênin</a>
+    <a href="#section-2" class="nav-link" data-s="section-2">Chính sách</a>
+    <a href="#section-3" class="nav-link" data-s="section-3">Phật giáo</a>
+    <a href="#section-4" class="nav-link" data-s="section-4">Công giáo</a>
+    <a href="#section-5" class="nav-link" data-s="section-5">Quan hệ TG</a>
+    <a href="#section-6" class="nav-link" data-s="section-6">Kết luận</a>
+    <a href="#section-ai" class="nav-link" data-s="section-ai">AI Usage</a>
+  </nav>
+</div>
 
 <!-- FIXED BACKGROUND DECORATORS (stay visible while scrolling) -->
 <svg class="spin-cw lotus-fixed" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
@@ -1068,8 +1244,8 @@ a{color:inherit;text-decoration:none}
           <figcaption>Nhà thờ Lớn — Hà Nội</figcaption>
         </figure>
         <figure>
-          <img src="images/timeline/phat-diem-nam-dinh.jpg" alt="Phát Diệm" loading="lazy"/>
-          <figcaption>Nhà thờ Phát Diệm — Nam Định</figcaption>
+          <img src="images/nha-tho-da-phat-diem-ninh-binh.jpg" alt="Nhà thờ đá Phát Diệm — Ninh Bình" loading="lazy"/>
+          <figcaption>Nhà thờ đá Phát Diệm — Ninh Bình</figcaption>
         </figure>
         <figure>
           <img src="images/cong-giao/nha-tho-phat-diem.jpg" alt="Kiến trúc Gothic-Việt" loading="lazy"/>
@@ -1141,7 +1317,7 @@ a{color:inherit;text-decoration:none}
   <h2 class="s-title">Quan hệ Dân tộc và Tôn giáo</h2>
   <hr class="s-divider"/>
 
-  <div class="grid-auto reveal" style="margin-bottom:2.5rem">
+  <div class="relation-points reveal">
     <div class="num-card">
       <span class="num-card-n">01</span>
       <h3 class="num-card-title">Quốc gia đa dân tộc, đa tôn giáo</h3>
@@ -1282,12 +1458,12 @@ a{color:inherit;text-decoration:none}
   <div class="ref-footer">
     <span class="ref-section-title">Tài liệu tham khảo</span>
     <ol class="ref-numbered">
-      <li>Bộ Giáo dục và Đào tạo. <em>Giáo trình Chủ nghĩa xã hội khoa học</em>. NXB Chính trị Quốc gia Sự thật, Hà Nội, 2021. Chương 6, tr.213–238</li>
-      <li>Đảng Cộng sản Việt Nam. <em>Văn kiện Đại hội đại biểu toàn quốc lần thứ XIV</em>, Tập 1 &amp; 2. NXB Chính trị Quốc gia Sự thật, Hà Nội, 2026</li>
-      <li>Hội đồng Giám mục Việt Nam. <em>Thư chung 1980</em>: "Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào"</li>
-      <li>Giáo hội Phật giáo Việt Nam. <em>Hiến chương GHPGVN</em>, 1981: "Đạo pháp – Dân tộc – Chủ nghĩa xã hội"</li>
-      <li>Hiến pháp nước Cộng hòa Xã hội Chủ nghĩa Việt Nam 2013 — Điều 24 (Quyền tự do tín ngưỡng, tôn giáo)</li>
-      <li>Luật Tín ngưỡng, Tôn giáo 2016 (hiệu lực 01/01/2018)</li>
+      <li><span class="ref-body">Bộ Giáo dục và Đào tạo. <em>Giáo trình Chủ nghĩa xã hội khoa học</em>. NXB Chính trị Quốc gia Sự thật, Hà Nội, 2021. Chương 6, tr. 213–238.</span></li>
+      <li><span class="ref-body">Đảng Cộng sản Việt Nam. <em>Văn kiện Đại hội đại biểu toàn quốc lần thứ XIV</em>, Tập 1 &amp; 2. NXB Chính trị Quốc gia Sự thật, Hà Nội, 2026.</span></li>
+      <li><span class="ref-body">Hội đồng Giám mục Việt Nam. <em>Thư chung 1980</em>: &ldquo;Sống Phúc Âm giữa lòng dân tộc để phục vụ hạnh phúc của đồng bào&rdquo;.</span></li>
+      <li><span class="ref-body">Giáo hội Phật giáo Việt Nam. <em>Hiến chương GHPGVN</em>, 1981: &ldquo;Đạo pháp – Dân tộc – Chủ nghĩa xã hội&rdquo;.</span></li>
+      <li><span class="ref-body">Hiến pháp nước Cộng hòa Xã hội Chủ nghĩa Việt Nam 2013 — Điều 24 (Quyền tự do tín ngưỡng, tôn giáo).</span></li>
+      <li><span class="ref-body">Luật Tín ngưỡng, Tôn giáo 2016 (hiệu lực 01/01/2018).</span></li>
     </ol>
   </div>
 </div>
@@ -1305,30 +1481,26 @@ a{color:inherit;text-decoration:none}
   </p>
 
   <!-- AI tools table -->
-  <div class="reveal" style="border:1px solid var(--gold-bdr);border-radius:8px;overflow:hidden;margin-bottom:2rem">
-    <!-- Header row -->
-    <div style="display:grid;grid-template-columns:80px 1fr 2fr;background:rgba(201,168,76,0.08);border-bottom:1px solid var(--gold-bdr);padding:0.75rem 1.25rem;gap:1rem">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)">#</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)">Công cụ</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold)">Mục đích</span>
+  <div class="reveal ai-table">
+    <div class="ai-table-head">
+      <span>#</span>
+      <span>Công cụ</span>
+      <span>Mục đích</span>
     </div>
-    <!-- Row 1 -->
-    <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;border-bottom:1px solid rgba(201,168,76,0.08);transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)">01</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment);align-self:center">GitHub Copilot</span>
-      <span style="font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);align-self:center;line-height:1.65">Hỗ trợ thiết kế giao diện web, cải thiện UI/UX.</span>
+    <div class="ai-table-row">
+      <span class="ai-table-num">01</span>
+      <span class="ai-table-tool">GitHub Copilot</span>
+      <span class="ai-table-purpose">Hỗ trợ thiết kế giao diện web, cải thiện UI/UX.</span>
     </div>
-    <!-- Row 2 -->
-    <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;border-bottom:1px solid rgba(201,168,76,0.08);transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)">02</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment);align-self:center">Gemini</span>
-      <span style="font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);align-self:center;line-height:1.65">Tạo hình ảnh và hỗ trợ khơi gợi ý tưởng trực quan.</span>
+    <div class="ai-table-row">
+      <span class="ai-table-num">02</span>
+      <span class="ai-table-tool">Gemini</span>
+      <span class="ai-table-purpose">Tạo hình ảnh và hỗ trợ khơi gợi ý tưởng trực quan.</span>
     </div>
-    <!-- Row 3 -->
-    <div style="display:grid;grid-template-columns:80px 1fr 2fr;padding:1.1rem 1.25rem;gap:1rem;transition:background 0.2s" onmouseenter="this.style.background='rgba(201,168,76,0.04)'" onmouseleave="this.style.background='transparent'">
-      <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)">03</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--parchment);align-self:center">ChatGPT</span>
-      <span style="font-family:'Lora',serif;font-size:0.92rem;color:var(--muted);align-self:center;line-height:1.65">Kiểm tra tài liệu và đối chiếu nguồn.</span>
+    <div class="ai-table-row">
+      <span class="ai-table-num">03</span>
+      <span class="ai-table-tool">ChatGPT</span>
+      <span class="ai-table-purpose">Kiểm tra tài liệu và đối chiếu nguồn.</span>
     </div>
   </div>
 
@@ -1354,16 +1526,26 @@ a{color:inherit;text-decoration:none}
   /* ── Navbar: ẩn khi scroll xuống, hiện khi hover vùng trên ── */
   var navbar=document.getElementById('navbar');
   var hoverZone=document.getElementById('nav-hover-zone');
+  var menuBtn=document.querySelector('.nav-menu-btn');
+  var navDrawer=document.getElementById('nav-drawer');
+  var drawerBackdrop=navDrawer&&navDrawer.querySelector('.nav-drawer-backdrop');
   var lastY=window.scrollY;
   var navPinned=false;
+  var drawerOpen=false;
   var SCROLL_TOP=72;
+  var NAV_MOBILE_MAX=1023;
+
+  function scrollOffsetPx(){
+    var h=getComputedStyle(document.documentElement).getPropertyValue('--navbar-h').trim();
+    return(parseInt(h,10)||60)+16;
+  }
 
   function showNavbar(){
     navbar.classList.remove('is-hidden');
     hoverZone.style.pointerEvents='none';
   }
   function hideNavbar(){
-    if(!navPinned&&window.scrollY>SCROLL_TOP){
+    if(!navPinned&&!drawerOpen&&window.scrollY>SCROLL_TOP){
       navbar.classList.add('is-hidden');
       hoverZone.style.pointerEvents='auto';
     }
@@ -1371,13 +1553,44 @@ a{color:inherit;text-decoration:none}
   function setPinned(on){
     navPinned=on;
     if(on)showNavbar();
-    else if(window.scrollY>SCROLL_TOP)hideNavbar();
+    else if(!drawerOpen&&window.scrollY>SCROLL_TOP)hideNavbar();
+  }
+  function setDrawerOpen(open){
+    if(!navDrawer)return;
+    drawerOpen=open;
+    navDrawer.classList.toggle('is-open',open);
+    navDrawer.setAttribute('aria-hidden',String(!open));
+    if(menuBtn){
+      menuBtn.setAttribute('aria-expanded',String(open));
+      menuBtn.setAttribute('aria-label',open?'Đóng menu điều hướng':'Mở menu điều hướng');
+    }
+    document.body.classList.toggle('nav-open',open);
+    if(open){showNavbar();navPinned=true}
+    else{navPinned=false;if(window.scrollY>SCROLL_TOP)hideNavbar()}
   }
 
+  if(menuBtn){
+    menuBtn.addEventListener('click',function(){setDrawerOpen(!drawerOpen)});
+  }
+  if(drawerBackdrop){
+    drawerBackdrop.addEventListener('click',function(){setDrawerOpen(false)});
+  }
+  if(navDrawer){
+    navDrawer.querySelectorAll('.nav-link').forEach(function(link){
+      link.addEventListener('click',function(){setDrawerOpen(false)});
+    });
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&drawerOpen)setDrawerOpen(false);
+  });
+  window.addEventListener('resize',function(){
+    if(window.innerWidth>NAV_MOBILE_MAX&&drawerOpen)setDrawerOpen(false);
+  });
+
   hoverZone.addEventListener('mouseenter',function(){setPinned(true)});
-  hoverZone.addEventListener('mouseleave',function(){setPinned(false)});
+  hoverZone.addEventListener('mouseleave',function(){if(!drawerOpen)setPinned(false)});
   navbar.addEventListener('mouseenter',function(){setPinned(true)});
-  navbar.addEventListener('mouseleave',function(){setPinned(false)});
+  navbar.addEventListener('mouseleave',function(){if(!drawerOpen)setPinned(false)});
   hoverZone.addEventListener('touchstart',function(){setPinned(true)},{passive:true});
 
   var scrollTopBtn=document.getElementById('scroll-top-btn');
@@ -1409,7 +1622,7 @@ a{color:inherit;text-decoration:none}
         tocLinks.forEach(function(l){l.classList.toggle('active',l.dataset.s===id)});
       }
     });
-  },{rootMargin:'-76px 0px -55% 0px',threshold:0});
+  },{rootMargin:'-'+scrollOffsetPx()+'px 0px -55% 0px',threshold:0});
 
   sections.forEach(function(s){navObs.observe(s)});
 
